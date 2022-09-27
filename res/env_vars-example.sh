@@ -1,4 +1,4 @@
-#/bin/zsh
+#!/bin/zsh
 
 # used in .gitconfig
 export BRANCHPREFIX="initials"
