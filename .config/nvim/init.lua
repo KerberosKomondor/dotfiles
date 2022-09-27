@@ -1,0 +1,6 @@
+require('user.plugins')
+require('user.keymaps')
+require('user.settings')
+require('user.theme')
+require('user.utils')
+require('user.configs.mason')
