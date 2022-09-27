@@ -1,5 +1,8 @@
 #/bin/zsh
-# should create a file at $HOME/env_vars.zsh
+
+# used in .gitconfig
 export BRANCHPREFIX="initials"
+
+# used by https://github.com/ankitpokhrel/jira-cli
 export JIRA_USER="jira username"
 export JIRA_API_KEY="jira key"
