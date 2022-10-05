@@ -96,6 +96,7 @@ export BROWSER=/mnt/c/Google/Chrome/Application/chrome.exe
 export proj=/mnt/c/a/
 export LS_COLORS="$LS_COLORS:ow=1;34:tw=1;34:"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export GPG_TTY=$(tty)
 
 if [ -f ~/res/env_vars.sh ]
 then
