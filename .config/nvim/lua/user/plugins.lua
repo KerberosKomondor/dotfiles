@@ -164,6 +164,19 @@ return packer.startup(function(use)
     end
   }
 
+  use({
+  "folke/noice.nvim",
+  event = "VimEnter",
+  config = function()
+    require("noice").setup()
+  end,
+  requires = {
+    "MunifTanjim/nui.nvim",
+    "rcarriga/nvim-notify",
+    "hrsh7th/nvim-cmp",
+    }
+})
+
   if packer_bootstrap then
     require('packer').sync()
   end
