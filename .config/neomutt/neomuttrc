@@ -11,8 +11,8 @@ source ~/.config/neomutt/mappings
 source ~/.config/neomutt/accounts/kerberoskomondor-proton
 folder-hook $folder 'source ~/.config/neomutt/accounts/kerberoskomondor-proton'
 
-#source ~/.config/neomutt/accounts/name-proton
-#folder-hook $folder 'source ~/.config/neomutt/accounts/name-proton'
+source ~/.config/neomutt/accounts/work-outlook
+folder-hook $folder 'source ~/.config/neomutt/accounts/work-outlook'
 
 #source ~/.config/neomutt/accounts/main
 #folder-hook $folder 'source ~/.config/neomutt/accounts/main'
