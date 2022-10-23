@@ -160,22 +160,40 @@ return packer.startup(function(use)
   use {
     'norcalli/nvim-colorizer.lua',
     config = function()
-      require'colorizer'.setup()
+      require 'colorizer'.setup()
     end
   }
 
   use({
-  "folke/noice.nvim",
-  event = "VimEnter",
-  config = function()
-    require("noice").setup()
-  end,
-  requires = {
-    "MunifTanjim/nui.nvim",
-    "rcarriga/nvim-notify",
-    "hrsh7th/nvim-cmp",
+    "folke/noice.nvim",
+    event = "VimEnter",
+    config = function()
+      require("noice").setup()
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+      "hrsh7th/nvim-cmp",
     }
-})
+  })
+
+  use { 'krivahtoo/silicon.nvim',
+    run = './install.sh build',
+    config = function()
+      require('silicon').setup {
+        theme = "Dracula",
+      }
+    end
+  }
+
+  use {
+    'edluffy/hologram.nvim',
+    config = function()
+      require('hologram').setup {
+        auto_display = true,
+      }
+    end
+  }
 
   if packer_bootstrap then
     require('packer').sync()

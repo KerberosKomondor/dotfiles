@@ -1,7 +1,7 @@
 # vim: filetype=muttrc
 
 # set editor to neovim
-set editor = "nvim"
+set editor = "nvim +':set textwidth=0'"
 
 set imap_check_subscribed
 
@@ -28,7 +28,6 @@ unset sig_dashes                     # no dashes before sig
 unset mime_forward                   # forward attachments as part of body
 unset help                           # No help bar at the top of index
 # set status_on_top                    # Status bar on top of index
-set tmpdir = ~/Programs/neomutt/temp # where to keep temp files
 
 unset confirmappend      # don't ask, just do!
 set quit                 # don't ask, just do!!
@@ -41,7 +40,7 @@ set timeout = 0
 # status bar, date format, finding stuff etc.
 set status_chars = " *%A"
 set status_format = "[ Folder: %f ] [%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]%>─%?p?( %p postponed )?"
-set date_format = "%d.%m.%Y %H:%M"
+set date_format = "%Y.%m.%d %H:%M"
 set sort = threads
 set sort_aux = reverse-last-date-received
 set uncollapse_jump
@@ -61,7 +60,9 @@ set tilde
 unset markers
 
 set mailcap_path = ~/.config/neomutt/mailcap
-set header_cache = "~/.cache/mutt"
-set message_cachedir = "~/.cache/mutt"
+set header_cache = ~/.mail/cache/headers
+set message_cachedir = ~/.mail/cache/bodies
+set certificate_file = ~/.mail/certificates
+set tmpdir = ~/.mail/temp # where to keep temp files
 
 set query_command = "khard email --parsable --search-in-source-files '%s'"

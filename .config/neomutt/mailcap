@@ -5,7 +5,8 @@ application/vnd.openxmlformats-officedocument.presentationml.presentation; ~/dot
 application/vnd.oasis.opendocument.text; ~/dotfiles/office/view-attachment.sh %s "-" '/Applications/LibreOffice.app'
 
 # HTML
-text/html; w3m -I %{charset} -T text/html; copiousoutput;
+text/html; $BROWSER %s
+text/html; w3m -I %{charset} -T text/html -dump; copiousoutput;
 text/plain; nvim %s
 
 #PDFs
@@ -14,3 +15,6 @@ application/pdf; /usr/bin/zathura %s pdf
 #Images
 image/png; /usr/bin/feh %s
 image/jpeg; /usr/bin/feh %s
+
+auto_view text/html
+alternative_order text/plain text/enriched text/html
