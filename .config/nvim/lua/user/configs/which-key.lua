@@ -57,13 +57,20 @@ local mappings = {
     },
   },
   t = {
-    t = { "<cmd>TroubleToggle<cr>", "Toggle Trouble" },
-    q = { "<cmd>Trouble quickfix<cr>", "Quickfix" },
-    l = { "<cmd>Trouble loclist<cr>", "Loclist" },
-    d = { "<cmd>Trouble document_diagnostics<cr>", "Document Diagnostics" },
-    w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
-    p = { "<cmd>Trouble lsp_references<cr>", "Lsp References" },
-  },
+    e = {
+      name = 'Telescope',
+      n = { "<cmd>Telescope notify<cr>", "Notify" },
+    },
+    t = {
+      name = 'Trouble',
+      t = { "<cmd>TroubleToggle<cr>", "Toggle Trouble" },
+      q = { "<cmd>Trouble quickfix<cr>", "Quickfix" },
+      l = { "<cmd>Trouble loclist<cr>", "Loclist" },
+      d = { "<cmd>Trouble document_diagnostics<cr>", "Document Diagnostics" },
+      w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
+      p = { "<cmd>Trouble lsp_references<cr>", "Lsp References" },
+    }
+  }
 }
 
 wk.setup()

@@ -11,7 +11,7 @@ local function setup_colors()
         bright_bg = utils.get_highlight("Folded").bg,
         bright_fg = utils.get_highlight("Folded").fg,
         red = utils.get_highlight("DiagnosticError").fg,
-        dark_red = utils.get_highlight("DiffDelete").bg,
+        dark_red = '#ff5555', --utils.get_highlight("DiffDelete").bg,
         green = utils.get_highlight("String").fg,
         blue = utils.get_highlight("Function").fg,
         gray = utils.get_highlight("NonText").fg,
@@ -22,9 +22,9 @@ local function setup_colors()
         diag_error = utils.get_highlight("DiagnosticError").fg,
         diag_hint = utils.get_highlight("DiagnosticHint").fg,
         diag_info = utils.get_highlight("DiagnosticInfo").fg,
-        git_del = utils.get_highlight("diffDeleted").fg,
-        git_add = utils.get_highlight("diffAdded").fg,
-        git_change = utils.get_highlight("diffChanged").fg,
+        git_del = '#ff5555', --utils.get_highlight("diffDeleted").fg,
+        git_add = '#50fa7b', --utils.get_highlight("diffAdded").fg,
+        git_change = '#ffb86c', --utils.get_highlight("diffChanged").fg,
     }
 end
 

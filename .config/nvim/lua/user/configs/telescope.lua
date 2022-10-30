@@ -4,6 +4,8 @@ if not ok then return end
 local actions = require('telescope.actions')
 local action_layout = require('telescope.actions.layout')
 
+local hasNotify = pcall(require, 'notify')
+
 telescope.setup {
   defaults = {
     mappings = {
@@ -22,3 +24,7 @@ telescope.setup {
 }
 
 telescope.load_extension('fzf')
+
+if (hasNotify) then
+  telescope.load_extension('notify')
+end

@@ -17,7 +17,7 @@ if not ok then return end
 
 return packer.startup(function(use)
   use "wbthomason/packer.nvim"
-  use "rebelot/kanagawa.nvim"
+  use "dracula/vim"
 
   use {
     "williamboman/mason.nvim",
@@ -75,6 +75,12 @@ return packer.startup(function(use)
     end
   }
 
+  use {
+    "rebelot/terminal.nvim",
+    config = function()
+      require"terminal".setup()
+    end
+  }
   use {
     "rebelot/heirline.nvim",
     config = function()
@@ -182,15 +188,6 @@ return packer.startup(function(use)
     config = function()
       require('silicon').setup {
         theme = "Dracula",
-      }
-    end
-  }
-
-  use {
-    'edluffy/hologram.nvim',
-    config = function()
-      require('hologram').setup {
-        auto_display = true,
       }
     end
   }
