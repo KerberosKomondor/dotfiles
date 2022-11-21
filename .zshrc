@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$HOME/go/bin:$HOME/.cargo/bin/:$PATH
+#export PATH=$HOME/bin:/usr/local/bin:$HOME/go/bin:$HOME/.cargo/bin/:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -119,4 +119,6 @@ alias vim="nvim"
 
 # https://www.atlassian.com/git/tutorials/dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
+
+systemctl --user import-environment PATH
 

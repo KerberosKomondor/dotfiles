@@ -78,7 +78,7 @@ return packer.startup(function(use)
   use {
     "rebelot/terminal.nvim",
     config = function()
-      require"terminal".setup()
+      require "terminal".setup()
     end
   }
   use {
@@ -182,15 +182,6 @@ return packer.startup(function(use)
       "hrsh7th/nvim-cmp",
     }
   })
-
-  use { 'krivahtoo/silicon.nvim',
-    run = './install.sh build',
-    config = function()
-      require('silicon').setup {
-        theme = "Dracula",
-      }
-    end
-  }
 
   if packer_bootstrap then
     require('packer').sync()
