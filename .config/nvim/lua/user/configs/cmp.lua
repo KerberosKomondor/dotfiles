@@ -56,7 +56,10 @@ cmp.setup {
   }, {
     { name = 'buffer' },
     { name = 'path' },
-  })
+  }),
+  completion = {
+    keyword_length = 3,
+  },
 }
 
 cmp.setup.filetype('gitcommit', {
