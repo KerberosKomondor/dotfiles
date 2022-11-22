@@ -50,7 +50,7 @@ cmp.setup {
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
-    { name = 'omni' },
+    --{ name = 'omni' },
     { name = 'luasnip' },
     { name = 'emoji' },
   }, {
@@ -58,7 +58,7 @@ cmp.setup {
     { name = 'path' },
   }),
   completion = {
-    keyword_length = 3,
+    keyword_length = 2,
   },
 }
 
