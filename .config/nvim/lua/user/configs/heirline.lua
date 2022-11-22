@@ -120,8 +120,8 @@ local FileName = {
         end
     end,
     hl = "Directory",
-
-    utils.make_flexible_component(2, {
+flexible = 2,
+    {
         provider = function(self)
             return self.lfilename
         end,
@@ -129,7 +129,7 @@ local FileName = {
         provider = function(self)
             return vim.fn.pathshorten(self.lfilename)
         end,
-    }),
+    },
 }
 
 local FileFlags = {
@@ -485,7 +485,8 @@ local WorkDir = {
         name = "heirline_workdir",
     },
 
-    utils.make_flexible_component(1, {
+    flexible = 1,
+    {
         provider = function(self)
             local trail = self.cwd:sub(-1) == "/" and "" or "/"
             return self.icon .. self.cwd .. trail .. " "
@@ -498,7 +499,7 @@ local WorkDir = {
         end,
     }, {
         provider = "",
-    }),
+    },
 }
 
 local HelpFilename = {
@@ -561,7 +562,7 @@ local DefaultStatusline = {
     Space,
     Diagnostics,
     Align,
-    utils.make_flexible_component(3, Navic, { provider = "" }),
+    flexible = 3, Navic, { provider = "" },
     DAPMessages,
     Align,
     LSPActive,
@@ -569,7 +570,7 @@ local DefaultStatusline = {
     -- UltTest,
     Space,
     FileType,
-    utils.make_flexible_component(3, { Space, FileEncoding }, { provider = "" }),
+    flexible = 3, { Space, FileEncoding }, { provider = "" },
     Space,
     Ruler,
     Space,
