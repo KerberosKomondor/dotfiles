@@ -151,7 +151,7 @@ return packer.startup(function(use)
   use {
     'stevearc/dressing.nvim',
     config = function()
-      require('user.configs.dressing')
+      require('dressing').setup()
     end,
   }
 
