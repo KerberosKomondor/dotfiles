@@ -60,6 +60,7 @@ local mappings = {
     e = {
       name = 'Telescope',
       n = { "<cmd>Telescope notify<cr>", "Notify" },
+      r = { "<cmd>Telescope reloader<cr>", "Reloader" },
     },
     t = {
       name = 'Trouble',
