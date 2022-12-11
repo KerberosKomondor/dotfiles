@@ -25,12 +25,7 @@ telescope.setup {
   },
 }
 
-local hasFzf = pcall(require, 'telescope-fzf-native')--'fzf-lib')
-if (hasFzf) then
-  telescope.load_extension('fzf')
-else
-  utils.error('fzf has not been installed')
-end
+telescope.load_extension('fzf')
 
 if (hasNotify) then
   telescope.load_extension('notify')
