@@ -35,6 +35,8 @@ local function err(msg)
   vim.notify(msg, vim.log.levels.ERROR)
 end
 
+M.error = err
+
 local function validate(input, exec)
   vim.validate({
     input = { input, { "string", "table" } },
