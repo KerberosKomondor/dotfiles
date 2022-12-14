@@ -85,3 +85,7 @@
 [init]
   templatedir = ~/.git-templates
 	defaultBranch = main
+
+# Dracula theme
+[include]
+  path = ~/.gitconfig.dracula

@@ -41,10 +41,10 @@ return packer.startup(function(use)
     end
   }
 
-  use {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
-  }
+  --use {
+  --  'nvim-telescope/telescope-fzf-native.nvim',
+  --  run = 'make'
+  --}
 
   use {
     'nvim-telescope/telescope.nvim',
@@ -151,7 +151,7 @@ return packer.startup(function(use)
   use {
     'stevearc/dressing.nvim',
     config = function()
-      require('user.configs.dressing')
+      require('dressing').setup()
     end,
   }
 
@@ -199,6 +199,9 @@ return packer.startup(function(use)
       "hrsh7th/nvim-cmp",
     }
   })
+
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install",
+    setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
   if packer_bootstrap then
     require('packer').sync()

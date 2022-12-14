@@ -12,6 +12,8 @@ treesitter.setup {
     'json',
     'lua',
     'markdown',
+    'markdown_inline',
+    'regex',
     'rust',
     'sql',
     'tsx',

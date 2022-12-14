@@ -1,7 +1,7 @@
 local wezterm = require 'wezterm'
 return {
   font = wezterm.font('FiraCode Nerd Font'),
-  font_size = 10,
+  font_size = 11,
   enable_tab_bar = false,
   color_scheme = 'Dracula (Official)',
   tab_bar_at_bottom = false,

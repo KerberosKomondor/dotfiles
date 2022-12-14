@@ -60,6 +60,7 @@ local mappings = {
     e = {
       name = 'Telescope',
       n = { "<cmd>Telescope notify<cr>", "Notify" },
+      r = { "<cmd>Telescope reloader<cr>", "Reloader" },
     },
     t = {
       name = 'Trouble',
@@ -69,8 +70,14 @@ local mappings = {
       d = { "<cmd>Trouble document_diagnostics<cr>", "Document Diagnostics" },
       w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
       p = { "<cmd>Trouble lsp_references<cr>", "Lsp References" },
-    }
-  }
+    },
+    m = {
+      name = 'Markdown',
+      a = { "<cmd>MarkdownPreview<cr>", "Start" },
+      o = { "<cmd>MarkdownPreviewStop<cr>", "Stop" },
+      t = { "<cmd>MarkdownPreviewToggle<cr>", "Toggle" },
+    },
+  },
 }
 
 wk.setup()

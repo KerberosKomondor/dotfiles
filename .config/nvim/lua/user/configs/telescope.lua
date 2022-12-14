@@ -4,6 +4,8 @@ if not ok then return end
 local actions = require('telescope.actions')
 local action_layout = require('telescope.actions.layout')
 
+local utils = require('user.utils')
+
 local hasNotify = pcall(require, 'notify')
 
 telescope.setup {
