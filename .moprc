@@ -33,9 +33,9 @@
         "TGT",
         "TQQQ",
         "TSLA",
-        "TWTR",
         "VTI",
-        "WFC"
+        "WFC",
+        "XRT"
     ],
     "MarketRefresh": 12,
     "QuotesRefresh": 5,

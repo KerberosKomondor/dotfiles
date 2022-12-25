@@ -23,6 +23,12 @@ telescope.setup {
       hidden = true,
     },
   },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      case_mode = "smart_case"
+    },
+  },
 }
 
 telescope.load_extension('fzf')
