@@ -1,6 +1,7 @@
-require('user.plugins')
-require('user.keymaps')
-require('user.settings')
-require('user.theme')
-require('user.utils')
-require('user.lsp')
+-- keymaps needs set before lazy
+require 'user.keymaps'
+require 'user.settings'
+require 'user.lazy_bootstrap'
+
+-- load plugins in lsp/plugins
+require 'lazy'.setup 'plugins'
