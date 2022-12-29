@@ -38,6 +38,7 @@ function _M.config()
     },
   })
 
+  vim.cmd [[highlight clear]]
   vim.cmd [[ colorscheme dracula ]]
 end
 
