@@ -25,8 +25,8 @@ function _M.config()
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
-        ["cmp.entry.get_documentation"] = true,
       },
+        ["cmp.entry.get_documentation"] = true,
     },
     -- you can enable a preset for easier configuration
     presets = {
@@ -39,7 +39,10 @@ function _M.config()
   })
 
   vim.cmd [[highlight clear]]
-  vim.cmd [[ colorscheme dracula ]]
+  vim.cmd [[ colorscheme dracula]]
+  -- Set the color column (column 120) to purple
+  vim.cmd [[highlight ColorColumn ctermbg=0 guibg=#6272a4]]
+
 end
 
 return _M

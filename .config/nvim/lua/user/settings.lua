@@ -35,6 +35,7 @@ local options = {
 	laststatus = 3,
 	updatetime = 250,
 	background = "dark",
+  colorcolumn = "120",
 }
 
 vim.opt.shortmess:append("c")
