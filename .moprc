@@ -16,6 +16,7 @@
         "GME",
         "GOOG",
         "GS",
+        "HOOD",
         "JPM",
         "KO",
         "KOSS",
@@ -33,9 +34,9 @@
         "TGT",
         "TQQQ",
         "TSLA",
-        "TWTR",
         "VTI",
-        "WFC"
+        "WFC",
+        "XRT"
     ],
     "MarketRefresh": 12,
     "QuotesRefresh": 5,

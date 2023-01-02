@@ -89,3 +89,5 @@
 # Dracula theme
 [include]
   path = ~/.gitconfig.dracula
+[user]
+	name = Walter Hengely
