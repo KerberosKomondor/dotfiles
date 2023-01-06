@@ -12,13 +12,15 @@ local _M = {
         "rcarriga/nvim-notify",
         "hrsh7th/nvim-cmp",
       }
-    }
+    },
+    'petertriho/nvim-scrollbar'
   }
 }
 
 function _M.config()
   require 'dressing'.setup()
   require 'colorizer'.setup()
+  require 'scrollbar'.setup()
   require("noice").setup({
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -26,7 +28,7 @@ function _M.config()
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
       },
-        ["cmp.entry.get_documentation"] = true,
+      ["cmp.entry.get_documentation"] = true,
     },
     -- you can enable a preset for easier configuration
     presets = {
