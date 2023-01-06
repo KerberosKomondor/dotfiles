@@ -29,6 +29,9 @@ function _M.config()
           ["<C-p>"] = action_layout.toggle_preview, -- toggle preview screen
         },
       },
+      path_display = {
+        "smart"
+      },
     },
     pickers = {
       find_files = {
