@@ -13,7 +13,8 @@ local _M = {
         "hrsh7th/nvim-cmp",
       }
     },
-    'petertriho/nvim-scrollbar'
+    'petertriho/nvim-scrollbar',
+    'karb94/neoscroll.nvim',
   }
 }
 
@@ -21,6 +22,7 @@ function _M.config()
   require 'dressing'.setup()
   require 'colorizer'.setup()
   require 'scrollbar'.setup()
+  require 'neoscroll'.setup()
   require("noice").setup({
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
