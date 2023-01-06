@@ -28,6 +28,10 @@ function _M.config()
       'yaml',
     },
     auto_install = true,
+    context_commentstring = {
+      enabled = true,
+      enable_autocmd = false,
+    },
   }
 end
 
