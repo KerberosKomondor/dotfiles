@@ -45,7 +45,17 @@ function _M.config()
     }),
   })
 
-  --lsp.nvim_workspace()
+  lsp.use('sumneko_lua', {
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { 'vim' },
+        },
+      },
+    },
+  })
+
+  lsp.nvim_workspace()
 
   lsp.setup()
 end
