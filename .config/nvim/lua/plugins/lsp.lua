@@ -58,6 +58,8 @@ function _M.config()
   lsp.nvim_workspace()
 
   lsp.setup()
+
+  vim.cmd [[autocmd BufWritePre * LspZeroFormat]]
 end
 
 return _M
