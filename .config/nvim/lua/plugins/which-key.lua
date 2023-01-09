@@ -1,5 +1,8 @@
 local _M = {
   'folke/which-key.nvim',
+  dependencies = {
+    'mrjones2014/legendary.nvim',
+  },
 }
 
 function _M.config()
@@ -14,22 +17,22 @@ function _M.config()
     ["]"] = { "<cmd>bnext<cr>", "Next Buffer" },
     ["["] = { "<cmd>bprevious<cr>", "Previous Buffer" },
     c = { "<cmd>bdelete<cr>", "Close Buffer" },
---    g = {
---      name = "Git",
---      g = { "<cmd>!git pull<CR>", "Pull" },
---      l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
---      R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
---      o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
---      b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
---      c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
---      C = { "<cmd>!git close-branch<cr>", "Close branch" },
---      d = { "<cmd>Gitsigns diffthis HEAD<cr>", "Diff" },
---      t = { "<cmd>Neogit<cr>", "Commit" },
---      p = { "<cmd>!git publish<cr>", "Publish" },
---      P = { "<cmd>!git create-pull-request<cr>", "Pull Request" },
---      u = { "<cmd>!git push<cr>", "Push" },
---      B = { "<cmd>lua require('utils').createBranch()<cr>", "Branch" }
---    },
+    --    g = {
+    --      name = "Git",
+    --      g = { "<cmd>!git pull<CR>", "Pull" },
+    --      l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+    --      R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
+    --      o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
+    --      b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+    --      c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
+    --      C = { "<cmd>!git close-branch<cr>", "Close branch" },
+    --      d = { "<cmd>Gitsigns diffthis HEAD<cr>", "Diff" },
+    --      t = { "<cmd>Neogit<cr>", "Commit" },
+    --      p = { "<cmd>!git publish<cr>", "Publish" },
+    --      P = { "<cmd>!git create-pull-request<cr>", "Pull Request" },
+    --      u = { "<cmd>!git push<cr>", "Push" },
+    --      B = { "<cmd>lua require('utils').createBranch()<cr>", "Branch" }
+    --    },
     l = {
       name = "Lsp",
       a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
@@ -79,8 +82,20 @@ function _M.config()
     },
   }
 
+  -- legendary needs to be first
+  require('legendary').setup({
+    keymaps = {
+      { "<C-l>", "<cmd>Legendary<cr>", description = "Legendary", mode = { "n", "i", "x" } },
+    },
+    which_key = {
+      auto_register = true,
+      mappings = mappings,
+    },
+  })
+
   wk.setup()
   wk.register(mappings, require('user.utils').opts)
+
 end
 
 return _M
