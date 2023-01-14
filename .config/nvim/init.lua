@@ -1,4 +1,5 @@
 -- keymaps needs set before lazy
+require 'user.globals'
 require 'user.keymaps'
 require 'user.settings'
 require 'user.lazy_bootstrap'

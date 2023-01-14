@@ -5,6 +5,16 @@ local _M = {
   },
 }
 
+local opts = {
+  mode = "n",
+  prefix = "<leader>",
+  buffer = nil,
+  silent = true,
+  noremap = true,
+  nowait = true
+}
+
+
 function _M.config()
   local ok, wk = pcall(require, 'which-key')
   if not ok then return end
@@ -31,7 +41,7 @@ function _M.config()
     --      p = { "<cmd>!git publish<cr>", "Publish" },
     --      P = { "<cmd>!git create-pull-request<cr>", "Pull Request" },
     --      u = { "<cmd>!git push<cr>", "Push" },
-    --      B = { "<cmd>lua require('utils').createBranch()<cr>", "Branch" }
+    --      B = { "<cmd>lua require('ujtils').createBranch()<cr>", "Branch" }
     --    },
     l = {
       name = "Lsp",
@@ -39,8 +49,7 @@ function _M.config()
       d = {
         "<cmd>Telescope lsp_document_diagnostics<cr>",
         "Document Diagnostics"
-      },
-      w = {
+      }, w = {
         "<cmd>Telescope lsp_workspace_diagnostics<cr>",
         "Workspace Diagnostics"
       },
@@ -85,7 +94,7 @@ function _M.config()
   -- legendary needs to be first
   require('legendary').setup({
     keymaps = {
-      { "<C-l>", "<cmd>Legendary<cr>", description = "Legendary", mode = { "n", "i", "x" } },
+      { "<C-p>", "<cmd>Legendary<cr>", description = "Legendary", mode = { "n", "i", "x" } },
     },
     which_key = {
       auto_register = true,
@@ -93,8 +102,8 @@ function _M.config()
     },
   })
 
+  wk.register(mappings, opts)
   wk.setup()
-  wk.register(mappings, require('user.utils').opts)
 
 end
 
