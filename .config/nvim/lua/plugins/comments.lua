@@ -1,17 +1,13 @@
 local _M = {
-  'terrortylor/nvim-comment',
+  'numToStr/Comment.nvim',
   dependencies = {
-    -- makes commentstring work for multilang files
     'JoosepAlviste/nvim-ts-context-commentstring',
-  },
+  }
 }
 
 function _M.config()
-  require('nvim_comment').setup({
-    comment_empty = false,
-    hook = function()
-      require('ts_context_commentstring.internal').update_commentstring()
-    end,
+  require('Comment').setup({
+    pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
   })
 end
 
