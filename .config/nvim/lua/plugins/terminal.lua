@@ -1,9 +1,10 @@
 local _M = {
-  "rebelot/terminal.nvim",
+  name = 'terminal',
+  'akinsho/toggleterm.nvim',
 }
 
 function _M.config()
-  require "terminal".setup()
+  require "toggleterm".setup()
 end
 
 return _M
