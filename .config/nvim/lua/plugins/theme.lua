@@ -45,8 +45,20 @@ function _M.config()
   vim.cmd [[highlight clear]]
   vim.cmd [[ colorscheme dracula]]
   -- Set the color column (column 120) to purple
-  vim.cmd [[highlight ColorColumn ctermbg=0 guibg=#6272a4]]
+  vim.cmd [[highlight ColorColumn ctermbg=0 guibg=#bd93f9]]
 
+  -- fix modified inactive visible buffer text color
+  vim.cmd [[highlight BufferCurrent guibg=#44475a]]
+  vim.cmd [[highlight BufferInactive guibg=#282a36]]
+  vim.cmd [[highlight BufferVisible guibg=#282a36]]
+
+  vim.cmd [[highlight BufferCurrentMod guifg=#bd93f9]]
+  vim.cmd [[highlight BufferInactiveMod guifg=#bd93f9]]
+  vim.cmd [[highlight BufferVisibleMod guifg=#bd93f9]]
+
+  vim.cmd [[highlight link BufferCurrentIcon BufferCurrent]]
+  vim.cmd [[highlight link BufferInactiveIcon BufferInactive]]
+  vim.cmd [[highlight link BufferVisibleIcon BufferVisible]]
 end
 
 return _M
