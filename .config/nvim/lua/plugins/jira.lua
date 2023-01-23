@@ -1,5 +1,6 @@
 local M = {
   name = 'jira',
+  -- 'KerberosKomondor/jira.nvim',
   dir = '/home/appa/code/jira.nvim/',
 }
 

@@ -8,6 +8,6 @@ return {
   use_fancy_tab_bar = false,
   window_decorations = 'RESIZE',
   keys = {
-    { key = "C", mods="CTRL", action=wezterm.action{CopyTo="ClipboardAndPrimarySelection"}}
+    { key = "C", mods = "CTRL", action = wezterm.action { CopyTo = "ClipboardAndPrimarySelection" } }
   }
 }
