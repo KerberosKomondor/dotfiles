@@ -1,4 +1,5 @@
 local _M = {
+  name = 'lsp',
   'VonHeikemen/lsp-zero.nvim',
   dependencies = {
     -- LSP Support
