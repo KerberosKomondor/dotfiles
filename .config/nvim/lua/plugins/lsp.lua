@@ -22,6 +22,7 @@ local _M = {
 
     -- Display
     { 'onsails/lspkind.nvim' },
+    { 'styled-components/vim-styled-components' },
   }
 }
 
