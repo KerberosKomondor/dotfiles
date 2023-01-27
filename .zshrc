@@ -126,3 +126,5 @@ alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 
 systemctl --user import-environment PATH
 
+# make this only run in wsl
+. /etc/profile.d/wezterm.sh

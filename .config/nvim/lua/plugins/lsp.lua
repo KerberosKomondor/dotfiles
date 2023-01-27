@@ -7,6 +7,7 @@ local _M = {
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
     { 'folke/neodev.nvim' },
+    { 'jose-elias-alvarez/null-ls.nvim' },
 
     -- Autocompletion
     { 'hrsh7th/nvim-cmp' },
@@ -83,6 +84,15 @@ function _M.config()
     },
   })
 
+  local null_ls = require('null-ls')
+  local null_opts = lsp.build_options('null-ls', {})
+
+  null_ls.setup({
+    on_attach = null_opts.on_attach,
+    sources = {
+      null_ls.builtins.formatting.eslint_d,
+    },
+  })
   lsp.nvim_workspace()
 
   lsp.setup()
