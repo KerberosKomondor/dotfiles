@@ -5,8 +5,17 @@ local _M = {
   },
 }
 
-local opts = {
+local normalOpts = {
   mode = "n",
+  prefix = "<leader>",
+  buffer = nil,
+  silent = true,
+  noremap = true,
+  nowait = true
+}
+
+local visualOpts = {
+  mode = "v",
   prefix = "<leader>",
   buffer = nil,
   silent = true,
@@ -19,7 +28,7 @@ function _M.config()
   local ok, wk = pcall(require, 'which-key')
   if not ok then return end
 
-  local mappings = {
+  local normalMappings = {
     b = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
     e = { "<cmd>NvimTreeToggle<cr>", "File Browser" },
     f = { "<cmd>Telescope find_files<cr>", "Find File" },
@@ -91,6 +100,12 @@ function _M.config()
     },
   }
 
+  local visualMappings = {
+    n = { "<cmd>'<,'>Silicon<cr>", "Snippet" },
+    s = { "<cmd>Silicon<cr>", "Full Screenshot" },
+
+  }
+
   -- legendary needs to be first
   require('legendary').setup({
     keymaps = {
@@ -98,11 +113,12 @@ function _M.config()
     },
     which_key = {
       auto_register = true,
-      mappings = mappings,
+      mappings = normalMappings,
     },
   })
 
-  wk.register(mappings, opts)
+  wk.register(normalMappings, normalOpts)
+  wk.register(visualMappings, visualOpts)
   wk.setup()
 
 end
