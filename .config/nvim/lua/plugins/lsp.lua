@@ -17,6 +17,10 @@ local _M = {
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-nvim-lua' },
     { 'David-Kunz/cmp-npm' },
+    {
+      'KerberosKomondor/cmp-jira.nvim',
+      --dir = '/home/appa/code/cmp-jira.nvim/',
+    },
 
     -- Snippets - disabled for now
     { 'L3MON4D3/LuaSnip' },
@@ -46,11 +50,14 @@ function _M.config()
     })
   end
 
+  pcall(require, 'cmp-jira')
+
   lsp.setup_nvim_cmp({
     sources = require('cmp').config.sources({
       { name = 'npm', keyword_length = 3 },
       { name = 'nvim_lsp' },
       { name = 'nvim_lua' },
+      { name = 'jira' },
     }, {
       { name = 'path' },
       { name = 'buffer', keyword_length = 5 },
@@ -64,7 +71,7 @@ function _M.config()
           nvim_lsp = "[LSP]",
           nvim_lua = "[api]",
           path = "[path]",
-          gh_issues = "[issues]",
+          jira = "[jira]",
         },
       },
     },
