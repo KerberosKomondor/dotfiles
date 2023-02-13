@@ -85,6 +85,10 @@ export LANG=en_US.UTF-8
 # ssh
 export SSH_KEY_PATH="~/.ssh/id_rsa"
 
+# dotnet
+export DOTNET_ROOT="/usr/share/dotnet"
+export MSBuildSDKsPath=$(echo /usr/share/dotnet/sdk/7.*/Sdks)
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -94,7 +98,7 @@ export NVM_DIR="$HOME/.nvm"
 # For a full list of active aliases, run `alias`.
 #
 export HISTORY_FILTER_EXCLUDE=("mplayer" "/complete")
-export PATH=$PATH:~/lib/vsts-cli/bin:~/.nvm:~/.local/share/gem/ruby/3.0.0:~/go/bin
+export PATH=$PATH:~/lib/vsts-cli/bin:~/.nvm:~/.local/share/gem/ruby/3.0.0:~/go/bin:~/.dotnet/tools/
 export EDITOR=nvim
 export BROWSER=/mnt/c/Google/Chrome/Application/chrome.exe
 export proj=/mnt/c/a/
