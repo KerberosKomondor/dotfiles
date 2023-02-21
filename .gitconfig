@@ -6,18 +6,15 @@
 # MERGE STUFF #
 ###############
 [merge]
-  tool = nvim
+	tool = "nvim"
 
 [mergetool]
-  prompt = false
-  keepBackup = false
+	keepBackup = false
+	prompt = false
 
 [mergetool "nvim"]
-  cmd = nvim -d
+	cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
 
-[mergetool "bc4"]
-  cmd = \"/mnt/c/Program Files/Beyond Compare 4/BCompare.exe\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\"
-  trustExitCode = true
 
 ##############
 # DIFF STUFF #

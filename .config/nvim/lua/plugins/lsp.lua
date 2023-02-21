@@ -39,7 +39,12 @@ function _M.config()
 
   local lsp = require('lsp-zero')
 
-  lsp.preset('recommended')
+  lsp.preset({
+      name = 'minimal',
+      set_lsp_keymaps = true,
+      manage_nvim_cmp = true,
+      suggest_lsp_servers = false,
+  })
 
   local hasNpm, npm = pcall(require, 'cmp-npm')
   if hasNpm then
