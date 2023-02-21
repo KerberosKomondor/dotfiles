@@ -57,8 +57,8 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - mop
-        - ~/res/run_tickrs.sh
+        - ~/code/mop/mop
+        - tickrs
   - jira:
       panes:
         - jira issue list -a$(jira me) -s~done
