@@ -1,7 +1,5 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "6821b3ae27a57f1f3cf8ed030e4a55d70d0c4e43" },
-  "LuaSnip": { "branch": "master", "commit": "d33cf7de14eea209b8ed4a7edaed72f0b8cedb30" },
-  "SmoothCursor.nvim": { "branch": "main", "commit": "79f02173317a76ab406d182ac89b20b59f5e34fe" },
   "bufferline": { "branch": "master", "commit": "00512bab6983fb8b996f36a9688b0c8478a1f4f0" },
   "cmp-buffer": { "branch": "main", "commit": "3022dbc9166796b644a841a02de8dd1cc1d311fa" },
   "cmp-jira.nvim": { "branch": "main", "commit": "b8628b8528ea1863afcecf05c638b4745181acf7" },
@@ -9,8 +7,8 @@
   "cmp-nvim-lsp": { "branch": "main", "commit": "0e6b2ed705ddcff9738ec4ea838141654f12eeef" },
   "cmp-nvim-lua": { "branch": "main", "commit": "f3491638d123cfd2c8048aefaf66d246ff250ca6" },
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
-  "cmp_luasnip": { "branch": "master", "commit": "18095520391186d634a0045dacaa346291096566" },
   "dressing.nvim": { "branch": "master", "commit": "db716a0f1279f79a886c0e0b6ab3c3d5ffdb42fe" },
+  "friendly-snippets": { "branch": "main", "commit": "6fa50a94ba5378bb73013a6e163376d8e69bd8a5" },
   "git": { "branch": "main", "commit": "f388995990aba04cfdc7c3ab870c33e280601109" },
   "help": { "branch": "main", "commit": "9cd3ed50d5752ffd56d88dd9e395ddd3dc2c7127" },
   "import-cost.nvim": { "branch": "main", "commit": "64e55a22ec031569bcd6ea3ed2dcb9e17e0046cc" },
