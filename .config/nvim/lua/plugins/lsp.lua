@@ -37,13 +37,13 @@ function M.config()
 
   local lsp = require('lsp-zero')
   local lspconfig = require('lspconfig')
-  local ok_luasnip, luasnip = pcall(require, 'luasnip')
 
   lsp.extend_lspconfig({
       set_lsp_keymaps = false,
       on_attach = function(_, bufnr)
         local opts = { buffer = bufnr }
 
+        -- Keybinds for lsp servers
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
@@ -85,91 +85,30 @@ function M.config()
       end,
   })
 
-  local hasNpm, npm = pcall(require, 'cmp-npm')
-  if hasNpm then
-    npm.setup({
-        ignore = {
-            'beta', 'rc',
-        },
-    })
-  end
+  --[[
+  --      COMPLETION
+  --]]
+  local cmp_settings = require('user.cmp')
 
-  pcall(require, 'cmp-jira')
+  -- Blend settings with default lsp-zero settings
+  local cmp_config = require('lsp-zero').defaults.cmp_config(cmp_settings.blended_config)
 
-  vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+  -- Override entire sections of cmp config
+  cmp_config.mapping = cmp_settings.mapping
+  cmp_config.sources = cmp_settings.sources
 
-  local cmp = require('cmp')
-  local cmp_config = require('lsp-zero').defaults.cmp_config({
-          formatting = {
-              format = require 'lspkind'.cmp_format {
-                  with_text = true,
-                  menu = {
-                      buffer = "[buf]",
-                      nvim_lsp = "[LSP]",
-                      nvim_lua = "[api]",
-                      path = "[path]",
-                      jira = "[jira]",
-                      npm = "[NPM]",
-                  },
-              },
-          },
-          experimental = {
-              native_menu = false,
-              ghost_text = true,
-          },
-      })
+  require 'cmp'.setup(cmp_config)
 
-  local cmp_mapping = {
-      ['<C-y>'] = cmp.mapping.confirm({ select = false }),
-      ['<C-e>'] = cmp.mapping(function()
-        if cmp.visible() then
-          cmp.abort()
-        else
-          cmp.complete()
-        end
-      end),
-      ['<C-b>'] = cmp.mapping.scroll_docs( -4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<Up>'] = vim.NIL,
-      ['<Down>'] = vim.NIL,
-  }
-
-  if ok_luasnip then
-    cmp_mapping['<C-d>'] = cmp.mapping(function(fallback)
-          if luasnip.jumpable(1) then
-            luasnip.jump(1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' })
-
-    cmp_mapping['<C-b>'] = cmp.mapping(function(fallback)
-          if luasnip.jumpable( -1) then
-            luasnip.jump( -1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' })
-  end
-
-  cmp_config.mapping = cmp.mapping.preset.insert(cmp_mapping)
-
-  cmp_config.sources = require('cmp').config.sources({
-          { name = 'npm',     keyword_length = 3 },
-          { name = 'nvim_lsp' },
-          { name = 'nvim_lua' },
-          { name = 'jira' },
-      }, {
-          { name = 'path' },
-          { name = 'buffer', keyword_length = 5 },
-      })
-  cmp.setup(cmp_config)
-
-
+  --[[
+  --      DIAGNOSTICS
+  --]]
   lsp.set_sign_icons()
   vim.diagnostic.config(lsp.defaults.diagnostics({}))
 
 
+  --[[
+  --      NULL_LS
+  --]]
   local null_ls = require('null-ls')
   local null_opts = lsp.build_options('null-ls', {})
 

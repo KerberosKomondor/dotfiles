@@ -36,6 +36,7 @@ local options = {
 	updatetime = 250,
 	background = "dark",
   colorcolumn = "120",
+  completeopt = { 'menu', 'menuone', 'noselect' },
 }
 
 vim.opt.shortmess:append("c")
