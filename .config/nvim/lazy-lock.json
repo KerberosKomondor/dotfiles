@@ -46,6 +46,7 @@
   "plenary.nvim": { "branch": "master", "commit": "253d34830709d690f013daf2853a9d21ad7accab" },
   "ripgrep": { "branch": "master", "commit": "44fb9fce2c1ee1a86c450702ea3ca2952bf6c5a7" },
   "screenshot": { "branch": "main", "commit": "abaf0d83380b5fca381036ed1a413b3890ca5f1b" },
+  "smartcolumn.nvim": { "branch": "main", "commit": "ac40410e74b351ac6c4db001b6240b1bfbd6c22f" },
   "status-column": { "branch": "main", "commit": "49a3bdab3e9cf23982724c1e888a6296fca4c8b9" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "580b6c48651cabb63455e97d7e131ed557b8c7e2" },
   "telescope.nvim": { "branch": "master", "commit": "a486ac3e8fb2198f3636da1927ed57a28836fbd8" },

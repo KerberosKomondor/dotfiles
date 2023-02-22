@@ -15,6 +15,7 @@ local _M = {
     },
     'petertriho/nvim-scrollbar',
     'karb94/neoscroll.nvim',
+    'm4xshen/smartcolumn.nvim',
   }
 }
 
@@ -23,6 +24,9 @@ function _M.config()
   require 'colorizer'.setup()
   require 'scrollbar'.setup()
   require 'neoscroll'.setup()
+  require 'smartcolumn'.setup({
+    colorcolumn = 120,
+  })
   require("noice").setup({
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
