@@ -21,6 +21,8 @@ local M = {
             --dir = '/home/appa/code/cmp-jira.nvim/',
         },
 
+        -- Formatters
+        { 'lukas-reineke/lsp-format.nvim' },
         -- Snippets - disabled for now
         { 'rafamadriz/friendly-snippets' },
 
@@ -33,6 +35,7 @@ local M = {
 function M.config()
   -- Needs to be before lsp is setup
   require('neodev').setup()
+  require('lsp-format').setup()
   ----------------------------------
 
   local lsp = require('lsp-zero')
@@ -40,7 +43,9 @@ function M.config()
 
   lsp.extend_lspconfig({
       set_lsp_keymaps = false,
-      on_attach = function(_, bufnr)
+      on_attach = function(client, bufnr)
+        require('lsp-format').on_attach(client)
+
         local opts = { buffer = bufnr }
 
         -- Keybinds for lsp servers

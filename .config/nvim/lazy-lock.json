@@ -18,6 +18,7 @@
   "lines": { "branch": "master", "commit": "e99d733e0213ceb8f548ae6551b04ae32e590c80" },
   "loading-screen": { "branch": "main", "commit": "b3eef69e95674905bf26c7740dd4bbb09b355494" },
   "lsp": { "branch": "main", "commit": "c7bd953f96be9997b7d6ab84ee64324fe3c784e8" },
+  "lsp-format.nvim": { "branch": "master", "commit": "ca0df5c8544e51517209ea7b86ecc522c98d4f0a" },
   "lspkind.nvim": { "branch": "master", "commit": "c68b3a003483cf382428a43035079f78474cd11e" },
   "luv-vimdocs": { "branch": "main", "commit": "997b9338fd3ac91a53bbdc19110c127e3bea01c4" },
   "markdown-preview.nvim": { "branch": "master", "commit": "02cc3874738bc0f86e4b91f09b8a0ac88aef8e96" },
