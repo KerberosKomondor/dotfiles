@@ -19,6 +19,9 @@ end
 
 
 local config = {
+    window = {
+        completion = cmp.config.window.bordered(),
+    },
     formatting = {
         format = require 'lspkind'.cmp_format {
             with_text = true,
@@ -36,11 +39,19 @@ local config = {
         native_menu = false,
         ghost_text = true,
     },
+    snippet = {
+        expand = function(args)
+          require('luasnip').lsp_expand(args.body)
+        end
+    }
 }
 
 local sources = require('cmp').config.sources({
-        { name = 'npm',     keyword_length = 3 },
-        { name = 'nvim_lsp' },
+        { name = 'npm',    keyword_length = 3 },
+        { name = 'luasnip' },
+        { name = 'nvim_lsp', entry_filter = function(entry)
+          return require('cmp').lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+        end },
         { name = 'nvim_lua' },
         { name = 'jira' },
     }, {
@@ -64,21 +75,32 @@ local mapping = {
 }
 
 if ok_luasnip then
-  M.mapping['<C-d>'] = cmp.mapping(function(fallback)
-        if luasnip.jumpable(1) then
-          luasnip.jump(1)
+  mapping['<C-d>'] = cmp.mapping(function(fallback)
+        if luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jumpable()
         else
           fallback()
         end
       end, { 'i', 's' })
 
-  M.mapping['<C-b>'] = cmp.mapping(function(fallback)
+  mapping['<C-b>'] = cmp.mapping(function(fallback)
         if luasnip.jumpable( -1) then
           luasnip.jump( -1)
         else
           fallback()
         end
       end, { 'i', 's' })
+
+  mapping['<C-l>'] = cmp.mapping(function()
+        if luasnip.choice_active() then
+          luasnip.change_choice(1)
+        end
+      end, { 'i' })
+
+  -- to resource snippets
+  -- vim.keymap.set('n', '<leader><leader>s', '<cmd>source put dir here<cr>')
+
+  require('luasnip.loaders.from_vscode').lazy_load({ paths = { '~/.local/share/nvim/lazy/friendly-snippets' } })
 end
 
 
