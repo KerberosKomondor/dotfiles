@@ -13,7 +13,6 @@
   "friendly-snippets": { "branch": "main", "commit": "6fa50a94ba5378bb73013a6e163376d8e69bd8a5" },
   "git": { "branch": "main", "commit": "f388995990aba04cfdc7c3ab870c33e280601109" },
   "help": { "branch": "main", "commit": "9cd3ed50d5752ffd56d88dd9e395ddd3dc2c7127" },
-  "import-cost.nvim": { "branch": "main", "commit": "64e55a22ec031569bcd6ea3ed2dcb9e17e0046cc" },
   "jira": { "branch": "main", "commit": "428ae276f773420faea9cc38153c79186951c019" },
   "lazy.nvim": { "branch": "main", "commit": "8cbd95bd059f791e7e9c8cbbf03c368a8bcad9f0" },
   "legendary.nvim": { "branch": "master", "commit": "9e38951df410c6d65fa2b932832d201d7cd6ca62" },
