@@ -46,6 +46,7 @@
   "nvim-web-devicons": { "branch": "master", "commit": "0f23feca2bd08549b779c838b6b1308d1e76df03" },
   "one-small-step-for-vimkind": { "branch": "main", "commit": "aef1bdbb8347e6daaf33d5109002f3df243ebfe9" },
   "plenary.nvim": { "branch": "master", "commit": "253d34830709d690f013daf2853a9d21ad7accab" },
+  "rest.nvim": { "branch": "main", "commit": "0fdb69f328529b34a2279c14be63b3325dc52740" },
   "ripgrep": { "branch": "master", "commit": "44fb9fce2c1ee1a86c450702ea3ca2952bf6c5a7" },
   "screenshot": { "branch": "main", "commit": "30a5181e3585abd57098e76c1d256370aeb8b3f3" },
   "smartcolumn.nvim": { "branch": "main", "commit": "1202b0741b87b0815bdc6fc6ebacb2df9e6628ee" },

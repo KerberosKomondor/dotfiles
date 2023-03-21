@@ -62,10 +62,10 @@ function M.config()
       keymap({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
 
       -- Rename all occurrences of the hovered word for the entire file
-      keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
+      keymap("n", "<F2>", "<cmd>Lspsaga rename ++project<CR>", opts)
 
-      -- Rename all occurrences of the hovered word for the selected files
-      keymap("n", "gr", "<cmd>Lspsaga rename ++project<CR>")
+
+      keymap("n", "gr", "<cmd>vim.lsp.buf.references<CR>", opts)
 
       -- Peek definition
       -- You can edit the file containing the definition in the floating window
@@ -75,7 +75,7 @@ function M.config()
       keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
 
       -- Go to definition
-      keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>")
+      -- keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>")
 
       -- Peek type definition
       -- You can edit the file containing the type definition in the floating window
@@ -85,13 +85,13 @@ function M.config()
       keymap("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>")
 
       -- Go to type definition
-      keymap("n", "gt", "<cmd>Lspsaga goto_type_definition<CR>")
+      -- keymap("n", "gt", "<cmd>Lspsaga goto_type_definition<CR>")
 
 
       -- Show line diagnostics
       -- You can pass argument ++unfocus to
       -- unfocus the show_line_diagnostics floating window
-      keymap("n", "<leader>sl", "<cmd>Lspsaga show_line_diagnostics<CR>")
+      keymap("n", "<leader>sl", "<cmd>Lspsaga show_line_diagnostics ++unfocus<CR>")
 
       -- Show cursor diagnostics
       -- Like show_line_diagnostics, it supports passing the ++unfocus argument

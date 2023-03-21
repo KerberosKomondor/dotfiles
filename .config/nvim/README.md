@@ -4,13 +4,13 @@
 
 ### Pacman requirements
 ```
-sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3
+sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy
 ```
 
 ### AUR requirements
 
 ```
-paru -S nvm nvim-packer-git python-pynvim-git ruby-neovim
+paru -S nvm python-pynvim-git ruby-neovim
 ```
 
 ### NPM requirements
