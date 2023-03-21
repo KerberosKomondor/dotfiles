@@ -65,7 +65,7 @@ function M.config()
       keymap("n", "<F2>", "<cmd>Lspsaga rename ++project<CR>", opts)
 
 
-      keymap("n", "gr", "<cmd>vim.lsp.buf.references<CR>", opts)
+      keymap("n", "gr", vim.lsp.buf.references, opts)
 
       -- Peek definition
       -- You can edit the file containing the definition in the floating window
