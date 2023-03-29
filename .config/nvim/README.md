@@ -4,7 +4,7 @@
 
 ### Pacman requirements
 ```
-sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy
+sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy stylua
 ```
 
 ### AUR requirements

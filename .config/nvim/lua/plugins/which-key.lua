@@ -54,14 +54,13 @@ function _M.config()
     },
     l = {
       name = "Lsp",
-      a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
       d = {
         "<cmd>Telescope lsp_document_diagnostics<cr>",
         "Document Diagnostics"
       }, w = {
-        "<cmd>Telescope lsp_workspace_diagnostics<cr>",
-        "Workspace Diagnostics"
-      },
+      "<cmd>Telescope lsp_workspace_diagnostics<cr>",
+      "Workspace Diagnostics"
+    },
       f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format" },
       i = { "<cmd>LspInfo<cr>", "Info" },
       I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
@@ -103,7 +102,6 @@ function _M.config()
   local visualMappings = {
     n = { "<cmd>'<,'>Silicon<cr>", "Snippet" },
     s = { "<cmd>Silicon<cr>", "Full Screenshot" },
-
   }
 
   -- legendary needs to be first
@@ -120,7 +118,6 @@ function _M.config()
   wk.register(normalMappings, normalOpts)
   wk.register(visualMappings, visualOpts)
   wk.setup()
-
 end
 
 return _M
