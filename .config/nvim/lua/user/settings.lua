@@ -18,7 +18,7 @@ local options = {
 	signcolumn = "yes",
 	hidden = true,
 	ignorecase = true,
-	timeoutlen = 1000,
+	timeoutlen = 300,
 	shiftround = true,
 	smartcase = true,
 	splitbelow = true,
@@ -35,8 +35,8 @@ local options = {
 	laststatus = 3,
 	updatetime = 250,
 	background = "dark",
-  colorcolumn = "120",
-  completeopt = { 'menu', 'menuone', 'noselect' },
+	colorcolumn = "120",
+	completeopt = { "menu", "menuone", "noselect" },
 }
 
 vim.opt.shortmess:append("c")
