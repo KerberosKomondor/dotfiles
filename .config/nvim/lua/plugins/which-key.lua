@@ -34,10 +34,8 @@ function _M.config()
 		e = { "<cmd>NvimTreeToggle<cr>", "File Browser" },
 		f = { "<cmd>Telescope find_files<cr>", "Find File" },
 		F = { "<cmd>Telescope live_grep<cr>", "Find File by Word" },
-		-- c = { "<cmd>bdelete<cr>", "Close Buffer" },
 		-- g = {
 		-- 	name = "Git",
-		prefix = "<leader>",
 		-- 	g = { "<cmd>!git pull<CR>", "Pull" },
 		-- 	l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
 		-- 	R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
@@ -74,28 +72,28 @@ function _M.config()
 			-- 	"Workspace Symbols",
 			-- },
 		},
-		-- t = {
-		--   e = {
-		--     name = 'Telescope',
-		--     n = { "<cmd>Telescope notify<cr>", "Notify" },
-		--     r = { "<cmd>Telescope reloader<cr>", "Reloader" },
-		--   },
-		--   t = {
-		--     name = 'Trouble',
-		--     t = { "<cmd>TroubleToggle<cr>", "Toggle Trouble" },
-		--     q = { "<cmd>Trouble quickfix<cr>", "Quickfix" },
-		--     l = { "<cmd>Trouble loclist<cr>", "Loclist" },
-		--     d = { "<cmd>Trouble document_diagnostics<cr>", "Document Diagnostics" },
-		--     w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
-		--     p = { "<cmd>Trouble lsp_references<cr>", "Lsp References" },
-		--   },
-		--   m = {
-		--     name = 'Markdown',
-		--     a = { "<cmd>MarkdownPreview<cr>", "Start" },
-		--     o = { "<cmd>MarkdownPreviewStop<cr>", "Stop" },
-		--     t = { "<cmd>MarkdownPreviewToggle<cr>", "Toggle" },
-		--   },
-		-- },
+		t = {
+			e = {
+				name = "Telescope",
+				n = { "<cmd>Telescope notify<cr>", "Notify" },
+				r = { "<cmd>Telescope reloader<cr>", "Reloader" },
+			},
+			t = {
+				name = "Trouble",
+				t = { "<cmd>TroubleToggle<cr>", "Toggle Trouble" },
+				q = { "<cmd>Trouble quickfix<cr>", "Quickfix" },
+				l = { "<cmd>Trouble loclist<cr>", "Loclist" },
+				d = { "<cmd>Trouble document_diagnostics<cr>", "Document Diagnostics" },
+				w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
+				p = { "<cmd>Trouble lsp_references<cr>", "Lsp References" },
+			},
+			m = {
+				name = "Markdown",
+				a = { "<cmd>MarkdownPreview<cr>", "Start" },
+				o = { "<cmd>MarkdownPreviewStop<cr>", "Stop" },
+				t = { "<cmd>MarkdownPreviewToggle<cr>", "Toggle" },
+			},
+		},
 	}
 
 	local visualMappings = {
