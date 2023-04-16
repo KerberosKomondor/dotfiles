@@ -46,6 +46,7 @@ function M.config()
 
 	local lsp = require("lsp-zero")
 	local lspconfig = require("lspconfig")
+
 	require("lspsaga").setup({})
 
 	lsp.extend_lspconfig({
