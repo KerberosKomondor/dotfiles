@@ -7,6 +7,7 @@ require("user.lazy_bootstrap")
 -- load plugins in lsp/plugins
 require("lazy").setup("plugins", {
 	install = {
+		missing = false,
 		colorscheme = { "dracula" },
 	},
 	checker = {
