@@ -1,21 +1,9 @@
 local _M = {
 	"folke/which-key.nvim",
-	dependencies = {
-		"mrjones2014/legendary.nvim",
-	},
 }
 
-local normalOpts = {
+local opts = {
 	mode = "n",
-	prefix = "<leader>",
-	buffer = nil,
-	silent = true,
-	noremap = true,
-	nowait = true,
-}
-
-local visualOpts = {
-	mode = "v",
 	prefix = "<leader>",
 	buffer = nil,
 	silent = true,
@@ -54,23 +42,20 @@ function _M.config()
 				"<cmd>Telescope lsp_document_diagnostics<cr>",
 				"Document Diagnostics",
 			},
-			-- w = {
-			-- 	"<cmd>Telescope lsp_workspace_diagnostics<cr>",
-			-- 	"Workspace Diagnostics",
-			-- },
-			-- f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format" },
-			-- i = { "<cmd>LspInfo<cr>", "Info" },
-			-- I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
-			-- j = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Next Diagnostic" },
-			-- k = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
-			-- l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
-			-- q = { "<cmd>lua vim.diagnostic.set_loclist()<cr>", "Quickfix" },
-			-- r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-			-- s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-			-- S = {
-			-- 	"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-			-- 	"Workspace Symbols",
-			-- },
+			f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format" },
+			w = {
+				"<cmd>Telescope lsp_workspace_diagnostics<cr>",
+				"Workspace Diagnostics",
+			},
+			i = { "<cmd>LspInfo<cr>", "Info" },
+			I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
+			l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
+			q = { "<cmd>lua vim.diagnostic.set_loclist()<cr>", "Quickfix" },
+			s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+			S = {
+				"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+				"Workspace Symbols",
+			},
 		},
 		t = {
 			e = {
@@ -96,24 +81,7 @@ function _M.config()
 		},
 	}
 
-	local visualMappings = {
-		n = { "<cmd>'<,'>Silicon<cr>", "Snippet" },
-		s = { "<cmd>Silicon<cr>", "Full Screenshot" },
-	}
-
-	-- legendary needs to be first
-	require("legendary").setup({
-		keymaps = {
-			{ "<C-p>", "<cmd>Legendary<cr>", description = "Legendary", mode = { "n", "i", "x" } },
-		},
-		which_key = {
-			auto_register = true,
-			mappings = normalMappings,
-		},
-	})
-
-	wk.register(normalMappings, normalOpts)
-	wk.register(visualMappings, visualOpts)
+	wk.register(normalMappings, opts)
 	wk.setup()
 end
 
