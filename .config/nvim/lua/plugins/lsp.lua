@@ -7,6 +7,7 @@ local M = {
 		{ "williamboman/mason.nvim" },
 		{ "williamboman/mason-lspconfig.nvim" },
 		{ "jose-elias-alvarez/null-ls.nvim" },
+		{ "folke/neodev.nvim" },
 
 		-- Autocompletion
 		{ "hrsh7th/nvim-cmp" },
@@ -38,6 +39,9 @@ local M = {
 
 function M.config()
 	local keymap = vim.keymap.set
+
+	-- Needs to be before lspconfig
+	require("neodev").setup()
 
 	local lsp = require("lsp-zero")
 	local lspconfig = require("lspconfig")
