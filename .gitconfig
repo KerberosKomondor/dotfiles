@@ -84,6 +84,7 @@
   create-pull-request = "!f() { exec az repos pr create --auto-complete --delete-source-branch -t $(git home-name) -r $(git current-repo) \"$@\";};f"
 
   repo = "!f() { exec az repos \"$@\"; }; f"
+  list-branches = "!git for-each-ref --sort='-committerdate:iso8601' --format='%(committerdate:relative)|%(refname:short)|%(committername)' refs/remotes/ | column -s '|' -t"
 
 [init]
   templatedir = ~/.git-templates

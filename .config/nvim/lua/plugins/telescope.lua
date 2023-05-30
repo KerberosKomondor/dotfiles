@@ -9,6 +9,7 @@ local _M = {
 		},
 		"rcarriga/nvim-notify",
 	},
+	commit = "057ee0f",
 }
 
 function _M.config()
