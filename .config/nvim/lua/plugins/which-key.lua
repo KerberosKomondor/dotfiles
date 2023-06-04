@@ -20,6 +20,7 @@ function _M.config()
 	local normalMappings = {
 		b = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
 		e = { "<cmd>NvimTreeToggle<cr>", "File Browser" },
+		E = { "<cmd>SidebarNvimToggle<cr>", "Sidebar" },
 		f = { "<cmd>Telescope find_files<cr>", "Find File" },
 		F = { "<cmd>Telescope live_grep<cr>", "Find File by Word" },
 		-- g = {
