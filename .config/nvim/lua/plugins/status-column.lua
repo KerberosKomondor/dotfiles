@@ -1,10 +1,7 @@
-local M = {
-    name = 'status-column',
-    'luukvbaal/statuscol.nvim',
+return {
+  name = 'status-column',
+  'luukvbaal/statuscol.nvim',
+  config = function()
+    require 'statuscol'.setup()
+  end,
 }
-
-function M.setup()
-  require 'statuscol'.setup()
-end
-
-return M
