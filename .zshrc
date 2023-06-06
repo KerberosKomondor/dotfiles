@@ -128,7 +128,16 @@ alias vim="nvim"
 # https://www.atlassian.com/git/tutorials/dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 
+alias l='exa'
+alias la='exa -a'
+alias ll='exa -lah'
+alias ls='exa --color=auto'
+
+alias cat='bat --style=plain'
+
 systemctl --user import-environment PATH
 
 # make this only run in wsl
 . /etc/profile.d/wezterm.sh
+
+eval "$(starship init zsh)"
