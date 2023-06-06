@@ -6,6 +6,7 @@ local M = {
     { "neovim/nvim-lspconfig" },
     { "williamboman/mason.nvim" },
     { "williamboman/mason-lspconfig.nvim" },
+    { "jay-babu/mason-nvim-dap.nvim" },
     -- null-ls needs installed for prettier to work but it is not manually setup
     { "jose-elias-alvarez/null-ls.nvim" },
     { "folke/neodev.nvim" },
@@ -151,6 +152,10 @@ function M.config()
   end)
 
   require("mason").setup()
+
+  require("mason-nvim-dap").setup({
+    ensure_installed = { "js-debug-adapter", "node-debug2-adapter", "chrome-debug-adapter", "firefox-debug-adapter" },
+  })
   require("mason-lspconfig").setup({
     ensure_installed = {
       "tsserver",
