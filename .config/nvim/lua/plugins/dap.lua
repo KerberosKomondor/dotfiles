@@ -1,14 +1,11 @@
 return {
-  'mfussenegger/nvim-dap',
-  lazy = true,
+  "mfussenegger/nvim-dap",
   dependencies = {
-    'jbyuki/one-small-step-for-vimkind',
-    'rcarriga/nvim-dap-ui',
-    'mxsdev/nvim-dap-vscode-js',
-    -- lazy spec to build "microsoft/vscode-js-debug" from source
+    "rcarriga/nvim-dap-ui",
+    "mxsdev/nvim-dap-vscode-js",
+    -- build debugger from source
     {
       "microsoft/vscode-js-debug",
-      -- This will only update when the version is updated
       version = "1.x",
       build = "npm i && npm run compile vsDebugServerBundle && mv dist out"
     }
@@ -26,6 +23,8 @@ return {
       debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
       adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
     })
+
+    -- Information for setting up configurations:  https://code.visualstudio.com/docs/nodejs/browser-debugging
 
     for _, language in ipairs({ "typescript", "javascript", "typescriptreact" }) do
       require("dap").configurations[language] = {
@@ -54,13 +53,28 @@ return {
           skipFiles = { "${workspaceFolder}/node_modules/**/*.js" },
         },
         {
+          type = 'pwa-chrome',
+          name = 'Attach to Chrome (9222)',
+          request = 'attach',
+          port = 9222,
+          -- sourceMaps = true,
+          -- protocol = 'inspector',
+          -- resolveSourceMapLocations = {
+          --   "${workspaceFolder}/**",
+          --   "!**/node_modules/**" },
+          -- -- path to src in vite based projects (and most other projects as well)
+          -- cwd = "${workspaceFolder}/src",
+          -- -- we don't want to debug code inside node_modules, so skip it!
+          -- skipFiles = { "${workspaceFolder}/node_modules/**/*.js" },
+        },
+        {
           type = "pwa-chrome",
           name = "Launch Chrome to debug client",
           request = "launch",
+          port = 9222,
           url = "http://localhost:3000",
           sourceMaps = true,
           protocol = "inspector",
-          port = 9222,
           webRoot = "${workspaceFolder}/src",
           -- skip files from vite's hmr
           skipFiles = { "**/node_modules/**/*", "**/@vite/*", "**/src/client/*", "**/src/*" },
