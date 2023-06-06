@@ -8,7 +8,8 @@ return {
       "microsoft/vscode-js-debug",
       version = "1.x",
       build = "npm i && npm run compile vsDebugServerBundle && mv dist out"
-    }
+    },
+    'theHamsta/nvim-dap-virtual-text',
   },
   keys = {
     -- normal mode is default
@@ -24,6 +25,7 @@ return {
       adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
     })
 
+    require("nvim-dap-virtual-text").setup()
     -- Information for setting up configurations:  https://code.visualstudio.com/docs/nodejs/browser-debugging
 
     for _, language in ipairs({ "typescript", "javascript", "typescriptreact" }) do
