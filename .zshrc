@@ -98,7 +98,7 @@ export NVM_DIR="$HOME/.nvm"
 # For a full list of active aliases, run `alias`.
 #
 export HISTORY_FILTER_EXCLUDE=("mplayer" "/complete")
-export PATH=$PATH:~/lib/vsts-cli/bin:~/.nvm:~/.local/share/gem/ruby/3.0.0:~/go/bin:~/.dotnet/tools/
+export PATH=$PATH:~/lib/vsts-cli/bin:~/.nvm:~/.local/share/gem/ruby/3.0.0:~/go/bin:~/.dotnet/tools/:~/.local/bin/
 export EDITOR=nvim
 export BROWSER=/mnt/c/Google/Chrome/Application/chrome.exe
 export proj=/mnt/c/a/
