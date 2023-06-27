@@ -15,7 +15,7 @@ paru -S nvm python-pynvim-git ruby-neovim
 
 ### NPM requirements
 ```
-npm i -g eslint_d
+npm i -g eslint_d @fsouza/prettierd
 ```
 
 ## RUN CHECKHEALTH
