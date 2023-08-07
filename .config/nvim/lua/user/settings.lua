@@ -6,7 +6,7 @@ local options = {
 	fileencoding = "utf-8",
 	backup = false,
 	swapfile = false,
-	hlsearch = true,
+	hlsearch = false,
 	incsearch = true,
 	showmode = false,
 	expandtab = true,
@@ -37,6 +37,9 @@ local options = {
 	background = "dark",
 	colorcolumn = "120",
 	completeopt = { "menu", "menuone", "noselect" },
+  foldlevelstart = 50,
+  foldlevel = 50,
+  foldcolumn = '1',
 }
 
 vim.opt.shortmess:append("c")
