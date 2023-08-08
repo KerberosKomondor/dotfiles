@@ -1,5 +1,5 @@
 local _M = {
-	"dracula/vim",
+	"Mofiqul/dracula.nvim",
 	name = "theme",
 	dependencies = {
 		"stevearc/dressing.nvim",
@@ -20,6 +20,14 @@ local _M = {
 }
 
 function _M.config()
+	local colors = require("dracula").colors()
+	require("dracula").setup({
+		overrides = {
+			PackageInfoOutdatedVersion = { fg = colors.red },
+			PackageInfoUptodateVersion = { fg = colors.green },
+		},
+	})
+
 	require("dressing").setup()
 	require("colorizer").setup()
 	require("scrollbar").setup()
@@ -47,7 +55,8 @@ function _M.config()
 	})
 
 	vim.cmd([[highlight clear]])
-	vim.cmd([[ colorscheme dracula]])
+	vim.cmd([[colorscheme dracula]])
+
 	-- Set the color column (column 120) to purple
 	vim.cmd([[highlight ColorColumn ctermbg=0 guibg=#bd93f9]])
 

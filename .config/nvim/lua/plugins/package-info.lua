@@ -5,10 +5,6 @@ local M = {
 
 function M.config()
 	require("package-info").setup({
-		colors = {
-			up_to_date = "#50fa7b",
-			outdated = "#ff5555",
-		},
 		package_manager = "npm",
 		hide_unstable_versions = true,
 	})

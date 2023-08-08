@@ -5,7 +5,7 @@ local _M = {
 
 function _M.config()
 	require("lualine").setup({
-		theme = "dracula",
+		theme = "dracula-nvim",
 		sections = {
 			lualine_x = {
 				{
