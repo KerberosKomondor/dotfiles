@@ -138,6 +138,6 @@ alias cat='bat --style=plain'
 systemctl --user import-environment PATH
 
 # make this only run in wsl
-. /etc/profile.d/wezterm.sh
+#. /etc/profile.d/wezterm.sh
 
 eval "$(starship init zsh)"
