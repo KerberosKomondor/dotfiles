@@ -1,9 +1,10 @@
-local _M = {
+local M = {
 	"nvim-lualine/lualine.nvim",
-	name = "lines",
 }
 
-function _M.config()
+function M.config()
+	local colors = require("dracula").colors()
+
 	require("lualine").setup({
 		theme = "dracula-nvim",
 		sections = {
@@ -11,11 +12,11 @@ function _M.config()
 				{
 					require("lazy.status").updates,
 					cond = require("lazy.status").has_updates,
-					color = { fg = "#BD93F9" },
+					color = { fg = colors.purple },
 				},
 			},
 		},
 	})
 end
 
-return _M
+return M

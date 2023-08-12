@@ -1,4 +1,4 @@
-local _M = {
+local M = {
   'goolord/alpha-nvim',
   name = 'loading-screen',
   dependencies = {
@@ -6,8 +6,8 @@ local _M = {
   }
 }
 
-function _M.config()
+function M.config()
   require 'alpha'.setup(require 'alpha.themes.startify'.config)
 end
 
-return _M
+return M
