@@ -1,3 +1,5 @@
+local settings = require("user.configuration").settings
+
 local M = {
 	"pmizio/typescript-tools.nvim",
 	dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -12,12 +14,15 @@ function M.config()
 	local handlers = {
 		["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 			silent = true,
-			border = "rounded",
+			border = settings.border_shape,
 		}),
-		["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+		["textDocument/signatureHelp"] = vim.lsp.with(
+			vim.lsp.handlers.signature_help,
+			{ border = settings.border_shape }
+		),
 		["textDocument/publishDiagnostics"] = vim.lsp.with(
 			vim.lsp.diagnostic.on_publish_diagnostics,
-			{ virtual_text = true }
+			{ virtual_text = settings.show_diagnostic_virtual_text }
 		),
 		["textDocument/definition"] = function(err, result, method, ...)
 			P(result)

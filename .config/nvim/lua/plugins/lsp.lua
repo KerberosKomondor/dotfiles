@@ -1,3 +1,5 @@
+local settings = require("user.configuration").settings
+
 local M = {
 	name = "lsp",
 	"neovim/nvim-lspconfig",
@@ -54,8 +56,8 @@ function M.config()
 
 	mason.setup({
 		ui = {
+			border = settings.border_shape,
 			-- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
-			border = "rounded",
 		},
 	})
 
@@ -85,12 +87,15 @@ function M.config()
 	local handlers = {
 		["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 			silent = true,
-			border = "rounded",
+			border = settings.border_shape,
 		}),
-		["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+		["textDocument/signatureHelp"] = vim.lsp.with(
+			vim.lsp.handlers.signature_help,
+			{ border = settings.border_shape }
+		),
 		["textDocument/publishDiagnostics"] = vim.lsp.with(
 			vim.lsp.diagnostic.on_publish_diagnostics,
-			{ virtual_text = true }
+			{ virtual_text = settings.show_diagnostic_virtual_text }
 		),
 	}
 

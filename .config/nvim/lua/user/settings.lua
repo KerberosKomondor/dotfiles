@@ -37,9 +37,9 @@ local options = {
 	background = "dark",
 	colorcolumn = "120",
 	completeopt = { "menu", "menuone", "noselect" },
-  foldlevelstart = 50,
-  foldlevel = 50,
-  foldcolumn = '1',
+	foldlevelstart = 50,
+	foldlevel = 50,
+	foldcolumn = "1",
 }
 
 vim.opt.shortmess:append("c")

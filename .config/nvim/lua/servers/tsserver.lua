@@ -1,5 +1,7 @@
 local M = {}
 
+local settings = require("user.configuration").settings
+
 local filter = require("utils.filter").filter
 local filterReactDTS = require("utils.filterReactDTS").filterReactDTS
 
@@ -23,9 +25,9 @@ end
 local handlers = {
 	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 		silent = true,
-		border = "rounded",
+		border = settings.border_shape,
 	}),
-	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = settings.border_shape }),
 	["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 		underline = true,
 		virtual_text = {
