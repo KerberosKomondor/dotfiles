@@ -4,18 +4,18 @@
 
 ### Pacman requirements
 ```
-sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy stylua
+sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy stylua luacheck
 ```
 
 ### AUR requirements
 
 ```
-paru -S nvm python-pynvim-git ruby-neovim
+paru -S nvm python-pynvim-git ruby-neovim efm-langserver
 ```
 
 ### NPM requirements
 ```
-npm i -g eslint_d @fsouza/prettierd
+npm i -g eslint_d @fsouza/prettierd eslint prettier
 ```
 
 ## RUN CHECKHEALTH

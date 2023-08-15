@@ -33,7 +33,7 @@ function _M.config()
   require("scrollbar").setup()
   require("neoscroll").setup()
   require("smartcolumn").setup({
-    colorcolumn = "120",
+    colorcolumn = "121",
   })
   require("noice").setup({
     lsp = {
