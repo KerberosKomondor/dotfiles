@@ -94,7 +94,6 @@ function M.config()
   ---@diagnostic disable-next-line: 212
   local function on_attach(client, bufnr)
     if client.server_capabilities.documentFormattingProvider then
-      print(client.name .. " was attached")
       vim.cmd([[
         augroup lsp_formatting
         autocmd!

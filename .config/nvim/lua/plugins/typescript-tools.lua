@@ -33,7 +33,6 @@ function M.config()
 
   require("typescript-tools").setup({
     on_attach = function(client, bufnr)
-      print(client.name .. " was attached")
       if client.server_capabilities.documentFormattingProvider then
         vim.cmd([[
         augroup lsp_formatting
