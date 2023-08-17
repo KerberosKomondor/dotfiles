@@ -122,27 +122,18 @@ function M.config()
     },
   })
 
-  local scriptLanguages = {
-    require("efmls-configs.linters.eslint"),
-    require("efmls-configs.formatters.prettier"),
-  }
-
   local languages = {
     lua = {
       require("efmls-configs.linters.luacheck"),
       require("efmls-configs.formatters.stylua"),
     },
-    javascript = scriptLanguages,
-    javascriptreact = scriptLanguages,
-    typescript = scriptLanguages,
-    typescriptreact = scriptLanguages,
   }
 
   lspconfig.efm.setup({
     filetypes = vim.tbl_keys(languages),
-    init_options = { documentFormatting = true },
+    init_options = { documentformatting = true },
     settings = {
-      rootMarkers = { ".git/", "package.json" },
+      rootmarkers = { ".git/", "package.json" },
       languages = languages,
     },
   })
@@ -154,12 +145,12 @@ function M.config()
     settings = require("servers.cssls").settings,
   })
 
-  -- lspconfig.eslint.setup({
-  -- 	capabilities = capabilities,
-  -- 	handlers = handlers,
-  -- 	on_attach = require("servers.eslint").on_attach,
-  -- 	settings = require("servers.eslint").settings,
-  -- })
+  lspconfig.eslint.setup({
+    capabilities = capabilities,
+    handlers = handlers,
+    on_attach = require("servers.eslint").on_attach,
+    settings = require("servers.eslint").settings,
+  })
 
   lspconfig.jsonls.setup({
     capabilities = capabilities,

@@ -3,14 +3,14 @@ local M = {
 }
 
 function M.config()
-  local colors = require'dracula'.colors()
+  local colors = require("dracula").colors()
 
-  vim.cmd('highlight IndentBlanklineIndent1 guifg=' .. colors.purple .. ' gui=nocombine')
-  vim.cmd('highlight IndentBlanklineIndent2 guifg=' .. colors.cyan .. ' gui=nocombine')
-  vim.cmd('highlight IndentBlanklineIndent3 guifg=' .. colors.yellow .. ' gui=nocombine')
-  vim.cmd('highlight IndentBlanklineIndent4 guifg=' .. colors.pink .. ' gui=nocombine')
-  vim.cmd('highlight IndentBlanklineIndent5 guifg=' .. colors.orange .. ' gui=nocombine')
-  vim.cmd('highlight IndentBlanklineIndent6 guifg=' .. colors.red .. ' gui=nocombine')
+  vim.cmd("highlight IndentBlanklineIndent1 guifg=" .. colors.purple .. " gui=nocombine")
+  vim.cmd("highlight IndentBlanklineIndent2 guifg=" .. colors.cyan .. " gui=nocombine")
+  vim.cmd("highlight IndentBlanklineIndent3 guifg=" .. colors.yellow .. " gui=nocombine")
+  vim.cmd("highlight IndentBlanklineIndent4 guifg=" .. colors.pink .. " gui=nocombine")
+  vim.cmd("highlight IndentBlanklineIndent5 guifg=" .. colors.orange .. " gui=nocombine")
+  vim.cmd("highlight IndentBlanklineIndent6 guifg=" .. colors.red .. " gui=nocombine")
 
   vim.opt.list = true
   vim.opt.listchars:append("space:⋅")
