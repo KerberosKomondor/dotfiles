@@ -166,13 +166,6 @@ function M.config()
     settings = require("servers.lua_ls").settings,
   })
 
-  lspconfig.omnisharp.setup({
-    capabilities = capabilities,
-    handlers = handlers,
-    on_attach = on_attach,
-    settings = require("servers.omnisharp").settings,
-  })
-
   for _, server in ipairs({ "bashls", "graphql", "html" }) do -- "emmet_ls"
     lspconfig[server].setup({
       on_attach = on_attach,
