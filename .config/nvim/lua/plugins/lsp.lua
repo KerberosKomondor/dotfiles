@@ -93,15 +93,6 @@ function M.config()
 
   ---@diagnostic disable-next-line: 212
   local function on_attach(client, bufnr)
-    if client.server_capabilities.documentFormattingProvider then
-      vim.cmd([[
-        augroup lsp_formatting
-        autocmd!
-          autocmd BufWritePre <buffer> :lua vim.lsp.buf.format()
-        augroup END
-      ]])
-    end
-
     -- set up buffer keymaps, etc.
   end
 
