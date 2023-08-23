@@ -6,7 +6,7 @@ function M.config()
   require("lint").linters_by_ft = {
     markdown = { 'vale' },
     typescriptreact = { 'eslint_d'},
-    typescript = { 'eslint' },
+    typescript = { 'eslint_d' },
     lua = { 'luacheck' },
   }
 
