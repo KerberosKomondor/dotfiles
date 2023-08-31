@@ -184,7 +184,7 @@ function M.config()
     close_fold_kinds = { "imports", "comment" },
   })
 
-  require("lspsaga").setup({})
+  -- require("lspsaga").setup({})
 end
 
 return M
