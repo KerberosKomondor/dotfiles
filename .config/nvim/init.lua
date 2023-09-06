@@ -6,9 +6,10 @@ require("user.lazy_bootstrap")
 require("user.lsp-keybindings")
 
 -- load plugins in lsp/plugins
-require("lazy").setup("plugins", {
+require("lazy").setup({
+  spec = "plugins",
 	install = {
-		missing = false,
+		missing = true,
 		colorscheme = { "dracula" },
 	},
 	checker = {

@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap("n", "gr", vim.lsp.buf.references, opts)
     keymap("n", "<leader>D", vim.lsp.buf.type_definition, opts)
     keymap("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-    keymap("n", "<shift>K", vim.lsp.buf.hover, opts)
+    keymap("n", "K", vim.lsp.buf.hover, opts)
     keymap("n", "<F2>", vim.lsp.buf.rename, opts)
     keymap("n", "<leader>ci", vim.lsp.buf.incoming_calls, opts)
     keymap("n", "<leader>co", vim.lsp.buf.outgoing_calls, opts)

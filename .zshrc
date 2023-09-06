@@ -122,6 +122,8 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 bindkey -s '^[t' 'vim $(fzf);'
 
+export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1
+
 alias vi="nvim"
 alias vim="nvim"
 
