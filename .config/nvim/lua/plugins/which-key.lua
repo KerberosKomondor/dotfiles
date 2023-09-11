@@ -19,7 +19,8 @@ function _M.config()
 
   local normalMappings = {
     b = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
-    e = { "<cmd>NvimTreeToggle<cr>", "File Browser" },
+    -- open in current buffer's directory
+    e = { "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>", "File Browser" },
     E = { "<cmd>SidebarNvimToggle<cr>", "Sidebar" },
     f = { "<cmd>Telescope find_files<cr>", "Find File" },
     F = { "<cmd>Telescope live_grep<cr>", "Find File by Word" },

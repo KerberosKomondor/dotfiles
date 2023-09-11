@@ -1,6 +1,5 @@
 local M = {
   'goolord/alpha-nvim',
-  name = 'loading-screen',
   dependencies = {
     'kyazdani42/nvim-web-devicons'
   }
