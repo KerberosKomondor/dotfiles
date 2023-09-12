@@ -10,17 +10,21 @@ function M.config()
 
   local filter = require("utils.filter").filter
   local filterReactDTS = require("utils.filterReactDTS").filterReactDTS
+  local api = require("typescript-tools.api")
 
   local handlers = {
     ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
       silent = true,
       border = settings.border_shape,
     }),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = settings.border_shape }),
-    ["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics,
-      { virtual_text = settings.show_diagnostic_virtual_text }
+    ["textDocument/signatureHelp"] = vim.lsp.with(
+      vim.lsp.handlers.signature_help,
+      { border = settings.border_shape }
     ),
+    ["textDocument/publishDiagnostics"] = api.filter_diagnostics({
+      6133,
+      6196,
+    }),
     ["textDocument/definition"] = function(err, result, method, ...)
       if vim.tbl_islist(result) and #result > 1 then
         local filtered_result = filter(result, filterReactDTS)
@@ -32,15 +36,8 @@ function M.config()
   }
 
   require("typescript-tools").setup({
-    on_attach = function(client, bufnr)
-      if client.server_capabilities.documentFormattingProvider then
-        vim.cmd([[
-        augroup lsp_formatting
-        autocmd!
-          autocmd BufWritePre <buffer> :lua vim.lsp.buf.format()
-        augroup END
-      ]])
-      end
+    -- figure out why this double errors on client and singles on _client
+    on_attach = function(_client, bufnr)
       if vim.fn.has("nvim-0.10") then
         -- Enable inlay hints
         vim.lsp.inlay_hint(bufnr, true)
