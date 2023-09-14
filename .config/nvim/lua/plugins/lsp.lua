@@ -9,8 +9,7 @@ local M = {
     { "williamboman/mason-lspconfig.nvim" },
     { "jay-babu/mason-nvim-dap.nvim" },
     { "folke/neodev.nvim" },
-    "mattn/efm-langserver",
-    "creativenull/efmls-configs-nvim",
+    "lvimuser/lsp-inlayhints.nvim",
 
     -- Autocompletion
     { "hrsh7th/nvim-cmp" },
@@ -84,16 +83,18 @@ function M.config()
       silent = true,
       border = settings.border_shape,
     }),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = settings.border_shape }),
+    ["textDocument/signatureHelp"] = vim.lsp.with(
+      vim.lsp.handlers.signature_help,
+      { border = settings.border_shape }
+    ),
     ["textDocument/publishDiagnostics"] = vim.lsp.with(
       vim.lsp.diagnostic.on_publish_diagnostics,
       { virtual_text = settings.show_diagnostic_virtual_text }
     ),
   }
 
-  ---@diagnostic disable-next-line: 212
   local function on_attach(client, bufnr)
-    -- set up buffer keymaps, etc.
+    require("lsp-inlayhints").on_attach(client, bufnr)
   end
 
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -104,30 +105,6 @@ function M.config()
   }
 
   -- Order matters
-
-  local efmls = require("efmls-configs")
-  efmls.init({
-    on_attach = on_attach,
-    init_options = {
-      documentFormatting = true,
-    },
-  })
-
-  local languages = {
-    lua = {
-      require("efmls-configs.linters.luacheck"),
-      require("efmls-configs.formatters.stylua"),
-    },
-  }
-
-  lspconfig.efm.setup({
-    filetypes = vim.tbl_keys(languages),
-    init_options = { documentformatting = true },
-    settings = {
-      rootmarkers = { ".git/", "package.json" },
-      languages = languages,
-    },
-  })
 
   lspconfig.cssls.setup({
     capabilities = capabilities,

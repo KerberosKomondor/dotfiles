@@ -37,11 +37,8 @@ function M.config()
 
   require("typescript-tools").setup({
     -- figure out why this double errors on client and singles on _client
-    on_attach = function(_client, bufnr)
-      if vim.fn.has("nvim-0.10") then
-        -- Enable inlay hints
-        vim.lsp.inlay_hint(bufnr, true)
-      end
+    on_attach = function(client, bufnr)
+      require("lsp-inlayhints").on_attach(client, bufnr)
     end,
     handlers = handlers,
     settings = {

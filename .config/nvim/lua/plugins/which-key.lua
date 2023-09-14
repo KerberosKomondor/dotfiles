@@ -50,8 +50,6 @@ function _M.config()
         "<cmd>Telescope lsp_document_diagnostics<cr>",
         "Document Diagnostics",
       },
-      -- I think lsp-keybindings takes care of this
-      -- f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format" },
       w = {
         "<cmd>Telescope lsp_workspace_diagnostics<cr>",
         "Workspace Diagnostics",
