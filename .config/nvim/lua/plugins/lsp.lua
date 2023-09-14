@@ -67,7 +67,7 @@ function M.config()
     ensure_installed = {
       "bashls",
       "cssls",
-      "eslint",
+      "eslint_d",
       "graphql",
       "html",
       "jsonls",

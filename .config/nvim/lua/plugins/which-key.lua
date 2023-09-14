@@ -50,6 +50,10 @@ function _M.config()
         "<cmd>Telescope lsp_document_diagnostics<cr>",
         "Document Diagnostics",
       },
+      f = {
+        "<cmd>lua require('conform').format()<cr>",
+        "Format",
+      },
       w = {
         "<cmd>Telescope lsp_workspace_diagnostics<cr>",
         "Workspace Diagnostics",
