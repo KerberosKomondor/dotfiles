@@ -2,7 +2,16 @@ local _M = {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   dependencies = {
-    "windwp/nvim-ts-autotag",
+    {
+      'windwp/nvim-autopairs',
+      event = "InsertEnter",
+      opts = {}
+    },
+    {
+      'windwp/nvim-ts-autotag',
+      event = "InsertEnter",
+      opts = {}
+    },
   },
 }
 
@@ -11,8 +20,6 @@ function _M.config()
   if not ok then
     return
   end
-
-  require("nvim-ts-autotag").setup()
 
   treesitter.setup({
     ensure_installed = {

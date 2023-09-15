@@ -20,9 +20,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap("n", "<leader>ci", vim.lsp.buf.incoming_calls, opts)
     keymap("n", "<leader>co", vim.lsp.buf.outgoing_calls, opts)
 
-    -- utilities
-    keymap("n", "<leader>lf", vim.lsp.buf.format, opts)
-
     -- workspaces
     keymap("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
     keymap("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)

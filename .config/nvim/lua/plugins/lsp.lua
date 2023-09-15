@@ -34,7 +34,6 @@ local M = {
 
     -- Display
     { "onsails/lspkind.nvim" },
-    { "glepnir/lspsaga.nvim" },
     {
       "kevinhwang91/nvim-ufo",
       dependencies = "kevinhwang91/promise-async",
@@ -67,7 +66,7 @@ function M.config()
     ensure_installed = {
       "bashls",
       "cssls",
-      "eslint_d",
+      "eslint",
       "graphql",
       "html",
       "jsonls",
@@ -160,8 +159,6 @@ function M.config()
     ---@diagnostic disable-next-line: assign-type-mismatch
     close_fold_kinds = { "imports", "comment" },
   })
-
-  -- require("lspsaga").setup({})
 end
 
 return M
