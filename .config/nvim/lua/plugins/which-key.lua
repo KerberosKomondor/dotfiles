@@ -51,7 +51,7 @@ function _M.config()
         "Document Diagnostics",
       },
       f = {
-        "<cmd>lua require('conform').format()<cr>",
+        "<cmd>lua vim.lsp.buf.format()<cr>",
         "Format",
       },
       w = {

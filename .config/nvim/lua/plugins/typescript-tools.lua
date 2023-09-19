@@ -38,6 +38,8 @@ function M.config()
   require("typescript-tools").setup({
     -- figure out why this double errors on client and singles on _client
     on_attach = function(client, bufnr)
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
       require("lsp-inlayhints").on_attach(client, bufnr)
     end,
     handlers = handlers,
