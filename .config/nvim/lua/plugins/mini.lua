@@ -12,8 +12,6 @@ return {
 		-- may need to run 'git config --system core.longpaths true' on windows
 		require("mini.align").setup()
 
-		require("mini.animate").setup()
-
 		require("mini.basics").setup()
 
 		require("mini.bracketed").setup()
