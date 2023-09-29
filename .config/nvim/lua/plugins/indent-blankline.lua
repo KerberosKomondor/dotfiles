@@ -1,32 +1,38 @@
-local M = {
+return {
   "lukas-reineke/indent-blankline.nvim",
+  main = 'ibl',
+  opts = {},
+  config = function()
+    local highlight = {
+      "RainbowRed",
+      "RainbowYellow",
+      "RainbowBlue",
+      "RainbowOrange",
+      "RainbowGreen",
+      "RainbowViolet",
+      "RainbowCyan",
+    }
+
+    local hooks = require "ibl.hooks"
+    local colors = require("dracula").colors()
+
+    hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+      -- vim.api.nvim_set_hl(0, "RainbowRed", { fg = colors.red })
+      -- vim.api.nvim_set_hl(0, "RainbowYellow", { fg = colors.yellow })
+      -- vim.api.nvim_set_hl(0, "RainbowBlue", { fg = colors.blue })
+      -- vim.api.nvim_set_hl(0, "RainbowOrange", { fg = colors.orange })
+      -- vim.api.nvim_set_hl(0, "RainbowGreen", { fg = colors.green })
+      -- vim.api.nvim_set_hl(0, "RainbowViolet", { fg = colors.purple })
+      -- vim.api.nvim_set_hl(0, "RainbowCyan", { fg = colors.cyan })
+
+      vim.api.nvim_set_hl(0, "RainbowRed", { fg = colors.pink })
+      vim.api.nvim_set_hl(0, "RainbowYellow", { fg = colors.purple })
+      vim.api.nvim_set_hl(0, "RainbowBlue", { fg = colors.cyan })
+      vim.api.nvim_set_hl(0, "RainbowOrange", { fg = colors.green })
+      vim.api.nvim_set_hl(0, "RainbowGreen", { fg = colors.yellow })
+      vim.api.nvim_set_hl(0, "RainbowViolet", { fg = colors.orange })
+      vim.api.nvim_set_hl(0, "RainbowCyan", { fg = colors.red })
+    end)
+    require 'ibl'.setup { indent = { highlight = highlight } }
+  end,
 }
-
-function M.config()
-  local colors = require("dracula").colors()
-
-  vim.cmd("highlight IndentBlanklineIndent1 guifg=" .. colors.purple .. " gui=nocombine")
-  vim.cmd("highlight IndentBlanklineIndent2 guifg=" .. colors.cyan .. " gui=nocombine")
-  vim.cmd("highlight IndentBlanklineIndent3 guifg=" .. colors.yellow .. " gui=nocombine")
-  vim.cmd("highlight IndentBlanklineIndent4 guifg=" .. colors.pink .. " gui=nocombine")
-  vim.cmd("highlight IndentBlanklineIndent5 guifg=" .. colors.orange .. " gui=nocombine")
-  vim.cmd("highlight IndentBlanklineIndent6 guifg=" .. colors.red .. " gui=nocombine")
-
-  vim.opt.list = true
-  vim.opt.listchars:append("space:⋅")
-  vim.opt.listchars:append("eol:↴")
-
-  require("indent_blankline").setup({
-    space_char_blankline = " ",
-    char_highlight_list = {
-      "IndentBlanklineIndent1",
-      "IndentBlanklineIndent2",
-      "IndentBlanklineIndent3",
-      "IndentBlanklineIndent4",
-      "IndentBlanklineIndent5",
-      "IndentBlanklineIndent6",
-    },
-  })
-end
-
-return M
