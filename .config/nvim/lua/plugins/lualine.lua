@@ -12,12 +12,17 @@ function M.config()
         {
           require("lazy.status").updates,
           cond = require("lazy.status").has_updates,
-
           color = { fg = colors.purple },
         },
         {
           require("action-hints").statusline,
         },
+        {
+          function()
+            return require("package-info").get_status()
+          end,
+          color = { fg = colors.purple },
+        }
       },
     },
   })
