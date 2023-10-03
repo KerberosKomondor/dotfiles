@@ -6,3 +6,4 @@ paru -S google-chrome tmuxinator noto-fonts-emoji-git nerd-fonts-meta remmina-pl
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 
+systemctl --user enable <services in .config/systemctl/user>
