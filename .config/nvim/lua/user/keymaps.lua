@@ -1,11 +1,13 @@
-local opts = { noremap = true, silent = true }
+local getOpts = function(desc)
+  return { noremap = true, silent = true }
+end
 
 -- Shorten function name
 local keymap = vim.keymap.set
 
 -- Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
-keymap("", "<C-Space>", "<Nop>", opts)
+keymap("", "<Space>", "<Nop>", getOpts(''))
+keymap("", "<C-Space>", "<Nop>", getOpts(''))
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -19,36 +21,36 @@ vim.g.maplocalleader = " "
 
 -- Normal --
 -- Close buffer
-keymap("n", "C", "<cmd>bdelete<cr>", opts)
+keymap("n", "C", "<cmd>bdelete<cr>", getOpts('close buffer'))
 
 -- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+keymap("n", "<C-h>", "<C-w>h", getOpts('move left'))
+keymap("n", "<C-j>", "<C-w>j", getOpts('move down'))
+keymap("n", "<C-k>", "<C-w>k", getOpts('move up'))
+keymap("n", "<C-l>", "<C-w>l", getOpts('move right'))
 
 -- Resize with arrows
-keymap("n", "<C-Up>", ":resize -2<CR>", opts)
-keymap("n", "<C-Down>", ":resize +2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+keymap("n", "<C-Up>", ":resize -2<CR>", getOpts('resize -2'))
+keymap("n", "<C-Down>", ":resize +2<CR>", getOpts('resize +2'))
+keymap("n", "<C-Left>", ":vertical resize -2<CR>", getOpts('vertical resize -2'))
+keymap("n", "<C-Right>", ":vertical resize +2<CR>", getOpts('vertical resize +2'))
 
 -- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts)
-keymap("n", "<S-h>", ":bprevious<CR>", opts)
+keymap("n", "<S-l>", ":bnext<CR>", getOpts('next buffer'))
+keymap("n", "<S-h>", ":bprevious<CR>", getOpts('previous buffer'))
 
 -- Move text up and down
-keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
-keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
+keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", getOpts('move text up'))
+keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", getOpts('move text down'))
 
 -- Visual --
 -- Stay in indent mode
-keymap("v", "<", "<gv", opts)
-keymap("v", ">", ">gv", opts)
+keymap("v", "<", "<gv", getOpts('indent left'))
+keymap("v", ">", ">gv", getOpts('indent right'))
 
 -- Move text up and down
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
+keymap("v", "<A-j>", ":m .+1<CR>==", getOpts('move text up'))
+keymap("v", "<A-k>", ":m .-2<CR>==", getOpts('move text down'))
 
 -- Terminal --
 -- Better terminal navigation

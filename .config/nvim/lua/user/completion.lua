@@ -32,6 +32,7 @@ local config = {
         path = "[path]",
         jira = "[jira]",
         npm = "[NPM]",
+
       },
     },
   },
@@ -60,7 +61,15 @@ local config = {
     { name = 'buffer', keyword_length = 5 },
   }),
   mapping = cmp.mapping.preset.insert({
-    ['<C-y>'] = cmp.mapping.confirm({ select = false }),
+    ['<C-y>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.complete({ select = false })
+      elseif require'copilot.suggestion'.is_visible() then
+        require'copilot.suggestion'.accept()
+      else
+        fallback()
+      end
+    end),
     ['<C-e>'] = cmp.mapping(function()
       if cmp.visible() then
         cmp.abort()
