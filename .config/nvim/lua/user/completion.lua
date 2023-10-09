@@ -63,13 +63,13 @@ local config = {
   mapping = cmp.mapping.preset.insert({
     ['<C-y>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.complete({ select = false })
-      elseif require'copilot.suggestion'.is_visible() then
-        require'copilot.suggestion'.accept()
+        cmp.confirm({ select = false })
+      elseif require 'copilot.suggestion'.is_visible() then
+        require 'copilot.suggestion'.accept()
       else
         fallback()
       end
-    end),
+    end, { "i", "s" }),
     ['<C-e>'] = cmp.mapping(function()
       if cmp.visible() then
         cmp.abort()

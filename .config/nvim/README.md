@@ -10,7 +10,7 @@ sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy stylua
 ### AUR requirements
 
 ```
-paru -S nvm python-pynvim-git ruby-neovim
+paru -S nvm python-pynvim-git ruby-neovim jira-cli-bin
 ```
 
 ### NPM requirements
