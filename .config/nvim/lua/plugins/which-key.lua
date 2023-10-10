@@ -26,7 +26,8 @@ function _M.config()
     F = { "<cmd>Telescope live_grep<cr>", "Find File by Word" },
     g = {
       name = "Git",
-      g = { "<cmd>!git pull<CR>", "Pull" },
+      c = { "<cmd>Git commit<cr>", "Commit" },
+      g = { "<cmd>Git pull<CR>", "Pull" },
       l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
       R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
       C = { "<cmd>!git close-branch<cr>", "Close branch" },
@@ -42,7 +43,7 @@ function _M.config()
       },
       p = { "<cmd>!git publish<cr>", "Publish" },
       P = { "<cmd>!git create-pull-request<cr>", "Pull Request" },
-      u = { "<cmd>!git push<cr>", "Push" },
+      u = { "<cmd>Git push<cr>", "Push" },
     },
     l = {
       name = "Lsp",
