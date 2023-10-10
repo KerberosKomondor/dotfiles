@@ -26,7 +26,7 @@ function _M.config()
     F = { "<cmd>Telescope live_grep<cr>", "Find File by Word" },
     g = {
       name = "Git",
-      c = { "<cmd>Git commit<cr>", "Commit" },
+      c = { "<cmd>Git commit -a<cr>", "Commit" },
       g = { "<cmd>Git pull<CR>", "Pull" },
       l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
       R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
