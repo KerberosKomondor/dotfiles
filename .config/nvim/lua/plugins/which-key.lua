@@ -30,7 +30,7 @@ function _M.config()
       g = { "<cmd>Git pull<CR>", "Pull" },
       l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
       R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
-      C = { "<cmd>!git close-branch<cr>", "Close branch" },
+      C = { "<cmd>Git close-branch<cr>", "Close branch" },
       v = {
         name = "Diffview",
         o = { "<cmd>DiffviewOpen<cr>", "Open" },
@@ -41,8 +41,9 @@ function _M.config()
         r = { "<cmd>DiffviewRefresh<cr>", "Refresh" },
         t = { "<cmd>DiffviewToggleFiles<cr>", "Toggle Files" },
       },
-      p = { "<cmd>!git publish<cr>", "Publish" },
-      P = { "<cmd>!git create-pull-request<cr>", "Pull Request" },
+      p = { "<cmd>Git publish<cr>", "Publish" },
+      P = { "<cmd>Git create-pull-request<cr>", "Pull Request" },
+      s = { "<cmd>Git status<cr>", "Status" },
       u = { "<cmd>Git push<cr>", "Push" },
     },
     l = {
