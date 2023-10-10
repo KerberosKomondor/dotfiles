@@ -154,6 +154,8 @@ bindsym $execMod+b exec firefox
 bindsym $execMod+Shift+x exec flameshot gui
 bindsym $execMod+Shift+w exec ~/xfreerdp
 
+for_window [class="(?i)firefox"] border pixel 0
+
 #: Autostart
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -179,7 +181,7 @@ exec --no-startup-id nm-applet
 
 #exec_always --no-startup-id $HOME/.config/polybar/scripts/launch.sh
 # exec --no-startup-id polybar mainbar-poly
-exec_always --no-startup-id polybar
+exec --no-startup-id polybar
 
 exec --no-startup-id blueberry-tray
 
