@@ -26,7 +26,7 @@ function _M.config()
     F = { "<cmd>Telescope live_grep<cr>", "Find File by Word" },
     g = {
       name = "Git",
-      c = { "<cmd>Git commit -a<cr>", "Commit" },
+      c = { "<cmd>Git add -A | Git commit<cr>", "Commit" },
       g = { "<cmd>Git pull<CR>", "Pull" },
       l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
       R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
@@ -69,6 +69,15 @@ function _M.config()
         "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
         "Workspace Symbols",
       },
+      t = {
+        name = "Typescript",
+        a = { "<cmd>TSToolsAddMissingImports<cr>", "Add Missing Imports" },
+        f = { "<cmd>TSToolsFixAll<cr>", "Fix All" },
+        g = { "<cmd>TSToolsGoToSourceDefinition<cr>", "Go to Source Definition" },
+        o = { "<cmd>TSToolsOrganizeImports<cr>", "Organize Imports" },
+        r = { "<cmd>TSToolsRenameFile<cr>", "Rename File" },
+        u = { "<cmd>TSToolsRemoveUnused<cr>", "Remove Unused" },
+      }
     },
     t = {
       e = {

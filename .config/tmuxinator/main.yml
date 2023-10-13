@@ -45,9 +45,14 @@ root: ~/
 # attach: false
 
 windows:
-  - mail:
+  - jira:
       panes:
-        - ~/res/start_neomutt.sh
+        - jira issue list -a$(jira me) -s~done
+  - code: zsh
+  - runtime: zsh
+  - terminal: zsh
+  - terminal: zsh
+  - terminal: zsh
   - music:
       panes:
         - cmus
@@ -59,7 +64,3 @@ windows:
       panes:
         - ~/code/mop/mop
         - tickrs
-  - jira:
-      panes:
-        - jira issue list -a$(jira me) -s~done
-  - terminal: zsh

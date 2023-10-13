@@ -15,9 +15,6 @@ function M.config()
           color = { fg = colors.purple },
         },
         {
-          require("action-hints").statusline,
-        },
-        {
           function()
             return require("package-info").get_status()
           end,
