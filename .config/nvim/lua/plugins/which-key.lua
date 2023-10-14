@@ -53,7 +53,7 @@ function _M.config()
         "Document Diagnostics",
       },
       f = {
-        "<cmd>lua vim.lsp.buf.format()<cr>",
+        "<cmd>lua vim.lsp.buf.format({timeout_ms=2000})<cr>",
         "Format",
       },
       w = {
