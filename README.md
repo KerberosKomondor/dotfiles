@@ -1,6 +1,6 @@
 
 pacman -S doas firefox git nvim alsa-utils bluez bluez-utils blueberry xfce4-settings flameshot nitrogen rofi \
-    volumeicon udiskie tickrs
+    volumeicon udiskie tickrs fatsort
 
 paru -S google-chrome tmuxinator noto-fonts-emoji-git nerd-fonts-meta remmina-plugin-rdesktop freerdp \ 
     tmux-plugin-manager
