@@ -180,10 +180,13 @@ exec --no-startup-id nm-applet
 #bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 exec_always --no-startup-id $HOME/.config/polybar/scripts/launch.sh
-# exec --no-startup-id polybar mainbar-poly
-#exec --no-startup-id polybar 
 
+exec --no-startup-id solaar
+exec --no-startup-id synergy 
 exec --no-startup-id blueberry-tray
+exec --no-startup-id flameshot
+exec --no-startup-id pasystray
+exec --no-startup-id udiskie
 
 exec_always --no-startup-id nitrogen --restore
 
