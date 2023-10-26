@@ -3,9 +3,11 @@
 symbols:
   - GME
   - SPY
-  - AMC
-  - BBBY
   - SPXS
+  - C
+  - GS
+  - MS
+  - BAC
 
 # Chart type to start app with
 # Default is line

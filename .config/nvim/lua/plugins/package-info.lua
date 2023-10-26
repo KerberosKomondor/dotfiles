@@ -10,39 +10,58 @@ function M.config()
   })
 
   -- Show dependency versions
-  vim.keymap.set(
-    { "n" }, "<LEADER>ns", require("package-info").show, { silent = true, noremap = true, desc = "show" }
+  vim.api.nvim_set_keymap(
+    "n",
+    "<LEADER>ns",
+    "<cmd>lua require('package-info').show({force = true})<cr>",
+    { silent = true, noremap = true, desc = "show" }
   )
 
   -- Hide dependency versions
-  vim.keymap.set(
-    { "n" }, "<LEADER>nc", require("package-info").hide, { silent = true, noremap = true, desc = "hide" }
+  vim.api.nvim_set_keymap(
+    "n",
+    "<LEADER>nc",
+    "<cmd>lua require('package-info').hide()<cr>",
+    { silent = true, noremap = true, desc = "hide" }
   )
 
   -- Toggle dependency versions
-  vim.keymap.set(
-    { "n" }, "<LEADER>nt", require("package-info").toggle, { silent = true, noremap = true, desc = "toggle" }
+  vim.api.nvim_set_keymap(
+    "n",
+    '<LEADER>nt',
+    "<cmd>lua require('package-info').toggle()<cr>",
+    { silent = true, noremap = true, desc = 'toggle' }
   )
 
   -- Update dependency on the line
-  vim.keymap.set(
-    { "n" }, "<LEADER>nu", require("package-info").update, { silent = true, noremap = true, desc = "update" }
+  vim.api.nvim_set_keymap(
+    'n',
+    '<LEADER>nu',
+    "<cmd>lua require('package-info').update()<cr>",
+    { silent = true, noremap = true, desc = 'update' }
   )
 
   -- Delete dependency on the line
-  vim.keymap.set(
-    { "n" }, "<LEADER>nd", require("package-info").delete, { silent = true, noremap = true, desc = "delete" }
+  vim.api.nvim_set_keymap(
+    'n',
+    '<LEADER>nd',
+    "<cmd>lua require('package-info').delete()<cr>",
+    { silent = true, noremap = true, desc = 'delete' }
   )
 
   -- Install a new dependency
-  vim.keymap.set(
-    { "n" }, "<LEADER>ni", require("package-info").install, { silent = true, noremap = true, desc = "install" }
+  vim.api.nvim_set_keymap(
+    'n',
+    '<LEADER>ni',
+    "<cmd>lua require('package-info').install()<cr>",
+    { silent = true, noremap = true, desc = 'install' }
   )
 
   -- Install a different dependency version
-  vim.keymap.set(
-    { "n" }, "<LEADER>np", require("package-info").change_version,
-    { silent = true, noremap = true, desc = "change version" }
+  vim.api.nvim_set_keymap(
+    'n',
+    '<LEADER>np', "<cmd>lua require('package-info').change_version()<cr>",
+    { silent = true, noremap = true, desc = 'change version' }
   )
 
   require("telescope").setup({

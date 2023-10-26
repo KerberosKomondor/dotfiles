@@ -1,3 +1,4 @@
+---@diagnostic disable-next-line: unused-local, unused-function
 local is_public_project = function()
   local current_dir = vim.fn.getcwd()
   local home_dir = os.getenv("HOME") or os.getenv("USERPROFILE")
@@ -10,39 +11,25 @@ local is_public_project = function()
     return true
   end
 end
+
 return {
   "zbirenbaum/copilot.lua",
   cmd = "Copilot",
   event = "InsertEnter",
+  dependencies = {
+    'zbirenbaum/copilot-cmp',
+    after = { "copilot.lua" },
+  },
   config = function()
     require("copilot").setup({
       panel = {
-        enabled = true,
-        auto_refresh = true,
+        enabled = false,
       },
       suggestion = {
-        enabled = true,
-        auto_trigger = true,
-        accept = false, -- disable built-in keymapping
+        enabled = false,
       },
     })
 
-    -- hide copilot suggestions when cmp menu is open
-    -- to prevent odd behavior/garbled up suggestions
-    local cmp_status_ok, cmp = pcall(require, "cmp")
-    if cmp_status_ok then
-      cmp.event:on("menu_opened", function()
-        vim.b.copilot_suggestion_hidden = true
-      end)
-
-      cmp.event:on("menu_closed", function()
-        vim.b.copilot_suggestion_hidden = false
-      end)
-    end
-
-    -- disable copilot if we are in a private project
-    if not is_public_project() then
-      vim.cmd("Copilot disable")
-    end
+    require('copilot_cmp').setup()
   end,
 }
