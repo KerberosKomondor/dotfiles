@@ -16,6 +16,7 @@ local _M = {
     "petertriho/nvim-scrollbar",
     "karb94/neoscroll.nvim",
     "m4xshen/smartcolumn.nvim",
+    "j-hui/fidget.nvim",
   },
 }
 
@@ -53,6 +54,8 @@ function _M.config()
       lsp_doc_border = false,    -- add a border to hover docs and signature help
     },
   })
+
+  require("fidget").setup()
 
   vim.cmd([[highlight clear]])
   vim.cmd([[colorscheme dracula]])
