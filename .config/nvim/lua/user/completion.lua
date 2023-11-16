@@ -43,7 +43,6 @@ local config = {
   },
   sources = require('cmp').config.sources({
     { name = 'npm',    keyword_length = 3 },
-    { name = 'copilot' },
     {
       name = 'nvim_lsp',
       entry_filter = function(entry)
@@ -51,6 +50,7 @@ local config = {
       end
     },
     { name = 'nvim_lua' },
+    { name = 'copilot' },
     { name = 'jira' },
   }, {
     { name = 'luasnip', keyword_length = 1 },

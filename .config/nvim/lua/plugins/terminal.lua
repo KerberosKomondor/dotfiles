@@ -1,10 +1,5 @@
-local _M = {
-  name = 'terminal',
+return {
   'akinsho/toggleterm.nvim',
+  opts = {
+  },
 }
-
-function _M.config()
-  require "toggleterm".setup()
-end
-
-return _M

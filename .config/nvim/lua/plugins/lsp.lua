@@ -133,7 +133,14 @@ function M.config()
     settings = require("servers.lua_ls").settings,
   })
 
-  for _, server in ipairs({ "bashls", "graphql", "html" }) do -- "emmet_ls"
+  lspconfig.emmet_language_server.setup({
+    capabilities = capabilities,
+    handlers = handlers,
+    on_attach = on_attach,
+    settings = require("servers.emmet").settings,
+  })
+
+  for _, server in ipairs({ "bashls", "graphql", "html" }) do
     lspconfig[server].setup({
       on_attach = on_attach,
       capabilities = capabilities,
