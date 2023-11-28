@@ -12,6 +12,9 @@ local _M = {
       event = "InsertEnter",
       opts = {}
     },
+    {
+      "nvim-treesitter/nvim-treesitter-context",
+    },
   },
 }
 
@@ -52,6 +55,12 @@ function _M.config()
       enable_close_on_slash = false,
     },
   })
+
+  require 'treesitter-context'.setup {
+    enable = true,
+  }
+
+
 end
 
 return _M

@@ -1,5 +1,5 @@
 local getOpts = function(desc)
-  return { noremap = true, silent = true }
+  return { noremap = true, silent = true, desc = desc }
 end
 
 -- Shorten function name
@@ -26,8 +26,8 @@ keymap("n", "C", "<cmd>bdelete<cr>", getOpts('close buffer'))
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", getOpts('move left'))
 keymap("n", "<C-j>", "<C-w>j", getOpts('move down'))
-keymap("n", "<C-k>", "<C-w>k", getOpts('move up'))
 keymap("n", "<C-l>", "<C-w>l", getOpts('move right'))
+keymap("n", "<C-k>", "<C-w>k", getOpts('move up'))
 
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize -2<CR>", getOpts('resize -2'))

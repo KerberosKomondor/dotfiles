@@ -21,15 +21,15 @@ return {
     after = { "copilot.lua" },
   },
   config = function()
-    require("copilot").setup({
-      panel = {
-        enabled = false,
-      },
-      suggestion = {
-        enabled = false,
-      },
-    })
-
-    require('copilot_cmp').setup()
+    -- require("copilot").setup({
+    --   panel = {
+    --     enabled = false,
+    --   },
+    --   suggestion = {
+    --     enabled = false,
+    --   },
+    -- })
+    --
+    -- require('copilot_cmp').setup()
   end,
 }
