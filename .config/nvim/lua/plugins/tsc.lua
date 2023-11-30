@@ -11,6 +11,14 @@ return {
       flags = {
         watch = true,
       },
+      formatters = {
+        filename = function(filename)
+          return vim.fn.pathshorten(filename)
+        end,
+        text = function(text)
+          return string.gsub(text, 'error TS', 'TS')
+        end,
+      }
     })
   end,
 }

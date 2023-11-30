@@ -11,3 +11,5 @@ systemctl --user enable <services in .config/systemctl/user>
 
 https://github.com/tmux-plugins/tpm
 https://github.com/mop-tracker/mop
+
+fix capslock https://www.ejmastnak.com/tutorials/arch/caps2esc/
