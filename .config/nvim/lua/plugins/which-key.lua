@@ -18,7 +18,7 @@ function _M.config()
   end
 
   local normalMappings = {
-    b = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
+    b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Find Buffer" },
     -- open in current buffer's directory
     e = { "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>", "File Browser" },
     E = { "<cmd>DiffviewOpen<cr>", "Diffget" },
