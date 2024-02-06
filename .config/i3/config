@@ -59,11 +59,13 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+Right move right
 bindsym $mod+Shift+l move right
 
+# https://faq.i3wm.org/question/75/how-do-i-change-the-orientation-of-an-existing-container.1.html
+# Use mod + shift + j|k|l|; to switch the orientation dynamically once you have a split.
 # split in horizontal orientation
-bindsym $mod+backslash splith
+bindsym $mod+backslash layout splith
 
 # split in vertical orientation
-bindsym $mod+minus splitv
+bindsym $mod+minus layout splitv
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle

@@ -21,7 +21,7 @@ function _M.config()
     b = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
     -- open in current buffer's directory
     e = { "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>", "File Browser" },
-    E = { "<cmd>SidebarNvimToggle<cr>", "Sidebar" },
+    E = { "<cmd>DiffviewOpen<cr>", "Diffget" },
     f = { "<cmd>Telescope find_files<cr>", "Find File" },
     F = { "<cmd>Telescope live_grep<cr>", "Find File by Word" },
     g = {
@@ -30,9 +30,9 @@ function _M.config()
       R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
       c = { "<cmd>Git add -A | Git commit<cr>", "Commit" },
       d = { "<cmd>Git diff<cr>", "Diff" },
-      g = { "<cmd>Git pull<CR>", "Pull" },
-      l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
-      p = { "<cmd>Git publish<cr>", "Publish" },
+        g = { "<cmd>Git pull<CR>", "Pull" },
+        l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+        p = { "<cmd>Git publish<cr>", "Publish" },
       P = { "<cmd>Git create-pull-request<cr>", "Pull Request" },
       s = { "<cmd>Git status<cr>", "Status" },
       u = { "<cmd>Git push<cr>", "Push" },
