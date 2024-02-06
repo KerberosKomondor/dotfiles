@@ -28,7 +28,7 @@ function _M.config()
 				i = {
 					["<esc>"] = actions.close, -- single esc to close
 					["<C-u>"] = false, -- clear input
-					["<C-p>"] = action_layout.toggle_preview, -- toggle preview screen
+					["<M-p>"] = action_layout.toggle_preview, -- toggle preview screen
 				},
 			},
 			path_display = {
@@ -39,6 +39,17 @@ function _M.config()
 			find_files = {
 				hidden = true,
 			},
+      buffers = {
+        show_all_buffers = true,
+        sort_lastused = true,
+        theme = "dropdown",
+        previewer = false,
+        mappings = {
+          i = {
+            ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
+          }
+        }
+      }
 		},
 		extensions = {
 			fzf = {
