@@ -1,5 +1,5 @@
 return {
-  "rcarriga/nvim-notify",
+  "ls-devs/nvim-notify",
   config = function()
     local colors = require("dracula").colors()
 
