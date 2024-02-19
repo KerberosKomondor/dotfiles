@@ -1,4 +1,11 @@
-local _M = {
+local function filenameFirst(_, path)
+  local tail = vim.fs.basename(path)
+  local parent = vim.fs.dirname(path)
+  if parent == "." then return tail end
+  return string.format("%s\t\t%s", tail, parent)
+end
+
+return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
@@ -9,65 +16,80 @@ local _M = {
     },
     "rcarriga/nvim-notify",
   },
-}
+  config = function()
+    local telescope = require("telescope")
+    local actions = require("telescope.actions")
+    local action_layout = require("telescope.actions.layout")
 
-function _M.config()
-  local ok, telescope = pcall(require, "telescope")
-  if not ok then
-    return
-  end
+    local hasNotify = pcall(require, "notify")
 
-  local actions = require("telescope.actions")
-  local action_layout = require("telescope.actions.layout")
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "TelescopeResults",
+      callback = function(ctx)
+        vim.api.nvim_buf_call(ctx.buf, function()
+          vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+          vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+        end)
+      end,
+    })
 
-  local hasNotify = pcall(require, "notify")
-
-  telescope.setup({
-    defaults = {
-      mappings = {
-        i = {
-          ["<esc>"] = actions.close,           -- single esc to close
-          ["<C-u>"] = false,                   -- clear input
-          ["<M-p>"] = action_layout.toggle_preview, -- toggle preview screen
-        },
-      },
-      path_display = {
-        "smart",
-      },
-    },
-    pickers = {
-      find_files = {
-        hidden = true,
-      },
-      buffers = {
-        show_all_buffers = true,
-        sort_lastused = true,
-        theme = "dropdown",
-        previewer = false,
+    telescope.setup({
+      defaults = {
         mappings = {
           i = {
-            ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
+            ["<esc>"] = actions.close,                -- single esc to close
+            ["<C-u>"] = false,                        -- clear input
+            ["<M-p>"] = action_layout.toggle_preview, -- toggle preview screen
           },
-          n = {
-            ["d"] = actions.delete_buffer + actions.move_to_top,
-          }
-
-        }
-      }
-    },
-    extensions = {
-      fzf = {
-        fuzzy = true,
-        case_mode = "smart_case",
+        },
+        prompt_prefix = " ",
+        selection_caret = " ",
+        path_display = { "smart" },
+        dynamic_preview_title = true,
+        winblend = 10,
+        sorting_strategy = "ascending",
+        layout_strategy = "vertical",
+        layout_config = {
+          prompt_position = "bottom",
+          height = 0.95,
+        },
       },
-    },
-  })
+      pickers = {
+        find_files = {
+          hidden = true,
+          path_display = filenameFirst,
+        },
+        git_status = {
+          path_display = filenameFirst,
+        },
+        buffers = {
+          show_all_buffers = true,
+          sort_lastused = true,
+          theme = "dropdown",
+          previewer = false,
+          mappings = {
+            i = {
+              ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
+            },
+            n = {
+              ["d"] = actions.delete_buffer + actions.move_to_top,
+            }
 
-  telescope.load_extension("fzf")
+          }
+        }
+      },
+      extensions = {
+        fzf = {
+          fuzzy = true,
+          case_mode = "smart_case",
+        },
+      },
+    })
 
-  if hasNotify then
-    telescope.load_extension("notify")
-  end
-end
+    telescope.load_extension("fzf")
 
-return _M
+    if hasNotify then
+      telescope.load_extension("notify")
+    end
+  end,
+}
