@@ -47,7 +47,7 @@ return {
         path_display = { "smart" },
         dynamic_preview_title = true,
         winblend = 10,
-        sorting_strategy = "ascending",
+        sorting_strategy = "descending",
         layout_strategy = "vertical",
         layout_config = {
           prompt_position = "bottom",
