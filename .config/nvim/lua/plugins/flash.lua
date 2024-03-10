@@ -1,4 +1,4 @@
-local M = {
+return {
 	"folke/flash.nvim",
 	event = "VeryLazy",
 	---@type Flash.Config
@@ -14,7 +14,3 @@ local M = {
 		},
 	},
 }
-
-function M.config() end
-
-return M

@@ -1,9 +1,4 @@
-local M = {
+return {
 	"ivanjermakov/troublesum.nvim",
+	opts = {},
 }
-
-function M.config()
-	require("troublesum").setup()
-end
-
-return M
