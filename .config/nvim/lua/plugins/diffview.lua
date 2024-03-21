@@ -1,9 +1,4 @@
-local M = {
-  "sindrets/diffview.nvim",
+return {
+	"sindrets/diffview.nvim",
+	opts = {},
 }
-
-function M.config()
-  require("diffview").setup()
-end
-
-return M

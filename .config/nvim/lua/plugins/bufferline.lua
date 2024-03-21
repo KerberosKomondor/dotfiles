@@ -1,11 +1,6 @@
-local _M = {
-  'romgrk/barbar.nvim',
+return {
+	"romgrk/barbar.nvim",
+	opts = {
+		clickable = true,
+	},
 }
-
-function _M.config()
-  require 'bufferline'.setup({
-    clickable = true,
-  })
-end
-
-return _M

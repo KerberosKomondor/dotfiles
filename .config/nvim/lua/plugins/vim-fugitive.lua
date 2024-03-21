@@ -1,7 +1,3 @@
-local M = {
+return {
 	"tpope/vim-fugitive",
 }
-
-function M.config() end
-
-return M
