@@ -69,6 +69,7 @@ return {
 				"html",
 				"jsonls",
 				"lua_ls",
+				"yamlls",
 			},
 			automatic_installation = true,
 		})
@@ -108,6 +109,13 @@ return {
 			handlers = handlers,
 			on_attach = require("servers.cssls").on_attach,
 			settings = require("servers.cssls").settings,
+		})
+
+		lspconfig.yamlls.setup({
+			capabilities = capabilities,
+			handlers = handlers,
+			on_attach = require("servers.yamlls").on_attach,
+			settings = require("servers.yamlls").settings,
 		})
 
 		lspconfig.eslint.setup({
@@ -162,7 +170,7 @@ return {
 			},
 			fold_virt_text_handler = ufo_config_handler,
 			---@diagnostic disable-next-line: assign-type-mismatch
-			close_fold_kinds = { "imports", "comment" },
+			close_fold_kinds_for_ft = { default = { "imports", "comment" } },
 		})
 	end,
 }
