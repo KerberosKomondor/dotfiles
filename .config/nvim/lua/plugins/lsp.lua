@@ -38,10 +38,6 @@ return {
 			"kevinhwang91/nvim-ufo",
 			dependencies = "kevinhwang91/promise-async",
 		},
-		{
-			"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-			opts = {},
-		},
 	},
 	config = function()
 		-- needs setup before lspconfig
@@ -79,8 +75,6 @@ return {
 		})
 
 		local lspconfig = require("lspconfig")
-
-		vim.diagnostic.config({ virtual_text = settings.show_diagnostic_virtual_text })
 
 		local handlers = {
 			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
