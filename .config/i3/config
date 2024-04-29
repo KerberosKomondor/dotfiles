@@ -163,6 +163,8 @@ bindsym $execMod+x exec flameshot gui
 bindsym $execMod+w exec ~/xfreerdp
 assign [class="xfreerdp"] $ws4
 
+bindsym $mod+shift+l exec betterlockscreen -l dim --display 1 --off 900
+
 bindsym $execMod+t exec dex ~/.local/share/applications/teams.desktop 
 #assign [class="Google-chrome"] $ws3
 
