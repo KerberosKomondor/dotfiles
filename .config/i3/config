@@ -16,6 +16,7 @@ set $execMod Mod4
 set $term wezterm
 set $browser firefox
 set $browserClass "(?i)firefox"
+set $lockCommand "betterlockscreen -l dim --display 1 --off 600"
 
 font pango:FiraCode Nerd Font 13
 
@@ -143,8 +144,7 @@ mode "resize" {
         bindsym j resize grow height 5 px or 5 ppt
         bindsym Up resize shrink height 5 px or 5 ppt
         bindsym k resize shrink height 5 px or 5 ppt
-        bindsym Right resize grow width 5 px or 5 ppt
-        bindsym l resize grow width 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt bindsym l resize grow width 5 px or 5 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
@@ -163,9 +163,10 @@ bindsym $execMod+x exec flameshot gui
 bindsym $execMod+w exec ~/xfreerdp
 assign [class="xfreerdp"] $ws4
 
-bindsym $mod+shift+l exec betterlockscreen -l dim --display 1 --off 900
+bindsym $mod+Ctrl+l exec $lockCommand
 
 bindsym $execMod+t exec dex ~/.local/share/applications/teams.desktop 
+
 #assign [class="Google-chrome"] $ws3
 
 #: Autostart
@@ -178,7 +179,7 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- $lockCommand
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -199,6 +200,8 @@ exec --no-startup-id blueberry-tray
 exec --no-startup-id flameshot
 exec --no-startup-id pasystray
 exec --no-startup-id udiskie
+exec --no-startup-id xset s on
+exec --no-startup-id xset s 900
 
 exec_always --no-startup-id nitrogen --restore
 
