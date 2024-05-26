@@ -1,10 +1,10 @@
 return {
-  settings = {
-    --- @type boolean Defaults to `true`
-    showAbbreviationSuggestions = true,
-    --- @type "always" | "never" Defaults to `"always"`
-    showExpandedAbbreviation = "always",
-    --- @type boolean Defaults to `false`
-    showSuggestionsAsSnippets = false,
-  }
+	settings = {
+		--- @type boolean Defaults to `true`
+		showAbbreviationSuggestions = false,
+		--- @type "always" | "never" Defaults to `"always"`
+		showExpandedAbbreviation = "never",
+		--- @type boolean Defaults to `false`
+		showSuggestionsAsSnippets = false,
+	},
 }

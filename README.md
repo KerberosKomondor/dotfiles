@@ -1,8 +1,9 @@
-pacman -S doas firefox git nvim alsa-utils bluez bluez-utils blueberry xfce4-settings flameshot nitrogen rofi \
- volumeicon udiskie tickrs fatsort
+pacman -S doas git nvim alsa-utils bluez bluez-utils fatsort
+pacman -S firefox blueberry xfce4-settings flameshot volumeicon udiskie tickrs \
+ nitrogen rofi
 
-paru -S google-chrome tmuxinator noto-fonts-emoji-git nerd-fonts-meta remmina-plugin-rdesktop freerdp \
-tmux-plugin-manager betterlockscreen xss-lock
+paru -S tmuxinator noto-fonts-emoji-git nerd-fonts-meta tmux-plugin-manager
+paru -S google-chrome remmina-plugin-rdesktop freerdp betterlockscreen xss-lock
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 

@@ -143,3 +143,7 @@ systemctl --user import-environment PATH
 #. /etc/profile.d/wezterm.sh
 
 eval "$(starship init zsh)"
+
+#asdf
+. /opt/asdf-vm/asdf.sh
+
