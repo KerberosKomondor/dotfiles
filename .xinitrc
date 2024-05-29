@@ -35,4 +35,4 @@ fi
 setxkbmap -option ctrl:nocaps &
 xset dpms 30 45 60
 xset +dpms
-exec i3 
+exec i3
