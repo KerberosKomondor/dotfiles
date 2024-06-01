@@ -17,7 +17,9 @@ return {
 		{ "hrsh7th/cmp-path" },
 		{ "hrsh7th/cmp-nvim-lsp" },
 		{ "hrsh7th/cmp-nvim-lua" },
-		{ "David-Kunz/cmp-npm" },
+		{ "hrsh7th/cmp-cmdline" },
+		{ "whengely/cmp-npm" },
+		-- { "David-Kunz/cmp-npm", dir = "/home/appa/code/cmp-npm" },
 		{
 			"KerberosKomondor/cmp-jira.nvim",
 			--dir = '/home/appa/code/cmp-jira.nvim/',
@@ -139,12 +141,12 @@ return {
 			settings = require("servers.lua_ls").settings,
 		})
 
-		lspconfig.emmet_language_server.setup({
-			capabilities = capabilities,
-			handlers = handlers,
-			on_attach = on_attach,
-			settings = require("servers.emmet").settings,
-		})
+		-- lspconfig.emmet_language_server.setup({
+		-- 	capabilities = capabilities,
+		-- 	handlers = handlers,
+		-- 	on_attach = on_attach,
+		-- 	settings = require("servers.emmet").settings,
+		-- })
 
 		for _, server in ipairs({ "bashls", "graphql", "html" }) do
 			lspconfig[server].setup({
@@ -156,6 +158,29 @@ return {
 
 		local cmp = require("cmp")
 		cmp.setup(require("user.completion").config)
+
+		-- `/` cmdline setup.
+		cmp.setup.cmdline("/", {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = {
+				{ name = "buffer" },
+			},
+		})
+
+		-- `:` cmdline setup.
+		cmp.setup.cmdline(":", {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = cmp.config.sources({
+				{ name = "path" },
+			}, {
+				{
+					name = "cmdline",
+					option = {
+						ignore_cmds = { "Man", "!" },
+					},
+				},
+			}),
+		})
 
 		require("ufo").setup({
 			open_fold_hl_timeout = 400,

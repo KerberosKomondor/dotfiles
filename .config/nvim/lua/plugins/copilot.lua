@@ -20,7 +20,7 @@ return {
 		"zbirenbaum/copilot-cmp",
 		after = { "copilot.lua" },
 	},
-	enabled = false,
+	enabled = true,
 	config = function()
 		require("copilot").setup({
 			panel = {
@@ -32,5 +32,7 @@ return {
 		})
 
 		require("copilot_cmp").setup()
+		local colors = require("dracula").colors()
+		vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = colors.green })
 	end,
 }

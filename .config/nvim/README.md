@@ -17,7 +17,7 @@ paru -S nvm python-pynvim-git ruby-neovim jira-cli-bin
 ### NPM requirements
 
 ```
-npm i -g eslint_d @fsouza/prettierd eslint prettier @styled/typescript-styled-plugin typescript-styled-plugin
+npm i -g eslint_d @fsouza/prettierd eslint prettier @styled/typescript-styled-plugin typescript-styled-plugin neovim tree-sitter-cli
 ```
 
 ## RUN CHECKHEALTH
