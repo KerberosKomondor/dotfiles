@@ -29,7 +29,7 @@ local config = {
 	},
 	experimental = {
 		native_menu = false,
-		ghost_text = true,
+		ghost_text = false,
 	},
 	snippet = {
 		expand = function(args)
@@ -84,6 +84,7 @@ local config = {
 		{ name = "nvim_lua" },
 		{ name = "copilot" },
 		{ name = "jira" },
+		{ name = "lazydev", group_index = 0 },
 	}, {
 		{ name = "luasnip", keyword_length = 1 },
 		{ name = "path" },

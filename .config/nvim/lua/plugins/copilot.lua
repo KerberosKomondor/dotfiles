@@ -24,10 +24,14 @@ return {
 	config = function()
 		require("copilot").setup({
 			panel = {
-				enabled = false,
+				enabled = true,
+				auto_refresh = true,
 			},
 			suggestion = {
-				enabled = false,
+				enabled = true,
+				-- use the built-in keymapping for "accept" (<M-l>)
+				auto_trigger = true,
+				accept = false, -- disable built-in keymapping
 			},
 		})
 

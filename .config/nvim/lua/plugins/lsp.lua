@@ -8,7 +8,21 @@ return {
 		{ "williamboman/mason.nvim" },
 		{ "williamboman/mason-lspconfig.nvim" },
 		{ "jay-babu/mason-nvim-dap.nvim" },
-		{ "folke/neodev.nvim" },
+		{
+			"folke/lazydev.nvim",
+			ft = "lua",
+			opts = {
+				library = {
+					-- Library items can be absolute paths
+					-- "~/projects/my-awesome-lib",
+					-- Or relative, which means they will be resolved as a plugin
+					-- "LazyVim",
+					-- When relative, you can also provide a path to the library in the plugin dir
+					"luvit-meta/library", -- see below
+				},
+			},
+			{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+		},
 		"lvimuser/lsp-inlayhints.nvim",
 
 		-- Autocompletion
@@ -42,9 +56,6 @@ return {
 		},
 	},
 	config = function()
-		-- needs setup before lspconfig
-		require("neodev").setup()
-
 		-- Setup installer & lsp configs
 		local mason_ok, mason = pcall(require, "mason")
 		local mason_lsp_ok, mason_lsp = pcall(require, "mason-lspconfig")
@@ -134,19 +145,21 @@ return {
 			settings = require("servers.jsonls").settings,
 		})
 
+		local lua_conf = require("servers.lua_ls")
 		lspconfig.lua_ls.setup({
+			on_init = lua_conf.on_init,
 			capabilities = capabilities,
 			handlers = handlers,
 			on_attach = on_attach,
-			settings = require("servers.lua_ls").settings,
+			settings = lua_conf.settings,
 		})
 
-		-- lspconfig.emmet_language_server.setup({
-		-- 	capabilities = capabilities,
-		-- 	handlers = handlers,
-		-- 	on_attach = on_attach,
-		-- 	settings = require("servers.emmet").settings,
-		-- })
+		lspconfig.emmet_language_server.setup({
+			capabilities = capabilities,
+			handlers = handlers,
+			on_attach = on_attach,
+			settings = require("servers.emmet").settings,
+		})
 
 		for _, server in ipairs({ "bashls", "graphql", "html" }) do
 			lspconfig[server].setup({

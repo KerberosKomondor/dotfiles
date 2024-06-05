@@ -5,7 +5,7 @@
 ### Pacman requirements
 
 ```
-sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy stylua luacheck clang cmake
+sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy stylua luacheck clang cmake sqlite
 ```
 
 ### AUR requirements
