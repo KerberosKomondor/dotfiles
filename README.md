@@ -9,7 +9,7 @@ pacman -S doas git nvim alsa-utils bluez bluez-utils fatsort accountsservice
 ### Guis
 
 pacman -S firefox blueberry xfce4-settings flameshot volumeicon udiskie tickrs \
- nitrogen rofi polybar solaar nerd-fonts cmus lightdm dex
+ nitrogen rofi polybar solaar nerd-fonts cmus lightdm dex gamemode
 
 ## Paru
 
@@ -52,3 +52,13 @@ fix capslock https://www.ejmastnak.com/tutorials/arch/caps2esc/
 ## Teams
 
 install teams pwa through chrome then move the file to ~/.local/share/applications/teams.desktop
+
+## /etc
+
+### Use more cores
+
+MAKEFLAGS="-j $(nproc)" in /etc/makepkg.conf
+
+### Use doas instead of sudo
+
+Edit /etc/paru.conf

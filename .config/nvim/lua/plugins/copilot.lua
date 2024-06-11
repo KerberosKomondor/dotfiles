@@ -20,7 +20,7 @@ return {
 		"zbirenbaum/copilot-cmp",
 		after = { "copilot.lua" },
 	},
-	enabled = true,
+	enabled = false,
 	config = function()
 		require("copilot").setup({
 			panel = {
