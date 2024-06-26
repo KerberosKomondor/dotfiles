@@ -70,7 +70,7 @@ plugins=(
   ssh-agent gitfast npm screen zsh-history-filter
 )
 
-zstyle :omz:plugins:ssh-agent identities komondor-github-id_rsa github-id_rsa work-id_rsa
+zstyle :omz:plugins:ssh-agent identities komondor-github-id_ed25519 github-id_ed25519 work-id_rsa
 
 source $ZSH/oh-my-zsh.sh
 
