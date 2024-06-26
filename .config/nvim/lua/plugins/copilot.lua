@@ -24,13 +24,19 @@ return {
 	config = function()
 		require("copilot").setup({
 			panel = {
-				enabled = false,
+				enabled = true,
+				auto_refresh = true,
 			},
 			suggestion = {
-				enabled = false,
+				enabled = true,
+				-- use the built-in keymapping for "accept" (<M-l>)
+				auto_trigger = true,
+				accept = false, -- disable built-in keymapping
 			},
 		})
 
 		require("copilot_cmp").setup()
+		local colors = require("dracula").colors()
+		vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = colors.green })
 	end,
 }

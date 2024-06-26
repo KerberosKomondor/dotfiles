@@ -52,5 +52,6 @@
         "Header": "lightcyan",
         "Time": "lightyellow",
         "Default": "lightgray"
-    }
+    },
+    "ShowTimestamp": false
 }

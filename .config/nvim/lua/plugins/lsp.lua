@@ -8,7 +8,21 @@ return {
 		{ "williamboman/mason.nvim" },
 		{ "williamboman/mason-lspconfig.nvim" },
 		{ "jay-babu/mason-nvim-dap.nvim" },
-		{ "folke/neodev.nvim" },
+		{
+			"folke/lazydev.nvim",
+			ft = "lua",
+			opts = {
+				library = {
+					-- Library items can be absolute paths
+					-- "~/projects/my-awesome-lib",
+					-- Or relative, which means they will be resolved as a plugin
+					-- "LazyVim",
+					-- When relative, you can also provide a path to the library in the plugin dir
+					"luvit-meta/library", -- see below
+				},
+			},
+			{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+		},
 		"lvimuser/lsp-inlayhints.nvim",
 
 		-- Autocompletion
@@ -17,7 +31,9 @@ return {
 		{ "hrsh7th/cmp-path" },
 		{ "hrsh7th/cmp-nvim-lsp" },
 		{ "hrsh7th/cmp-nvim-lua" },
-		{ "David-Kunz/cmp-npm" },
+		{ "hrsh7th/cmp-cmdline" },
+		{ "whengely/cmp-npm" },
+		-- { "David-Kunz/cmp-npm", dir = "/home/appa/code/cmp-npm" },
 		{
 			"KerberosKomondor/cmp-jira.nvim",
 			--dir = '/home/appa/code/cmp-jira.nvim/',
@@ -40,9 +56,6 @@ return {
 		},
 	},
 	config = function()
-		-- needs setup before lspconfig
-		require("neodev").setup()
-
 		-- Setup installer & lsp configs
 		local mason_ok, mason = pcall(require, "mason")
 		local mason_lsp_ok, mason_lsp = pcall(require, "mason-lspconfig")
@@ -132,11 +145,13 @@ return {
 			settings = require("servers.jsonls").settings,
 		})
 
+		local lua_conf = require("servers.lua_ls")
 		lspconfig.lua_ls.setup({
+			on_init = lua_conf.on_init,
 			capabilities = capabilities,
 			handlers = handlers,
 			on_attach = on_attach,
-			settings = require("servers.lua_ls").settings,
+			settings = lua_conf.settings,
 		})
 
 		lspconfig.emmet_language_server.setup({
@@ -156,6 +171,29 @@ return {
 
 		local cmp = require("cmp")
 		cmp.setup(require("user.completion").config)
+
+		-- `/` cmdline setup.
+		cmp.setup.cmdline("/", {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = {
+				{ name = "buffer" },
+			},
+		})
+
+		-- `:` cmdline setup.
+		cmp.setup.cmdline(":", {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = cmp.config.sources({
+				{ name = "path" },
+			}, {
+				{
+					name = "cmdline",
+					option = {
+						ignore_cmds = { "Man", "!" },
+					},
+				},
+			}),
+		})
 
 		require("ufo").setup({
 			open_fold_hl_timeout = 400,

@@ -7,6 +7,8 @@ return {
 	},
 	version = false,
 	config = function()
+		-- require("mini.ai").setup()
+
 		-- may need to run 'git config --system core.longpaths true' on windows
 		require("mini.align").setup()
 
@@ -38,5 +40,7 @@ return {
 		require("mini.sessions").setup()
 
 		require("mini.splitjoin").setup()
+
+		require("mini.surround").setup()
 	end,
 }
