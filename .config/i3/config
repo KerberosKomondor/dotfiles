@@ -28,8 +28,7 @@ font pango:FiraCode Nerd Font 13
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
+# Use Mouse+$mod to drag floating windows to their wanted position floating_modifier $mod
 
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
@@ -167,7 +166,7 @@ bindsym $execMod+x exec flameshot gui
 
 bindsym $execMod+e exec $explorer
 
-bindsym $execMod+w exec ~/xfreerdp
+bindsym $execMod+w exec ~/res/xfreerdp.sh
 assign [class="xfreerdp"] $ws4
 
 bindsym $mod+Ctrl+l exec $lockCommand
@@ -211,6 +210,7 @@ exec --no-startup-id pasystray
 exec --no-startup-id udiskie
 exec --no-startup-id xset s on
 exec --no-startup-id xset s 900
+exec --no-startup-id dunst
 
 exec_always --no-startup-id nitrogen --restore
 

@@ -26,7 +26,7 @@ paru -S tmuxinator tmux-plugin-manager bat eza starship
 
 ### Guis
 
-paru -S google-chrome remmina-plugin-rdesktop freerdp betterlockscreen xss-lock noto-fonts-emoji-git thunar
+paru -S google-chrome remmina-plugin-rdesktop freerdp betterlockscreen xss-lock noto-fonts-emoji-git thunar zenity dunst
 
 ## Install NVM
 
