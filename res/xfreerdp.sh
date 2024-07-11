@@ -29,10 +29,11 @@ connect() {
     /p:$password \
     /cert:ignore \
     /sec:tls \
+    /w:1920 \
+    /h:1080
     /d: \
-    /f \
     /kbd:remap:58=29 \
-    -grab-keyboard
+    +clipboard \
 }
 
 connect "$@"

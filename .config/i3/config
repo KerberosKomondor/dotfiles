@@ -20,7 +20,7 @@ set $lockCommand "betterlockscreen -l dim --display 1 --off 600"
 set $explorer thunar
 
 
-focus_on_window_activation none
+focus_on_window_activation smart 
 focus_follows_mouse yes
 
 font pango:FiraCode Nerd Font 13
@@ -168,6 +168,8 @@ bindsym $execMod+e exec $explorer
 
 bindsym $execMod+w exec ~/res/xfreerdp.sh
 assign [class="xfreerdp"] $ws4
+for_window [class="xfreerdp"] border pixel 0
+for_window [class="xfreerdp"] move position 0 0 
 
 bindsym $mod+Ctrl+l exec $lockCommand
 
