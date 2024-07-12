@@ -12,6 +12,10 @@ return {
     end,
   },
   {
+    "zbirenbaum/copilot-cmp",
+    enabled = false,
+  },
+  {
     "nvim-cmp",
     dependencies = { "hrsh7th/cmp-emoji", "David-Kunz/cmp-npm" },
     --@param opts cmp.ConfigSchema
