@@ -17,9 +17,10 @@ set $term wezterm
 set $browser firefox
 set $browserClass "(?i)firefox"
 set $lockCommand "betterlockscreen -l dim --display 1 --off 600"
+set $explorer thunar
 
 
-focus_on_window_activation none
+focus_on_window_activation smart 
 focus_follows_mouse yes
 
 font pango:FiraCode Nerd Font 13
@@ -27,8 +28,7 @@ font pango:FiraCode Nerd Font 13
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
+# Use Mouse+$mod to drag floating windows to their wanted position floating_modifier $mod
 
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
@@ -164,8 +164,12 @@ for_window [class=$browserClass] border pixel 0
 
 bindsym $execMod+x exec flameshot gui
 
-bindsym $execMod+w exec ~/xfreerdp
+bindsym $execMod+e exec $explorer
+
+bindsym $execMod+w exec ~/res/xfreerdp.sh
 assign [class="xfreerdp"] $ws4
+for_window [class="xfreerdp"] border pixel 0
+for_window [class="xfreerdp"] move position 0 0 
 
 bindsym $mod+Ctrl+l exec $lockCommand
 
@@ -208,6 +212,7 @@ exec --no-startup-id pasystray
 exec --no-startup-id udiskie
 exec --no-startup-id xset s on
 exec --no-startup-id xset s 900
+exec --no-startup-id dunst
 
 exec_always --no-startup-id nitrogen --restore
 
