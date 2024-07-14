@@ -4,7 +4,7 @@
 
 ### All systems
 
-pacman -S doas git nvim alsa-utils bluez bluez-utils fatsort accountsservice
+pacman -S doas git nvim alsa-utils bluez bluez-utils fatsort accountsservice lazygit
 
 ### Guis
 
