@@ -9,7 +9,8 @@ pacman -S doas git nvim alsa-utils bluez bluez-utils fatsort accountsservice
 ### Guis
 
 pacman -S firefox blueberry xfce4-settings flameshot volumeicon udiskie tickrs \
- nitrogen rofi polybar solaar nerd-fonts cmus lightdm dex gamemode
+ nitrogen rofi polybar solaar nerd-fonts cmus lightdm dex gamemode thunar zenity \
+ dunst zathura zathura-cb zathura-pdf-mupdf
 
 ## Paru
 
@@ -26,7 +27,8 @@ paru -S tmuxinator tmux-plugin-manager bat eza starship
 
 ### Guis
 
-paru -S google-chrome remmina-plugin-rdesktop freerdp betterlockscreen xss-lock noto-fonts-emoji-git thunar zenity dunst
+paru -S google-chrome remmina-plugin-rdesktop freerdp betterlockscreen xss-lock \
+ noto-fonts-emoji-git
 
 ## Install NVM
 

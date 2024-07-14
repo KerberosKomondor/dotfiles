@@ -23,7 +23,7 @@ connect() {
   local username="$(bw get username $bw_id)"
   local ip_addr="$(bw get uri $bw_id)"
 
-  xfreerdp /v:$ip_addr \
+  local status=$(xfreerdp /v:$ip_addr \
     /bpp:32 \
     /u:$username \
     /p:$password \
@@ -34,6 +34,9 @@ connect() {
     /d: \
     /kbd:remap:58=29 \
     +clipboard \
+  )
+
+  notify-send --wait "status is $status"
 }
 
 connect "$@"
