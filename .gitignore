@@ -1,3 +1,4 @@
 res/env_vars.sh
 *id_rsa
 .config/neomutt/accounts
+lazy-lock.json
