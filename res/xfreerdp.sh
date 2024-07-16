@@ -33,7 +33,7 @@ connect() {
     /h:1080
     /d: \
     /kbd:remap:58=29 \
-    +clipboard \
+    +clipboard
   )
 
   notify-send --wait "status is $status"
