@@ -6,9 +6,21 @@ return {
   },
   {
     "David-Kunz/cmp-npm",
+    dependencies = {
+      "Mofiqul/dracula.nvim",
+    },
     ft = "json",
     config = function()
-      require("cmp-npm").setup({})
+      local colors = require("dracula").colors()
+      require("cmp-npm").setup({
+        ignore = {
+          "beta",
+          "rc",
+        },
+      })
+
+      ---@diagnostic disable-next-line: undefined-field
+      vim.api.nvim_set_hl(0, "CmpItemKindNpm", { fg = colors.purple })
     end,
   },
   {

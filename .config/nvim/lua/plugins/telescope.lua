@@ -8,12 +8,15 @@ local function filenameFirst(_, path)
 end
 
 return {
+  { "tsakirist/telescope-lazy.nvim"
+ },
   {
     "nvim-telescope/telescope.nvim",
     opts = function()
       local actions = require("telescope.actions")
       local action_layout = require("telescope.actions.layout")
 
+      require("telescope").load_extension("package_info")
       return {
         defaults = {
           mappings = {
@@ -50,6 +53,14 @@ return {
                 ["d"] = actions.delete_buffer + actions.move_to_top,
               },
             },
+          },
+        },
+        extensions = {
+          lazy = {
+            theme = "ivy",
+          },
+          package_info = {
+            theme = "ivy",
           },
         },
       }
