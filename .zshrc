@@ -137,7 +137,13 @@ alias ls='eza --color=auto'
 
 alias cat='bat --style=plain'
 
-systemctl --user import-environment PATH
+if [[ $(uname) == 'Darwin' ]]; then
+  source .zshrc.mac.zsh
+fi
+
+if command -v systemctl > /dev/null; then
+  source .zshrc.systemd.zsh
+fi
 
 # make this only run in wsl
 #. /etc/profile.d/wezterm.sh
