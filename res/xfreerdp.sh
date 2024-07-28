@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+
 exit_if_master_password_error() {
   if [[ -z $BW_SESSION ]]; then
     notify-send --wait --urgency=critical "master password was incorrect"
@@ -13,7 +14,23 @@ unlock_bw_if_locked() {
   fi
 }
 
-connect() {
+try_command() {
+  readonly cmd=${1:?"the command must be specified"}
+  readonly retries=3
+  readonly wait_retry=3
+
+  for i in `seq 1 $retries`; do
+    $cmd
+    ret_value=$?
+    [ $ret_value -eq 0 ] && break
+    echo "> failed with $ret_value, waiting to retry..."
+    sleep $wait_retry
+  done
+
+  exit $ret_value
+}
+
+main() {
   unlock_bw_if_locked
   exit_if_master_password_error
 
@@ -23,20 +40,20 @@ connect() {
   local username="$(bw get username $bw_id)"
   local ip_addr="$(bw get uri $bw_id)"
 
-  local status=$(xfreerdp /v:$ip_addr \
+  command=$(xfreerdp3 /v:$ip_addr \
     /bpp:32 \
     /u:$username \
     /p:$password \
     /cert:ignore \
     /sec:tls \
     /w:1920 \
-    /h:1080
+    /h:1080 \
     /d: \
     /kbd:remap:58=29 \
     +clipboard
   )
 
-  notify-send --wait "status is $status"
+  try_command $command
 }
 
-connect "$@"
+main "$@"

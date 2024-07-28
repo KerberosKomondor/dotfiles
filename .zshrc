@@ -145,7 +145,7 @@ systemctl --user import-environment PATH
 eval "$(starship init zsh)"
 
 vv() {
-  select config in mini lazy 
+  select config in custom
   do NVIM_APPNAME=nvim-$config nvim $@; break; done
 }
 #asdf
