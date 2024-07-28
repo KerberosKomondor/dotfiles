@@ -1,10 +1,17 @@
 return {
   {
     "vuki656/package-info.nvim",
-    opts = {
-      package_manager = "npm",
-      hide_unstable_versions = true,
-    },
+    opts = function()
+      local colors = require("dracula").colors()
+      return {
+        colors = {
+          up_to_date = colors.green,
+          outdated = colors.red,
+        },
+        package_manager = "npm",
+        hide_unstable_versions = true,
+      }
+    end,
     keys = {
 
       {
@@ -79,4 +86,20 @@ return {
       },
     },
   },
+  -- {
+  --   "nvim-lualine/lualine.nvim",
+  --   event = "VeryLazy",
+  --   opts = function(_, opts)
+  --     vim.list_extend(opts.sections.lualine_x, {
+  --       {
+  --         function()
+  --           return require("package-info").get_status()
+  --         end,
+  --         cond = function()
+  --           return vim.bo.filetype == "json"
+  --         end,
+  --       },
+  --     })
+  --   end,
+  -- },
 }
