@@ -173,7 +173,13 @@ for_window [class="xfreerdp"] move position 0 0
 
 bindsym $mod+Ctrl+l exec $lockCommand
 
+# Chrome below
 bindsym $execMod+t exec dex ~/.local/share/applications/teams.desktop 
+# Firefox
+# bindsym $execMod+t exec dex ~/.local/share/applications/FFPWA-01J7HA5BV8P9DG95SF1HD50TJR.desktop
+assign [class="(?i)firefox-bin"] $ws3
+for_window [class="(?i)firefox-bin"] border pixel 0
+
 
 #assign [class="Google-chrome"] $ws3
 
