@@ -4,20 +4,22 @@
 
 ### Pacman requirements
 
-```
-sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy stylua luacheck clang cmake sqlite
+```sh
+sudo pacman -S go luarocks wget ruby fd ripgrep fzf xclip python3 jq tidy \
+  stylua luacheck clang cmake sqlite lazygit
 ```
 
 ### AUR requirements
 
-```
+```sh
 paru -S nvm python-pynvim-git ruby-neovim jira-cli-bin
 ```
 
 ### NPM requirements
 
-```
-npm i -g eslint_d @fsouza/prettierd eslint prettier @styled/typescript-styled-plugin typescript-styled-plugin neovim tree-sitter-cli
+```sh
+npm i -g eslint_d @fsouza/prettierd eslint prettier neovim \
+  @styled/typescript-styled-plugin typescript-styled-plugin tree-sitter-cli
 ```
 
 ## RUN CHECKHEALTH
