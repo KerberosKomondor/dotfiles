@@ -66,19 +66,6 @@ return {
     },
   },
   {
-    "nvim-telescope/telescope.nvim",
-    opts = {
-      extensions = {
-        package_info = {
-          theme = "ivy",
-        },
-      },
-    },
-    config = function()
-      require("telescope").load_extension("package_info")
-    end,
-  },
-  {
     "folke/which-key.nvim",
     opts = {
       spec = {
@@ -86,20 +73,4 @@ return {
       },
     },
   },
-  -- {
-  --   "nvim-lualine/lualine.nvim",
-  --   event = "VeryLazy",
-  --   opts = function(_, opts)
-  --     vim.list_extend(opts.sections.lualine_x, {
-  --       {
-  --         function()
-  --           return require("package-info").get_status()
-  --         end,
-  --         cond = function()
-  --           return vim.bo.filetype == "json"
-  --         end,
-  --       },
-  --     })
-  --   end,
-  -- },
 }
