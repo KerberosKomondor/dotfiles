@@ -99,3 +99,6 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
+[safe]
+	directory = %(prefix)///wsl.localhost/Arch/home/whengely/code/Choice360
+	directory = %(prefix)///wsl.localhost/Arch/home/whengely/code

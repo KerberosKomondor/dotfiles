@@ -87,7 +87,7 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 
 # dotnet
 export DOTNET_ROOT="/usr/share/dotnet"
-export MSBuildSDKsPath=$(echo /usr/share/dotnet/sdk/7.*/Sdks)
+export MSBuildSDKsPath="$DOTNET_ROOT/sdk/$(${DOTNET_ROOT}/dotnet --version)/Sdks"
 # zsh parameter completion for the dotnet CLI
 
 _dotnet_zsh_complete()
