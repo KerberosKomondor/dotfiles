@@ -116,12 +116,11 @@ export NVM_DIR="$HOME/.nvm"
 # For a full list of active aliases, run `alias`.
 #
 export HISTORY_FILTER_EXCLUDE=("mplayer" "/complete")
-export PATH=$PATH:~/lib/vsts-cli/bin:~/.nvm:~/.local/share/gem/ruby/3.2.0/bin:~/go/bin:~/.dotnet/tools/:~/.local/bin/
+export PATH=$PATH:~/lib/vsts-cli/bin:~/.nvm:~/go/bin:~/.dotnet/tools/:~/.local/bin/
 export EDITOR=nvim
 export BROWSER=firefox
 export proj=/mnt/c/a/
 export LS_COLORS="$LS_COLORS:ow=1;34:tw=1;34:"
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export GPG_TTY=$(tty)
 
 if [ -f ~/res/env_vars.sh ]
