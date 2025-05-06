@@ -3,10 +3,9 @@ return {
     "saghen/blink.cmp",
     enabled = true,
     opts = {
-      -- keymap = {
-      --   preset = "none",
-      --   ["<CR>"] = {},
-      -- },
+      keymap = {
+        preset = "default",
+      },
     },
   },
 }
