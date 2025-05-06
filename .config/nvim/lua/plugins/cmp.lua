@@ -3,10 +3,20 @@ return {
     "saghen/blink.cmp",
     enabled = true,
     opts = {
-      -- keymap = {
-      --   preset = "none",
-      --   ["<CR>"] = {},
-      -- },
+      completion = {
+        menu = {
+          border = "rounded",
+        },
+        documentation = {
+          window = {
+            border = "rounded",
+          },
+        },
+      },
+      keymap = {
+        preset = "none",
+        ["<CR>"] = {},
+      },
     },
   },
 }
