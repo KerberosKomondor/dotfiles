@@ -44,7 +44,7 @@ paru -S tmuxinator tmux-plugin-manager bat eza starship
 
 ```zsh
 paru -S google-chrome remmina-plugin-rdesktop freerdp betterlockscreen xss-lock \
- noto-fonts-emoji-git
+ noto-fonts-emoji-git pugixml
 ```
 
 ## Install NVM
