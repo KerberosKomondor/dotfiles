@@ -14,6 +14,10 @@ ZSH_THEME="dracula"
 ~/res/dracula-tty.sh
 export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
+#FZF settings
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
 # cause zsh load theme from this variable instead of
@@ -133,16 +137,7 @@ else
   echo ":r! cat ~/res/env_vars-example.sh"
 fi
 
-# http://owen.cymru/fzf-ripgrep-navigate-with-bash-faster-than-ever-before/
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-bindkey -s '^[t' 'vim $(fzf);'
-
 export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1
-
-alias vi="nvim"
-alias vim="nvim"
 
 # https://www.atlassian.com/git/tutorials/dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
@@ -154,12 +149,15 @@ alias ls='eza --color=auto'
 
 alias cat='bat --style=plain'
 
+alias dnrun='dotnet run --project `find . -name "*.csproj" | fzf`'
+alias dnrestore='dotnet restore `find . -name "*.sln" | fzf` --interactive'
+
 if [[ $(uname) == 'Darwin' ]]; then
   source .zshrc.mac.zsh
 fi
 
 if command -v systemctl > /dev/null; then
-  source .zshrc.systemd.zsh
+  source ~/.zshrc.systemd.zsh
 fi
 
 # make this only run in wsl
@@ -171,5 +169,3 @@ vv() {
   select config in custom
   do NVIM_APPNAME=nvim-$config nvim $@; break; done
 }
-#asdf
-. /opt/asdf-vm/asdf.sh
