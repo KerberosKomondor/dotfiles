@@ -151,6 +151,7 @@ alias cat='bat --style=plain'
 
 alias dnrun='dotnet run --project `find . -name "*.csproj" | fzf`'
 alias dnrestore='dotnet restore `find . -name "*.sln" | fzf` --interactive'
+alias dnbuild='dotnet build `find . -name "*.sln" | fzf`'
 
 if [[ $(uname) == 'Darwin' ]]; then
   source .zshrc.mac.zsh
