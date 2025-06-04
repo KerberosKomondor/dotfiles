@@ -15,7 +15,8 @@ branches=($(git branch -a | grep 'remotes/origin/release' | sed 's/^[* ] //' | s
 for branch in $branches; do
   # Extract the number after release/It
   num=${branch##release/It}
-  if [[ $num -le $limit ]]; then
+  echo "branch: $branch, number: $num"
+  if [[ ${num[1,3]} -le $limit ]]; then
     echo "Deleting branch: $branch"
     git push origin --delete release/It.$branch
   fi

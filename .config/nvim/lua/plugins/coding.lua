@@ -13,7 +13,6 @@ return {
       }
     end,
     keys = {
-
       {
         "<LEADER>ns",
         function()
