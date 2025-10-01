@@ -92,6 +92,7 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 # dotnet
 export DOTNET_ROOT="/usr/share/dotnet"
 export MSBuildSDKsPath="$DOTNET_ROOT/sdk/$(${DOTNET_ROOT}/dotnet --version)/Sdks"
+export DOTNET_RUNTIME_IDENTIFIER=linux-x64
 # zsh parameter completion for the dotnet CLI
 
 _dotnet_zsh_complete()
