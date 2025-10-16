@@ -150,9 +150,24 @@ alias ls='eza --color=auto'
 
 alias cat='bat --style=plain'
 
-alias dnrun='dotnet run --project `find . -name "*.csproj" | fzf`'
-alias dnrestore='dotnet restore `find . -name "*.sln" | fzf` --interactive'
-alias dnbuild='dotnet build `find . -name "*.sln" | fzf`'
+_dn_select_file() {
+  find . -name "$1" | fzf
+}
+
+dnrun() {
+  local project=$(_dn_select_file "*.csproj")
+  [ -n "$project" ] && dotnet run --project "$project" -r $DOTNET_RUNTIME_IDENTIFIER
+}
+
+dnrestore() {
+  local solution=$(_dn_select_file "*.sln")
+  [ -n "$solution" ] && dotnet restore "$solution" --interactive -r $DOTNET_RUNTIME_IDENTIFIER
+}
+
+dnbuild() {
+  local solution=$(_dn_select_file "*.sln")
+  [ -n "$solution" ] && dotnet build "$solution" -r $DOTNET_RUNTIME_IDENTIFIER
+}
 
 if [[ $(uname) == 'Darwin' ]]; then
   source .zshrc.mac.zsh
