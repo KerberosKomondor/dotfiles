@@ -36,6 +36,7 @@ font pango:FiraCode Nerd Font 13
 
 # start a terminal
 bindsym $mod+Return exec $term
+for_window [class="org.wezfurlong.wezterm"] border pixel 2
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -180,6 +181,9 @@ bindsym $execMod+t exec dex ~/.local/share/applications/teams.desktop
 assign [class="(?i)firefox-bin"] $ws3
 for_window [class="(?i)firefox-bin"] border pixel 0
 
+# Overwatch 2 - disable titlebars and enable fullscreen
+for_window [class="steam_app_2357570"] border pixel 0
+for_window [class="steam_app_2357570"] fullscreen enable
 
 #assign [class="Google-chrome"] $ws3
 
