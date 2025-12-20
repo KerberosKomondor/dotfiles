@@ -121,7 +121,13 @@ export NVM_DIR="$HOME/.nvm"
 # For a full list of active aliases, run `alias`.
 #
 export HISTORY_FILTER_EXCLUDE=("mplayer" "/complete")
-export PATH=$PATH:~/lib/vsts-cli/bin:~/.nvm:~/go/bin:~/.dotnet/tools/:~/.local/bin/
+
+# Ensure PATH entries are unique (remove duplicates)
+typeset -U PATH path
+
+# Set PATH with ~/.local/bin prioritized
+export PATH=~/.local/bin:~/lib/vsts-cli/bin:~/.nvm:~/go/bin:~/.dotnet/tools:$PATH
+
 export EDITOR=nvim
 export BROWSER=firefox
 export proj=/mnt/c/a/
@@ -186,3 +192,5 @@ vv() {
   select config in custom
   do NVIM_APPNAME=nvim-$config nvim $@; break; done
 }
+
+
