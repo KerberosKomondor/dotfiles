@@ -2,7 +2,7 @@ name: work
 root: ~/code
 
 windows:
-  - Choice360:
+  - code:
       root: ~/code
       panes:
         - ~/res/tmuxinator_init.sh
