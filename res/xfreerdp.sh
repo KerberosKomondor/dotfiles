@@ -9,9 +9,19 @@ exit_if_master_password_error() {
 }
 
 unlock_bw_if_locked() {
-  if [[ -z $BW_SESSION ]]; then
-    export BW_SESSION="$(bw unlock "$(zenity --password)" --raw)"
-  fi
+  for i in {1..3}; do
+    if [[ -z $BW_SESSION ]]; then
+      export BW_SESSION="$(bw unlock "$(zenity --password)" --raw)"
+      if [[ -n $BW_SESSION ]]; then
+        return 0
+      fi
+      notify-send "Incorrect password. Attempt $i of 3"
+    else
+      return 0
+    fi
+  done
+  notify-send --urgency=critical "Failed to unlock after 3 attempts"
+  exit 1
 }
 
 try_command() {
@@ -20,7 +30,7 @@ try_command() {
   readonly wait_retry=3
 
   for i in `seq 1 $retries`; do
-    $cmd
+    eval "$cmd"
     ret_value=$?
     [ $ret_value -eq 0 ] && break
     echo "> failed with $ret_value, waiting to retry..."
@@ -40,20 +50,19 @@ main() {
   local username="$(bw get username $bw_id)"
   local ip_addr="$(bw get uri $bw_id)"
 
-  command=$(xfreerdp3 /v:$ip_addr \
+  command="xfreerdp3 /v:$(printf '%q' "$ip_addr") \
     /bpp:32 \
-    /u:$username \
-    /p:$password \
+    /u:$(printf '%q' "$username") \
+    /p:$(printf '%q' "$password") \
     /cert:ignore \
     /sec:tls \
     /w:1920 \
     /h:1080 \
     /d: \
     /kbd:remap:58=29 \
-    +clipboard
-  )
+    +clipboard"
 
-  try_command $command
+  try_command "$command"
 }
 
 main "$@"
