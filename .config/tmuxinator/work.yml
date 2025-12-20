@@ -4,11 +4,11 @@ root: ~/code
 windows:
   - Choice360:
       root: ~/code
+      panes:
+        - ~/res/tmuxinator_init.sh
   - claude:
       root: ~/code
   - frontend:
       root: ~/code
   - storybook:
       root: ~/code
-      panes:
-        - tmux command-prompt -p "Project name:" "run-shell '~/res/change_project_dir.sh %%'"
