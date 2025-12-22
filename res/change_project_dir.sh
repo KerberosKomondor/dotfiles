@@ -86,6 +86,24 @@ run_npm_script_if_exists() {
     fi
 }
 
+# Function to run npm script with fallback options
+# Usage: run_npm_script_with_fallback <window> <script1> <script2> ...
+run_npm_script_with_fallback() {
+    local window=$1
+    shift  # Remove first argument (window), rest are script names
+
+    for script_name in "$@"; do
+        if npm_script_exists "$script_name"; then
+            tmux send-keys -t "$window" " npm run $script_name" C-m
+            return 0
+        fi
+    done
+
+    # None of the scripts exist
+    tmux send-keys -t "$window" " echo 'Error: None of the npm scripts ($*) exist in package.json'" C-m
+    return 1
+}
+
 # Function to check if claude is running in a window
 is_claude_running() {
     local window=$1
@@ -161,10 +179,10 @@ close_claude_if_running 2
 tmux send-keys -t 2 " cd $PROJECT_DIR" C-m
 tmux send-keys -t 2 " claude" C-m
 
-# Window 3: Close any running application, change directory, and run npm run start
+# Window 3: Close any running application, change directory, and run npm run start (or dev as fallback)
 close_app_if_running 3
 tmux send-keys -t 3 " cd $PROJECT_DIR" C-m
-run_npm_script_if_exists 3 "start"
+run_npm_script_with_fallback 3 "start" "dev"
 
 # Window 4: Close any running application, change directory, and run npm run storybook
 close_app_if_running 4
