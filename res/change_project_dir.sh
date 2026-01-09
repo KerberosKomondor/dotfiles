@@ -27,16 +27,17 @@ PROJECT_DIR="$ACTUAL_DIR"
 # Function to check if nvim is running in a window
 is_nvim_running() {
     local window=$1
-    local cmd=$(tmux display-message -p -t "$TMUX_SESSION:$window" '#{pane_current_command}')
+    # Target pane 1 specifically (not the active pane which might be temporary)
+    local cmd=$(tmux display-message -p -t "$TMUX_SESSION:$window.1" '#{pane_current_command}')
     [[ "$cmd" == "nvim" ]]
 }
 
 # Check for unsaved changes in nvim BEFORE making any changes
 if is_nvim_running 1; then
     # Try graceful quit to test for unsaved changes
-    tmux send-keys -t "$TMUX_SESSION:1" Escape
+    tmux send-keys -t "$TMUX_SESSION:1.1" Escape
     sleep 0.2
-    tmux send-keys -t "$TMUX_SESSION:1" ":qa" C-m
+    tmux send-keys -t "$TMUX_SESSION:1.1" ":qa" C-m
     sleep 0.5
 
     # If nvim is still running, there are unsaved changes
@@ -140,13 +141,6 @@ close_claude_if_running() {
     fi
 }
 
-# Function to check if nvim is running in a window (duplicate definition for close_nvim_if_running)
-is_nvim_running() {
-    local window=$1
-    local cmd=$(tmux display-message -p -t "$TMUX_SESSION:$window" '#{pane_current_command}')
-    [[ "$cmd" == "nvim" ]]
-}
-
 # Function to close nvim if running
 # Returns 0 if nvim closed successfully or wasn't running
 # Returns 1 if nvim has unsaved changes and user should be notified
@@ -154,9 +148,10 @@ close_nvim_if_running() {
     local window=$1
     if is_nvim_running "$window"; then
         # Send escape to exit any mode, then try graceful quit
-        tmux send-keys -t "$TMUX_SESSION:$window" Escape
+        # Target pane 1 specifically
+        tmux send-keys -t "$TMUX_SESSION:$window.1" Escape
         sleep 0.2
-        tmux send-keys -t "$TMUX_SESSION:$window" ":qa" C-m
+        tmux send-keys -t "$TMUX_SESSION:$window.1" ":qa" C-m
         sleep 0.5
 
         # Check if nvim closed (no unsaved changes)
@@ -173,8 +168,8 @@ close_nvim_if_running() {
 # Window 1: Rename, close nvim if running, change directory, and start nvim
 tmux rename-window -t "$TMUX_SESSION:1" "$PROJECT_NAME"
 if close_nvim_if_running 1; then
-    tmux send-keys -t "$TMUX_SESSION:1" " cd $PROJECT_DIR" C-m
-    tmux send-keys -t "$TMUX_SESSION:1" " nvim" C-m
+    tmux send-keys -t "$TMUX_SESSION:1.1" " cd $PROJECT_DIR" C-m
+    tmux send-keys -t "$TMUX_SESSION:1.1" " nvim" C-m
 fi
 
 # Window 2: Close claude if running, change directory, and start claude
