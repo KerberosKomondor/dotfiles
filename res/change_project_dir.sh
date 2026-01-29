@@ -2,6 +2,9 @@
 
 # Commands should be prefixed with a space to skip being stored in zsh's history
 
+# Get the current tmux session name
+TMUX_SESSION=$(tmux display-message -p '#S')
+
 # Check if project name was provided
 if [ -z "$1" ]; then
     echo "Usage: $0 <project_name>"
@@ -24,16 +27,16 @@ PROJECT_DIR="$ACTUAL_DIR"
 # Function to check if nvim is running in a window
 is_nvim_running() {
     local window=$1
-    local cmd=$(tmux display-message -p -t "$window" '#{pane_current_command}')
+    local cmd=$(tmux display-message -p -t "$TMUX_SESSION:$window" '#{pane_current_command}')
     [[ "$cmd" == "nvim" ]]
 }
 
 # Check for unsaved changes in nvim BEFORE making any changes
 if is_nvim_running 1; then
     # Try graceful quit to test for unsaved changes
-    tmux send-keys -t 1 Escape
+    tmux send-keys -t "$TMUX_SESSION:1" Escape
     sleep 0.2
-    tmux send-keys -t 1 ":qa" C-m
+    tmux send-keys -t "$TMUX_SESSION:1" ":qa" C-m
     sleep 0.5
 
     # If nvim is still running, there are unsaved changes
@@ -47,7 +50,7 @@ fi
 # Function to check if an application is running (not just shell)
 is_app_running() {
     local window=$1
-    local cmd=$(tmux display-message -p -t "$window" '#{pane_current_command}')
+    local cmd=$(tmux display-message -p -t "$TMUX_SESSION:$window" '#{pane_current_command}')
     # Return 0 (true) if something other than shell is running
     [[ "$cmd" != "zsh" && "$cmd" != "bash" && "$cmd" != "" ]]
 }
@@ -56,7 +59,7 @@ is_app_running() {
 close_app_if_running() {
     local window=$1
     if is_app_running "$window"; then
-        tmux send-keys -t "$window" C-c
+        tmux send-keys -t "$TMUX_SESSION:$window" C-c
         sleep 0.5
     fi
 }
@@ -80,9 +83,9 @@ run_npm_script_if_exists() {
     local script_name=$2
 
     if npm_script_exists "$script_name"; then
-        tmux send-keys -t "$window" " npm run $script_name" C-m
+        tmux send-keys -t "$TMUX_SESSION:$window" " npm run $script_name" C-m
     else
-        tmux send-keys -t "$window" " echo 'Error: npm script \"$script_name\" does not exist in package.json'" C-m
+        tmux send-keys -t "$TMUX_SESSION:$window" " echo 'Error: npm script \"$script_name\" does not exist in package.json'" C-m
     fi
 }
 
@@ -94,20 +97,20 @@ run_npm_script_with_fallback() {
 
     for script_name in "$@"; do
         if npm_script_exists "$script_name"; then
-            tmux send-keys -t "$window" " npm run $script_name" C-m
+            tmux send-keys -t "$TMUX_SESSION:$window" " npm run $script_name" C-m
             return 0
         fi
     done
 
     # None of the scripts exist
-    tmux send-keys -t "$window" " echo 'Error: None of the npm scripts ($*) exist in package.json'" C-m
+    tmux send-keys -t "$TMUX_SESSION:$window" " echo 'Error: None of the npm scripts ($*) exist in package.json'" C-m
     return 1
 }
 
 # Function to check if claude is running in a window
 is_claude_running() {
     local window=$1
-    local cmd=$(tmux display-message -p -t "$window" '#{pane_current_command}')
+    local cmd=$(tmux display-message -p -t "$TMUX_SESSION:$window" '#{pane_current_command}')
     [[ "$cmd" == "claude" ]]
 }
 
@@ -116,14 +119,14 @@ close_claude_if_running() {
     local window=$1
     if is_claude_running "$window"; then
         # Send multiple C-c to ensure claude exits
-        tmux send-keys -t "$window" C-c
+        tmux send-keys -t "$TMUX_SESSION:$window" C-c
         sleep 0.3
-        tmux send-keys -t "$window" C-c
+        tmux send-keys -t "$TMUX_SESSION:$window" C-c
         sleep 0.5
 
         # If still running after C-c attempts, send exit command
         if is_claude_running "$window"; then
-            tmux send-keys -t "$window" "/exit" C-m
+            tmux send-keys -t "$TMUX_SESSION:$window" "/exit" C-m
             sleep 0.5
         fi
 
@@ -137,10 +140,10 @@ close_claude_if_running() {
     fi
 }
 
-# Function to check if nvim is running in a window
+# Function to check if nvim is running in a window (duplicate definition for close_nvim_if_running)
 is_nvim_running() {
     local window=$1
-    local cmd=$(tmux display-message -p -t "$window" '#{pane_current_command}')
+    local cmd=$(tmux display-message -p -t "$TMUX_SESSION:$window" '#{pane_current_command}')
     [[ "$cmd" == "nvim" ]]
 }
 
@@ -151,9 +154,9 @@ close_nvim_if_running() {
     local window=$1
     if is_nvim_running "$window"; then
         # Send escape to exit any mode, then try graceful quit
-        tmux send-keys -t "$window" Escape
+        tmux send-keys -t "$TMUX_SESSION:$window" Escape
         sleep 0.2
-        tmux send-keys -t "$window" ":qa" C-m
+        tmux send-keys -t "$TMUX_SESSION:$window" ":qa" C-m
         sleep 0.5
 
         # Check if nvim closed (no unsaved changes)
@@ -168,23 +171,23 @@ close_nvim_if_running() {
 }
 
 # Window 1: Rename, close nvim if running, change directory, and start nvim
-tmux rename-window -t 1 "$PROJECT_NAME"
+tmux rename-window -t "$TMUX_SESSION:1" "$PROJECT_NAME"
 if close_nvim_if_running 1; then
-    tmux send-keys -t 1 " cd $PROJECT_DIR" C-m
-    tmux send-keys -t 1 " nvim" C-m
+    tmux send-keys -t "$TMUX_SESSION:1" " cd $PROJECT_DIR" C-m
+    tmux send-keys -t "$TMUX_SESSION:1" " nvim" C-m
 fi
 
 # Window 2: Close claude if running, change directory, and start claude
 close_claude_if_running 2
-tmux send-keys -t 2 " cd $PROJECT_DIR" C-m
-tmux send-keys -t 2 " claude" C-m
+tmux send-keys -t "$TMUX_SESSION:2" " cd $PROJECT_DIR" C-m
+tmux send-keys -t "$TMUX_SESSION:2" " claude" C-m
 
 # Window 3: Close any running application, change directory, and run npm run start (or dev as fallback)
 close_app_if_running 3
-tmux send-keys -t 3 " cd $PROJECT_DIR" C-m
+tmux send-keys -t "$TMUX_SESSION:3" " cd $PROJECT_DIR" C-m
 run_npm_script_with_fallback 3 "start" "dev"
 
 # Window 4: Close any running application, change directory, and run npm run storybook
 close_app_if_running 4
-tmux send-keys -t 4 " cd $PROJECT_DIR" C-m
+tmux send-keys -t "$TMUX_SESSION:4" " cd $PROJECT_DIR" C-m
 run_npm_script_if_exists 4 "storybook"
