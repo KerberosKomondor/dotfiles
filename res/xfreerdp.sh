@@ -32,9 +32,19 @@ try_command() {
   for i in `seq 1 $retries`; do
     eval "$cmd"
     ret_value=$?
-    [ $ret_value -eq 0 ] && break
-    echo "> failed with $ret_value, waiting to retry..."
-    sleep $wait_retry
+
+    # Exit code 0 means success
+    [ $ret_value -eq 0 ] && exit 0
+
+    # Exit code 131 typically indicates authentication/connection failure - retry these
+    # Other exit codes (like user disconnect) should not trigger retry
+    if [ $ret_value -eq 131 ]; then
+      echo "> Authentication or connection failed (code $ret_value), waiting to retry..."
+      sleep $wait_retry
+    else
+      echo "> Exited with code $ret_value (not retrying)"
+      exit $ret_value
+    fi
   done
 
   exit $ret_value

@@ -197,3 +197,4 @@ vv() {
   do NVIM_APPNAME=nvim-$config nvim $@; break; done
 }
 
+export PATH="$HOME/.local/bin:$PATH"

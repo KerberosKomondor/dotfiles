@@ -165,6 +165,9 @@ for_window [class=$browserClass] border pixel 0
 
 bindsym $execMod+x exec flameshot gui
 
+# Speech-to-text dictation daemon (hold Pause to record, release to transcribe)
+exec_always --no-startup-id /home/appa/.local/bin/dictate-daemon
+
 bindsym $execMod+e exec $explorer
 
 bindsym $execMod+w exec ~/res/xfreerdp.sh
