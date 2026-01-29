@@ -96,6 +96,7 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 export DOTNET_ROOT="/usr/share/dotnet"
 export MSBuildSDKsPath="$DOTNET_ROOT/sdk/$(${DOTNET_ROOT}/dotnet --version)/Sdks"
 export DOTNET_RUNTIME_IDENTIFIER=linux-x64
+export DOTNET_RUNTIME_ID=linux-x64
 # zsh parameter completion for the dotnet CLI
 
 _dotnet_zsh_complete()
@@ -165,17 +166,17 @@ _dn_select_file() {
 
 dnrun() {
   local project=$(_dn_select_file "*.csproj")
-  [ -n "$project" ] && dotnet run --project "$project" -r $DOTNET_RUNTIME_IDENTIFIER
+  [ -n "$project" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet run --project "$project" -r $DOTNET_RUNTIME_IDENTIFIER)
 }
 
 dnrestore() {
   local solution=$(_dn_select_file "*.sln")
-  [ -n "$solution" ] && dotnet restore "$solution" --interactive -r $DOTNET_RUNTIME_IDENTIFIER
+  [ -n "$solution" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet restore "$solution" --interactive -r $DOTNET_RUNTIME_IDENTIFIER)
 }
 
 dnbuild() {
   local solution=$(_dn_select_file "*.sln")
-  [ -n "$solution" ] && dotnet build "$solution" -r $DOTNET_RUNTIME_IDENTIFIER
+  [ -n "$solution" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet build "$solution" -r $DOTNET_RUNTIME_IDENTIFIER)
 }
 
 if [[ $(uname) == 'Darwin' ]]; then
@@ -195,5 +196,4 @@ vv() {
   select config in custom
   do NVIM_APPNAME=nvim-$config nvim $@; break; done
 }
-
 

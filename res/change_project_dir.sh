@@ -141,36 +141,10 @@ close_claude_if_running() {
     fi
 }
 
-# Function to close nvim if running
-# Returns 0 if nvim closed successfully or wasn't running
-# Returns 1 if nvim has unsaved changes and user should be notified
-close_nvim_if_running() {
-    local window=$1
-    if is_nvim_running "$window"; then
-        # Send escape to exit any mode, then try graceful quit
-        # Target pane 1 specifically
-        tmux send-keys -t "$TMUX_SESSION:$window.1" Escape
-        sleep 0.2
-        tmux send-keys -t "$TMUX_SESSION:$window.1" ":qa" C-m
-        sleep 0.5
-
-        # Check if nvim closed (no unsaved changes)
-        if is_nvim_running "$window"; then
-            # nvim is still running, meaning there are unsaved changes
-            # nvim will have displayed an error message to the user
-            echo "Warning: Window 1 has unsaved changes in nvim. Skipping project switch"
-            return 1
-        fi
-    fi
-    return 0
-}
-
-# Window 1: Rename, close nvim if running, change directory, and start nvim
+# Window 1: Rename, change directory, and start nvim
 tmux rename-window -t "$TMUX_SESSION:1" "$PROJECT_NAME"
-if close_nvim_if_running 1; then
-    tmux send-keys -t "$TMUX_SESSION:1.1" " cd $PROJECT_DIR" C-m
-    tmux send-keys -t "$TMUX_SESSION:1.1" " nvim" C-m
-fi
+tmux send-keys -t "$TMUX_SESSION:1.1" " cd $PROJECT_DIR" C-m
+tmux send-keys -t "$TMUX_SESSION:1.1" " nvim" C-m
 
 # Window 2: Close claude if running, change directory, and start claude
 close_claude_if_running 2
