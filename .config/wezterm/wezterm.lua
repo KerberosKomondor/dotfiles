@@ -3,6 +3,7 @@ return {
     font = wezterm.font_with_fallback {
         'FiraCode Nerd Font',
         'JetBrains Mono',
+        'Noto Color Emoji',
     },
     font_size = 11,
     enable_tab_bar = false,
