@@ -12,6 +12,10 @@ set $explorer thunar
 
 xwayland enable
 
+input type:keyboard {
+    xkb_options ctrl:nocaps
+}
+
 focus_on_window_activation smart
 focus_follows_mouse yes
 
@@ -110,8 +114,8 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # move workspace between monitors
-bindsym $mod+Ctrl+greater move workspace to output right
-bindsym $mod+Ctrl+less move workspace to output left
+bindsym $mod+Ctrl+period move workspace to output right
+bindsym $mod+Ctrl+comma move workspace to output left
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -160,10 +164,10 @@ for_window [class="xfreerdp"] move position 0 0
 
 bindsym $mod+Ctrl+l exec $lockCommand
 
-# Teams
+# Teams (Chrome PWA)
 bindsym $execMod+t exec dex ~/.local/share/applications/teams.desktop
-assign [class="(?i)firefox-bin"] $ws3
-for_window [class="(?i)firefox-bin"] border pixel 0
+assign [app_id="chrome-cifhbcnohmdccbgoicgdjpfamggdegmo-Default"] $ws3
+for_window [app_id="chrome-cifhbcnohmdccbgoicgdjpfamggdegmo-Default"] border pixel 0
 
 # Overwatch 2
 for_window [class="steam_app_2357570"] border pixel 0
@@ -199,7 +203,7 @@ exec swaybg -o DP-1 -i /home/appa/res/appa1.png -m fill -o DP-2 -i /home/appa/re
 exec solaar
 exec /opt/Synergy/synergy
 exec blueberry-tray
-exec_always waybar
+exec_always pkill waybar; waybar
 exec pasystray
 exec udiskie
 exec dunst
