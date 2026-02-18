@@ -70,6 +70,7 @@ main() {
     /h:1080 \
     /d: \
     /kbd:remap:58=29 \
+    /kbd:remap:326=111 \
     +clipboard"
 
   try_command "$command"
