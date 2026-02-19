@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """
 Hold-to-talk dictation daemon.
-Hold Pause key to record, release to transcribe and type.
+Send SIGUSR1 to start recording, SIGUSR2 to stop and transcribe.
+Sway binds: bindsym --no-repeat Pause exec pkill -USR1 -f dictate-daemon
+            bindsym --release Pause exec pkill -USR2 -f dictate-daemon
 """
 
 import subprocess
 import tempfile
 import os
 import signal
-from pynput import keyboard
+import time
 
 WHISPER_CLI = os.path.expanduser("~/code/rocm/whisper.cpp.git/build/bin/whisper-cli")
 MODEL = os.path.expanduser("~/code/rocm/whisper.cpp.git/models/ggml-large-v3.bin")
@@ -20,8 +22,11 @@ audio_file = None
 def notify(message):
     subprocess.run(["notify-send", "-t", "2000", "Dictate", message])
 
-def start_recording():
+def start_recording(signum, frame):
     global recording_process, audio_file
+    if recording_process is not None:
+        return
+
     audio_file = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
     audio_file.close()
 
@@ -33,18 +38,16 @@ def start_recording():
     )
     notify("Recording...")
 
-def stop_recording_and_transcribe():
+def stop_and_transcribe(signum, frame):
     global recording_process, audio_file
 
     if recording_process is None:
         return
 
-    # Stop recording
     recording_process.send_signal(signal.SIGINT)
     recording_process.wait()
     recording_process = None
 
-    # Check file has content
     if os.path.getsize(audio_file.name) < 1000:
         notify("No audio captured")
         os.unlink(audio_file.name)
@@ -52,7 +55,6 @@ def stop_recording_and_transcribe():
 
     notify("Transcribing...")
 
-    # Transcribe
     result = subprocess.run(
         [WHISPER_CLI, "-m", MODEL, "-f", audio_file.name, "-np", "-nt"],
         capture_output=True,
@@ -68,24 +70,29 @@ def stop_recording_and_transcribe():
 
     notify(f"Done: {text[:50]}...")
 
-    # Type the result
     if os.environ.get("WAYLAND_DISPLAY"):
         subprocess.run(["wtype", text])
     else:
         subprocess.run(["xdotool", "type", "--clearmodifiers", "--", text])
 
-def on_press(key):
-    global recording_process
-    if key == keyboard.Key.pause and recording_process is None:
-        start_recording()
-
-def on_release(key):
-    if key == keyboard.Key.pause:
-        stop_recording_and_transcribe()
-
 if __name__ == "__main__":
-    # Kill any existing instance
-    subprocess.run(["pkill", "-f", "python3.*dictate-daemon"], stderr=subprocess.DEVNULL)
+    # Kill any existing instance (excluding self)
+    my_pid = os.getpid()
+    result = subprocess.run(["pgrep", "-f", "dictate-daemon"], capture_output=True, text=True)
+    for line in result.stdout.strip().splitlines():
+        try:
+            pid = int(line.strip())
+            if pid != my_pid:
+                os.kill(pid, signal.SIGTERM)
+        except (ValueError, ProcessLookupError):
+            pass
 
-    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
-        listener.join()
+    signal.signal(signal.SIGUSR1, start_recording)
+    signal.signal(signal.SIGUSR2, stop_and_transcribe)
+
+    # Write PID file for easy signaling
+    with open("/tmp/dictate-daemon.pid", "w") as f:
+        f.write(str(my_pid))
+
+    while True:
+        time.sleep(1)

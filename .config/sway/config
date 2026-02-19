@@ -195,6 +195,10 @@ bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
+# Hold-to-talk dictation (Pause = start recording, release = transcribe)
+bindsym --no-repeat Pause exec pkill -USR1 -f dictate-daemon
+bindsym --release Pause exec pkill -USR2 -f dictate-daemon
+
 # Output configuration - replace xrandr.sh with swaymsg output directives
 # Example: output HDMI-A-1 resolution 1920x1080 position 0,0
 # Run 'swaymsg -t get_outputs' to list outputs
