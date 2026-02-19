@@ -12,6 +12,8 @@ set $explorer thunar
 
 xwayland enable
 
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+
 input type:keyboard {
     xkb_options ctrl:nocaps
 }
@@ -19,7 +21,7 @@ input type:keyboard {
 focus_on_window_activation smart
 focus_follows_mouse yes
 
-font pango:FiraCode Nerd Font 13
+font pango:FiraCode Nerd Font 14
 
 # Use Mouse+$mod to drag floating windows
 floating_modifier $mod normal
@@ -31,7 +33,7 @@ for_window [app_id="org.wezfurlong.wezterm"] border pixel 2
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start rofi (works on Wayland via xwayland or with -display-protocol wayland)
+# app launcher
 bindsym $mod+d exec rofi -show drun
 
 # change focus
@@ -185,6 +187,8 @@ exec swayidle -w \
 
 exec nm-applet --indicator
 
+exec pactl set-sink-volume @DEFAULT_SINK@ 45%
+
 # Volume controls
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
@@ -201,9 +205,9 @@ include ~/.config/sway/outputs.conf
 exec swaybg -o DP-1 -i /home/appa/res/appa1.png -m fill -o DP-2 -i /home/appa/res/appa2.png -m fill
 
 exec solaar
-exec /opt/Synergy/synergy
-exec blueberry-tray
-exec_always pkill waybar; waybar
+exec /opt/Synergy/synergy-core server --no-tray --display :0 --config ~/.config/Synergy/synergy.conf --enable-crypto --tls-cert ~/.config/Synergy/synergyCert.pem --name komondor-72975790
+exec blueman-applet
+exec_always sh -c 'pkill waybar; sleep 2 && waybar'
 exec pasystray
 exec udiskie
 exec dunst

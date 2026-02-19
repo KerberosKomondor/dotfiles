@@ -1,0 +1,11 @@
+[Unit]
+Description=Auto-connect UE Boom 3 Bluetooth speaker
+After=default.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'sleep 10 && bluetoothctl trust 00:1A:7D:08:04:07 && bluetoothctl connect 00:1A:7D:08:04:07'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
