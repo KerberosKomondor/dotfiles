@@ -5,8 +5,8 @@
     "height": 32,
     "spacing": 4,
 
-    "modules-left": ["clock#time", "sway/workspaces", "pulseaudio"],
-    "modules-center": ["sway/window"],
+    "modules-left": ["clock#time", "hyprland/workspaces", "pulseaudio"],
+    "modules-center": ["hyprland/window"],
     "modules-right": ["custom/cmus", "clock#date", "tray"],
 
     "clock#time": {
@@ -14,7 +14,7 @@
         "tooltip": false
     },
 
-    "sway/workspaces": {
+    "hyprland/workspaces": {
         "all-outputs": false,
         "format": "{name}",
         "strip-workspace-numbers": true
@@ -27,7 +27,7 @@
         "on-click-right": "pavucontrol"
     },
 
-    "sway/window": {
+    "hyprland/window": {
         "max-length": 75
     },
 

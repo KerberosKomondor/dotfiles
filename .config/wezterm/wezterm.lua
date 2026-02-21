@@ -10,6 +10,7 @@ return {
     color_scheme = 'Dracula (Official)',
     tab_bar_at_bottom = false,
     use_fancy_tab_bar = true,
+    enable_wayland = false,
     window_decorations = 'RESIZE',
     keys = {
         { key = "C", mods = "CTRL", action = wezterm.action { CopyTo = "ClipboardAndPrimarySelection" } }

@@ -12,7 +12,7 @@ set $explorer thunar
 
 xwayland enable
 
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec sh -c 'systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway && systemctl --user start xdg-desktop-portal-wlr xdg-desktop-portal && systemctl --user start sway-session.target'
 
 input type:keyboard {
     xkb_options ctrl:nocaps
@@ -209,7 +209,6 @@ include ~/.config/sway/outputs.conf
 exec swaybg -o DP-1 -i /home/appa/res/appa1.png -m fill -o DP-2 -i /home/appa/res/appa2.png -m fill
 
 exec solaar
-exec /opt/Synergy/synergy-core server --no-tray --display :0 --config ~/.config/Synergy/synergy.conf --enable-crypto --tls-cert ~/.config/Synergy/synergyCert.pem --name komondor-72975790
 exec blueman-applet
 exec_always sh -c 'pkill waybar; sleep 2 && waybar'
 exec pasystray
