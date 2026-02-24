@@ -15,11 +15,16 @@
 #   and fail to paste.
 
 # X11 → Wayland CLIPBOARD + PRIMARY (so local apps see RDP copies)
+# Wayland CLIPBOARD is bridged automatically by XWayland from xclip (reliable for
+# local sources; the documented failure is only for FreeRDP's lazy RDP round-trip).
+# wl-copy --primary is still needed since XWayland doesn't always bridge X11 PRIMARY.
+# Do NOT add wl-copy for CLIPBOARD: it races with XWayland's async X11 mirror,
+# sometimes leaving X11 owned by XWayland's proxy instead of xclip directly,
+# which breaks FreeRDP paste (same unreliable proxy path we're working around).
 last=""
 while true; do
     current=$(xclip -o -selection clipboard -target UTF8_STRING 2>/dev/null)
     if [[ -n "$current" && "$current" != Error:* && "$current" != "$last" ]]; then
-        printf '%s' "$current" | wl-copy
         printf '%s' "$current" | wl-copy --primary
         printf '%s' "$current" | xclip -i -selection clipboard
         printf '%s' "$current" | xclip -i -selection primary
