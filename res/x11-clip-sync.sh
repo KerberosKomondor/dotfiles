@@ -1,34 +1,72 @@
 #!/bin/bash
-# Bidirectional clipboard bridge: X11 CLIPBOARD ↔ Wayland clipboard
+# Bidirectional clipboard bridge: local apps ↔ FreeRDP (XWayland)
 #
-# X11 → Wayland: FreeRDP (XWayland) uses lazy clipboard ownership;
-#   Hyprland's built-in sync fails on the RDP server round-trip, so we
-#   poll X11 every 100ms and push to Wayland + PRIMARY when it changes.
-#   Uses UTF8_STRING — FreeRDP doesn't offer STRING. xclip outputs
-#   errors to stdout with exit 0, so we filter "Error:" lines.
+# Root cause: XWayland creates an X11 CLIPBOARD deadlock when an X11 app (Teams,
+# ozone-platform=x11) copies — XWayland bridges X11→Wayland, then immediately
+# reclaims X11 CLIPBOARD as a Wayland→X11 proxy. The proxy deadlocks because
+# XWayland is asking itself (XWayland-Wayland-client) for the content.
 #
-# Wayland → X11: handled automatically by XWayland's clipboard bridge.
-#   Do NOT add wl-paste --watch here — it creates an infinite loop:
-#   wl-copy → XWayland mirrors to X11 → wl-paste fires → xclip sets X11
-#   → XWayland re-announces Wayland → wl-paste fires → ... forever.
-#   Teams (XWayland, --ozone-platform=x11) would get a moving target
-#   and fail to paste.
+# Fix for local→remote (Teams → FreeRDP):
+#   XWayland DOES bridge X11→Wayland *before* deadlocking, so Wayland CLIPBOARD
+#   gets the content. We poll Wayland CLIPBOARD, then call wl-copy to re-assert
+#   ownership. This changes XWayland's X11 CLIPBOARD proxy source from the
+#   deadlocked XWayland-Wayland-client to wl-copy (a real process that can respond),
+#   breaking the deadlock. FreeRDP can then read X11 CLIPBOARD via XWayland→wl-copy.
+#
+# Fix for remote→local (FreeRDP → local apps):
+#   FreeRDP uses lazy clipboard (fetches from RDP server on SelectionRequest), which
+#   causes XWayland's X11→Wayland bridge to fail (timeout on the RDP round-trip).
+#   We poll X11 CLIPBOARD with timeout, forcing the RDP round-trip locally, then
+#   push the result to wl-copy (Wayland CLIPBOARD) and Wayland/X11 PRIMARY.
+#
+# Do NOT use xclip -i -selection clipboard: taking X11 CLIPBOARD ownership from a
+# local app triggers XWayland to re-bridge and re-deadlock X11 CLIPBOARD.
+# Do NOT add wl-paste --watch: creates infinite loop (wl-copy → XWayland mirrors
+# to X11 → wl-paste fires → xclip → XWayland re-announces → repeat).
+# Timeouts on xclip -o prevent the script from blocking on XWayland deadlock.
 
-# X11 → Wayland CLIPBOARD + PRIMARY (so local apps see RDP copies)
-# Wayland CLIPBOARD is bridged automatically by XWayland from xclip (reliable for
-# local sources; the documented failure is only for FreeRDP's lazy RDP round-trip).
-# wl-copy --primary is still needed since XWayland doesn't always bridge X11 PRIMARY.
-# Do NOT add wl-copy for CLIPBOARD: it races with XWayland's async X11 mirror,
-# sometimes leaving X11 owned by XWayland's proxy instead of xclip directly,
-# which breaks FreeRDP paste (same unreliable proxy path we're working around).
-last=""
+x11_last=""
+wl_last=""
+saved_content=""  # last known clipboard content, for restoring when clipboard goes empty
+
 while true; do
-    current=$(xclip -o -selection clipboard -target UTF8_STRING 2>/dev/null)
-    if [[ -n "$current" && "$current" != Error:* && "$current" != "$last" ]]; then
-        printf '%s' "$current" | wl-copy --primary
-        printf '%s' "$current" | xclip -i -selection clipboard
-        printf '%s' "$current" | xclip -i -selection primary
-        last="$current"
+    # Poll X11 CLIPBOARD with timeout (avoids blocking on XWayland deadlock)
+    x11_current=$(timeout 0.5 xclip -o -selection clipboard -target UTF8_STRING 2>/dev/null)
+
+    # Poll Wayland CLIPBOARD (Teams content arrives here via XWayland bridge before deadlock)
+    wl_current=$(timeout 0.5 wl-paste 2>/dev/null)
+
+    # Restore clipboard if it went empty while we have saved content.
+    # Chrome's async clipboard API (right-click copy) releases the Wayland clipboard
+    # after a few seconds. wl-clip-persist doesn't catch this reliably, so we do it
+    # ourselves: detect the empty→restore transition and re-assert wl-copy.
+    # saved_content is only set when we write; wl_last/x11_last stay unchanged so
+    # on the next poll wl_current==wl_last and the Wayland branch won't re-fire.
+    if [[ -z "$wl_current" && -n "$saved_content" ]]; then
+        printf '%s' "$saved_content" | wl-copy
     fi
+
+    if [[ -n "$x11_current" && "$x11_current" != Error:* && "$x11_current" != "$x11_last" ]]; then
+        # X11 CLIPBOARD changed — e.g. FreeRDP lazy clipboard after RDP round-trip.
+        # Push to Wayland CLIPBOARD (wl-copy, for Ctrl+V in Wayland apps),
+        # Wayland PRIMARY and X11 PRIMARY (for middle-click).
+        printf '%s' "$x11_current" | wl-copy
+        printf '%s' "$x11_current" | xclip -i -selection primary
+        x11_last="$x11_current"
+        wl_last="$x11_current"  # prevent Wayland branch from re-triggering
+        saved_content="$x11_current"
+    fi
+
+    if [[ -n "$wl_current" && "$wl_current" != "$wl_last" && "$wl_current" != "$x11_last" ]]; then
+        # Wayland CLIPBOARD changed — e.g. Teams content arrived via XWayland bridge.
+        # Re-assert wl-copy ownership so XWayland's X11 CLIPBOARD proxy serves from
+        # wl-copy (real process) instead of the deadlocked XWayland-Wayland-client.
+        printf '%s' "$wl_current" | wl-copy
+        printf '%s' "$wl_current" | xclip -i -selection primary
+        wl_last="$wl_current"
+        x11_last="$wl_current"  # prevent X11 branch from re-triggering
+        saved_content="$wl_current"
+    fi
+
     sleep 0.1
 done
