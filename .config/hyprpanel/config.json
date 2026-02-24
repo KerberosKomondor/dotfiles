@@ -375,5 +375,60 @@
   "bar.position": "top",
   "bar.customModules.storage.paths": [
     "/"
-  ]
+  ],
+  "theme.font.name": "FiraCode Nerd Font Propo",
+  "theme.font.label": "FiraCode Nerd Font Propo Semi-Bold",
+  "theme.bar.floating": false,
+  "theme.bar.enableShadow": false,
+  "bar.workspaces.monitorSpecific": false,
+  "bar.network.label": true,
+  "bar.notifications.show_total": false,
+  "menus.clock.time.hideSeconds": true,
+  "menus.clock.weather.location": "80921",
+  "menus.dashboard.shortcuts.enabled": true,
+  "menus.dashboard.directories.enabled": false,
+  "theme.bar.buttons.modules.microphone.enableBorder": false,
+  "menus.power.showLabel": true,
+  "theme.bar.transparent": false,
+  "bar.layouts": {
+    "DP-2": {
+      "left": [],
+      "middle": [],
+      "right": []
+    },
+    "0": {
+      "left": [
+        "dashboard",
+        "workspaces",
+        "windowtitle"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "volume",
+        "bluetooth",
+        "systray",
+        "clock",
+        "notifications"
+      ]
+    },
+    "2": {
+      "left": [
+        "dashboard",
+        "workspaces",
+        "windowtitle"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "volume",
+        "clock",
+        "notifications"
+      ]
+    }
+  },
+  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Firefox",
+  "menus.dashboard.shortcuts.left.shortcut1.command": "firefox"
 }
