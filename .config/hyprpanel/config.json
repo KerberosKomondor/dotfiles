@@ -394,7 +394,7 @@
   "bar.layouts": {
     "0": {
       "left": [
-        "dashboard",
+        "clock",
         "workspaces",
         "windowtitle"
       ],
@@ -405,13 +405,13 @@
         "volume",
         "bluetooth",
         "systray",
-        "clock",
-        "notifications"
+        "notifications",
+        "dashboard"
       ]
     },
     "2": {
       "left": [
-        "dashboard",
+        "clock",
         "workspaces",
         "windowtitle"
       ],
@@ -420,8 +420,8 @@
       ],
       "right": [
         "volume",
-        "clock",
-        "notifications"
+        "notifications",
+        "dashboard"
       ]
     },
     "DP-2": {
