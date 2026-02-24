@@ -381,6 +381,7 @@
   "theme.bar.floating": false,
   "theme.bar.enableShadow": false,
   "bar.workspaces.monitorSpecific": false,
+  "bar.bluetooth.label": false,
   "bar.network.label": true,
   "bar.notifications.show_total": false,
   "menus.clock.time.hideSeconds": true,
