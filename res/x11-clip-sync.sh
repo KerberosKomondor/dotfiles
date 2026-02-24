@@ -7,11 +7,12 @@
 #   Uses UTF8_STRING — FreeRDP doesn't offer STRING. xclip outputs
 #   errors to stdout with exit 0, so we filter "Error:" lines.
 #
-# Wayland → X11: when a local Wayland app (Firefox etc.) copies,
-#   wl-paste --watch syncs to X11 CLIPBOARD so FreeRDP can paste into RDP.
-
-# Wayland → X11 CLIPBOARD (so FreeRDP sees local copies)
-wl-paste --watch xclip -i -selection clipboard &
+# Wayland → X11: handled automatically by XWayland's clipboard bridge.
+#   Do NOT add wl-paste --watch here — it creates an infinite loop:
+#   wl-copy → XWayland mirrors to X11 → wl-paste fires → xclip sets X11
+#   → XWayland re-announces Wayland → wl-paste fires → ... forever.
+#   Teams (XWayland, --ozone-platform=x11) would get a moving target
+#   and fail to paste.
 
 # X11 → Wayland CLIPBOARD + PRIMARY (so local apps see RDP copies)
 last=""
