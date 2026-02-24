@@ -384,6 +384,7 @@
   "bar.bluetooth.label": false,
   "bar.network.label": true,
   "bar.notifications.show_total": false,
+  "bar.clock.format": "%I:%M %p",
   "menus.clock.time.hideSeconds": true,
   "menus.clock.weather.location": "80921",
   "menus.dashboard.shortcuts.enabled": true,
