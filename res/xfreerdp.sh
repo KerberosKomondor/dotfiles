@@ -60,7 +60,7 @@ main() {
   local username="$(bw get username $bw_id)"
   local ip_addr="$(bw get uri $bw_id)"
 
-  command="xfreerdp3 /v:$(printf '%q' "$ip_addr") \
+  command="sdl-freerdp3 /v:$(printf '%q' "$ip_addr") \
     /bpp:32 \
     /u:$(printf '%q' "$username") \
     /p:$(printf '%q' "$password") \
@@ -71,7 +71,9 @@ main() {
     /d: \
     /kbd:remap:58=29 \
     /kbd:remap:326=111 \
-    +clipboard"
+    +clipboard \
+    /mouse:grab:off \
+    /wm-class:wlfreerdp"
 
   try_command "$command"
 }

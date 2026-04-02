@@ -68,12 +68,7 @@ def stop_and_transcribe(signum, frame):
         notify("No speech detected")
         return
 
-    notify(f"Done: {text[:50]}...")
-
-    if os.environ.get("WAYLAND_DISPLAY"):
-        subprocess.run(["wtype", text])
-    else:
-        subprocess.run(["xdotool", "type", "--clearmodifiers", "--", text])
+    subprocess.run(["xdotool", "type", "--clearmodifiers", "--delay", "0", "--", text])
 
 if __name__ == "__main__":
     # Kill any existing instance (excluding self)
