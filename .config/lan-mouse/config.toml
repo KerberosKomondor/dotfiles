@@ -1,0 +1,7 @@
+port = 4242
+release_bind = ["KeyScrollLock"]
+
+[[clients]]
+hostname = "192.168.2.210"
+position = "left"
+activate_on_startup = true
