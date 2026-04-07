@@ -6,4 +6,4 @@ VOL=$(pactl get-sink-volume "bluez_output.${MAC//:/_}.1" 2>/dev/null \
     | grep -oP '\d+(?=%)' | head -1)
 [ -n "$VOL" ] && echo "${VOL}%" > "$VOL_FILE"
 
-bluetoothctl disconnect "$MAC"
+timeout 3 bluetoothctl disconnect "$MAC" || true
