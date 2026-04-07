@@ -166,12 +166,12 @@ theme = "dracula"
 # • filters: A list of paths to RetroArch slang shaders. Might not work with OpenGL.
 #
 # Example:
-# [renderer]
-# performance = "high"
-# backend = "automatic"
-# disable-unfocused-render = false
-# level = 1
-# filters = []
+[renderer]
+performance = "high"
+backend = "automatic"
+disable-unfocused-render = false
+level = 1
+filters = []
 
 # Keyboard
 #
@@ -248,7 +248,7 @@ theme = "dracula"
 
 [fonts]
 family = "FiraCode Nerd Font"
-size = 11
+size = 13
 
 # Scroll
 #
