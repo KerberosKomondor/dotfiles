@@ -60,7 +60,7 @@ main() {
   local username="$(bw get username $bw_id)"
   local ip_addr="$(bw get uri $bw_id)"
 
-  command="sdl-freerdp3 /v:$(printf '%q' "$ip_addr") \
+  command="xfreerdp3 /v:$(printf '%q' "$ip_addr") \
     /bpp:32 \
     /u:$(printf '%q' "$username") \
     /p:$(printf '%q' "$password") \
