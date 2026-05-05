@@ -432,5 +432,10 @@
     }
   },
   "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Firefox",
-  "menus.dashboard.shortcuts.left.shortcut1.command": "firefox"
+  "menus.dashboard.shortcuts.left.shortcut1.command": "firefox",
+  "theme.notification.enableShadow": true,
+  "notifications.monitor": 1,
+  "theme.font.size": "1rem",
+  "notifications.timeout": 1,
+  "wallpaper.enable": false
 }
