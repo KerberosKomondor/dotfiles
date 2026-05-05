@@ -168,7 +168,7 @@ theme = "dracula"
 # Example:
 [renderer]
 performance = "high"
-backend = "automatic"
+backend = "Vulkan"
 disable-unfocused-render = false
 level = 1
 filters = []
@@ -249,6 +249,11 @@ filters = []
 [fonts]
 family = "FiraCode Nerd Font"
 size = 13
+extras = [
+  { family = "Noto Color Emoji" },
+  { family = "Noto Sans" },
+  { family = "Noto Sans CJK SC" },
+]
 
 # Scroll
 #
