@@ -71,7 +71,9 @@ main() {
     /d: \
     /kbd:remap:58=29 \
     /kbd:remap:326=111 \
-    +clipboard"
+    +clipboard \
+    /mouse:grab:off \
+    /wm-class:wlfreerdp"
 
   try_command "$command"
 }
