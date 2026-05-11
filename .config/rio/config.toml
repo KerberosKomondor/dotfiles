@@ -252,7 +252,17 @@ size = 13
 extras = [
   { family = "Noto Color Emoji" },
   { family = "Noto Sans" },
+  { family = "Noto Sans Symbols" },
   { family = "Noto Sans CJK SC" },
+  { family = "JetBrainsMono NFP" },
+]
+symbol-map = [
+  { start = "1F300", end = "1FAFF", font-family = "Noto Color Emoji" },
+  { start = "23F0", end = "23FA", font-family = "Noto Color Emoji" },
+  { start = "2614", end = "276B", font-family = "Noto Color Emoji" },
+  { start = "2B50", end = "2B55", font-family = "Noto Color Emoji" },
+  { start = "23BE", end = "23BF", font-family = "Noto Sans Symbols" },
+  { start = "2717", end = "2718", font-family = "JetBrains Mono" },
 ]
 
 # Scroll
