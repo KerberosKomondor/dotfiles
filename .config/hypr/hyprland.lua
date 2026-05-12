@@ -200,9 +200,9 @@ for i = 1, 10 do
     hl.bind(mod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
--- Move active window to adjacent monitor (movecurrentworkspacetomonitor not in 0.55 Lua API)
-hl.bind(mod .. " + CTRL + period", hl.dsp.window.move({ monitor = "r" }))
-hl.bind(mod .. " + CTRL + comma",  hl.dsp.window.move({ monitor = "l" }))
+-- Move current workspace to a specific monitor
+hl.bind(mod .. " + CTRL + period", hl.dsp.workspace.move({ monitor = "DP-1" }))
+hl.bind(mod .. " + CTRL + comma",  hl.dsp.workspace.move({ monitor = "DP-2" }))
 
 -- Reload / exit
 hl.bind(mod .. " + SHIFT + C", hl.dsp.exec_cmd("hyprctl reload"))
