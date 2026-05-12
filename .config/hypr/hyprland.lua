@@ -3,7 +3,7 @@
 
 local mod      = "SUPER"
 local execMod  = "SUPER"
-local term     = "rio"
+local term     = "kitty"
 local browser  = "firefox"
 local lockCmd  = "hyprlock"
 local explorer = "thunar"
@@ -124,8 +124,8 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name        = "rio",
-    match       = { class = "^Rio$" },
+    name        = "kitty",
+    match       = { class = "^kitty$" },
     border_size = 2,
 })
 
