@@ -159,6 +159,7 @@ alias ll='eza -lah'
 alias ls='eza --color=auto'
 
 alias cat='bat --style=plain'
+alias auth='source ~/res/auth.sh'
 
 _dn_select_file() {
   find . -name "$1" | fzf

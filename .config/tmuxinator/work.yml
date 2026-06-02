@@ -8,6 +8,8 @@ windows:
         - ~/res/tmuxinator_init.sh
   - claude:
       root: ~/code
+      panes:
+        - source ~/res/auth.sh && claude
   - frontend:
       root: ~/code
   - storybook:
