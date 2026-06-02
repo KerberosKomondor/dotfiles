@@ -73,7 +73,8 @@ main() {
     /kbd:remap:326=111 \
     +clipboard \
     /mouse:grab:off \
-    /wm-class:wlfreerdp"
+    /wm-class:wlfreerdp \
+    /gfx:AVC420"
 
   try_command "$command"
 }

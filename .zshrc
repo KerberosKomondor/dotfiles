@@ -91,6 +91,8 @@ export LANG=en_US.UTF-8
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/id_rsa"
+# Use kitty's SSH kitten when inside kitty — auto-copies xterm-kitty terminfo to remote
+[[ "$TERM" == "xterm-kitty" ]] && alias ssh="kitty +kitten ssh"
 
 # dotnet
 export DOTNET_ROOT="/usr/share/dotnet"
