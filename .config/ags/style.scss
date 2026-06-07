@@ -127,3 +127,68 @@
     min-height: 16px;
   }
 }
+
+/* Weather bar button */
+.weather-btn {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #8be9fd;
+  padding: 0 4px;
+  margin-right: 4px;
+
+  &:hover { background: #44475a; }
+}
+
+/* Weather popup */
+.WeatherPopup {
+  background: transparent;
+
+  .weather-popup {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 360px;
+  }
+
+  .weather-current {
+    background: #44475a;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+
+  .weather-icon { font-size: 38px; }
+  .weather-temp { font-size: 28px; color: #f8f8f2; }
+  .weather-desc { font-size: 11px; color: #6272a4; margin-top: 2px; }
+
+  .weather-meta {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #6272a4;
+  }
+
+  .weather-sep { color: #44475a; }
+
+  .weather-forecast-label {
+    font-size: 10px;
+    color: #6272a4;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .weather-forecast { margin-top: 4px; }
+
+  .forecast-day {
+    background: #44475a;
+    border-radius: 7px;
+    padding: 8px 4px;
+    min-width: 0;
+  }
+
+  .forecast-name { font-size: 10px; color: #6272a4; }
+  .forecast-icon { font-size: 20px; }
+  .forecast-hi { font-size: 12px; color: #f8f8f2; }
+  .forecast-lo { font-size: 11px; color: #6272a4; }
+}

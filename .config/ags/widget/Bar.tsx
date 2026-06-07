@@ -9,6 +9,7 @@ import Clock from "./Clock"
 import Cmus from "./Cmus"
 import Notifications from "./Notifications"
 import Tray from "./Tray"
+import Weather from "./Weather"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -29,6 +30,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         </box>
         <box $type="end" halign={Gtk.Align.END} class="bar-right">
           <Cmus />
+          <Weather />
           <box class="bar-divider" />
           <Volume />
           <label class="bar-sep" label="·" />
