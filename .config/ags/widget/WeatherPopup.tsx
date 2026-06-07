@@ -20,6 +20,7 @@ export default function WeatherPopup(gdkmonitor: Gdk.Monitor) {
       class="WeatherPopup"
       gdkmonitor={gdkmonitor}
       layer={Astal.Layer.OVERLAY}
+      keymode={Astal.Keymode.ON_DEMAND}
       anchor={TOP | RIGHT}
       visible={weatherVisible as unknown as boolean}
       application={app}
