@@ -99,3 +99,31 @@
   color: #8be9fd;
   margin-right: 4px;
 }
+
+/* Notifications */
+.notifications {
+  color: #ff79c6;
+}
+
+/* Tray */
+.tray {
+  gap: 4px;
+}
+
+.tray-item {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  padding: 2px;
+  min-width: 20px;
+  min-height: 20px;
+
+  &:hover {
+    background: #44475a;
+  }
+
+  icon {
+    min-width: 16px;
+    min-height: 16px;
+  }
+}

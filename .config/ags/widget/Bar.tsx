@@ -7,6 +7,8 @@ import WindowTitle from "./WindowTitle"
 import Volume from "./Volume"
 import Clock from "./Clock"
 import Cmus from "./Cmus"
+import Notifications from "./Notifications"
+import Tray from "./Tray"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -32,6 +34,9 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <label class="bar-sep" label="·" />
           <Clock />
           <box class="bar-divider" />
+          <Notifications />
+          <box class="bar-divider" />
+          <Tray />
         </box>
       </box>
     </window>
