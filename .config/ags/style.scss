@@ -192,3 +192,71 @@
   .forecast-hi { font-size: 12px; color: #f8f8f2; }
   .forecast-lo { font-size: 11px; color: #6272a4; }
 }
+
+/* Dashboard popup */
+.Dashboard {
+  background: transparent;
+
+  .dashboard-popup {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 260px;
+    margin-top: 2px;
+  }
+
+  .dash-profile {
+    background: #44475a;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+
+  .dash-profile-icon {
+    font-size: 26px;
+    background: #ff5555;
+    border-radius: 8px;
+    padding: 6px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .dash-profile-name { color: #ff79c6; font-size: 15px; }
+  .dash-profile-sub  { color: #6272a4; font-size: 11px; }
+
+  .dash-power { margin-bottom: 10px; }
+
+  .dash-power-btn {
+    border-radius: 7px;
+    border: none;
+    padding: 9px 4px;
+    font-size: 11px;
+
+    &.shutdown { background: #3d1f1f; color: #ff5555; }
+    &.restart  { background: #3d2a1f; color: #ffb86c; }
+    &.logout   { background: #2a1f3d; color: #bd93f9; }
+  }
+
+  .dash-power-icon { font-size: 18px; margin-bottom: 4px; }
+
+  .dash-divider {
+    background: #44475a;
+    min-height: 1px;
+    margin: 0 0 10px 0;
+  }
+
+  .dash-toggle {
+    background: #44475a;
+    border: none;
+    border-radius: 7px;
+    padding: 9px 4px;
+    color: #6272a4;
+
+    &.on { background: #1e3a2e; }
+    &.on .dash-toggle-icon { color: #50fa7b; }
+  }
+
+  .dash-toggle-icon  { font-size: 18px; margin-bottom: 4px; }
+  .dash-toggle-label { font-size: 9px; color: #6272a4; }
+}
