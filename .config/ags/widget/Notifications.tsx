@@ -4,15 +4,15 @@ import { createBinding } from "ags"
 
 export default function Notifications() {
   const notifd = Notifd.get_default()
+  const notifications = createBinding(notifd, "notifications")
 
   return (
-    <box
-      class="notifications"
-      visible={createBinding(notifd, "notifications").as(n => n.length > 0)}
-    >
+    <box visible={notifications.as(n => n.length > 0)}>
       <label
-        label={createBinding(notifd, "notifications").as(n => `󰂚 ${n.length}`)}
+        class="notifications"
+        label={notifications.as(n => `󰂚 ${n.length}`)}
       />
+      <box class="bar-divider" />
     </box>
   )
 }

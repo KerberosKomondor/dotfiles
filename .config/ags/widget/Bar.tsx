@@ -35,7 +35,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <Clock />
           <box class="bar-divider" />
           <Notifications />
-          <box class="bar-divider" />
           <Tray />
         </box>
       </box>
