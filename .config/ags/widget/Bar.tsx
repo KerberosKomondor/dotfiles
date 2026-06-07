@@ -6,6 +6,7 @@ import Workspaces from "./Workspaces"
 import WindowTitle from "./WindowTitle"
 import Volume from "./Volume"
 import Clock from "./Clock"
+import Cmus from "./Cmus"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -25,6 +26,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <WindowTitle />
         </box>
         <box $type="end" halign={Gtk.Align.END} class="bar-right">
+          <Cmus />
           <box class="bar-divider" />
           <Volume />
           <label class="bar-sep" label="·" />
