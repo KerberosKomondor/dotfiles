@@ -1,10 +1,8 @@
-import app from "ags/gtk3/app"
+// ~/.config/ags/widget/Bar.tsx
 import { Astal, Gtk, Gdk } from "ags/gtk3"
-import { execAsync } from "ags/process"
-import { createPoll } from "ags/time"
+import app from "ags/gtk3/app"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
-  const time = createPoll("", 1000, "date")
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
 
   return (
@@ -15,23 +13,16 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       anchor={TOP | LEFT | RIGHT}
       application={app}
     >
-      <centerbox>
-        <button
-          $type="start"
-          onClicked={() => execAsync("echo hello").then(console.log)}
-          halign={Gtk.Align.CENTER}
-        >
-          <label label="Welcome to AGS!" />
-        </button>
-        <box $type="center" />
-        <button
-          $type="end"
-          onClicked={() => print("hello")}
-          halign={Gtk.Align.CENTER}
-        >
-          <label label={time} />
-        </button>
-      </centerbox>
+      <box>
+        {/* Left section */}
+        <box $type="start" hexpand halign={Gtk.Align.START} class="bar-left">
+          <label label="LEFT" />
+        </box>
+        {/* Right section */}
+        <box $type="end" halign={Gtk.Align.END} class="bar-right">
+          <label label="RIGHT" />
+        </box>
+      </box>
     </window>
   )
 }

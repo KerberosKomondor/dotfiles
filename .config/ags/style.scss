@@ -1,20 +1,35 @@
-// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
-$fg-color: #{"@theme_fg_color"};
-$bg-color: #{"@theme_bg_color"};
+// ~/.config/ags/style.scss
+* {
+  font-family: "FiraCode Nerd Font", monospace;
+  font-size: 14px;
+  min-height: 0;
+}
 
-window.Bar {
+.Bar {
   background: transparent;
-  color: $fg-color;
-  font-weight: bold;
+  color: #f8f8f2;
 
-  > centerbox {
-    background: $bg-color;
-    border-radius: 10px;
-    margin: 8px;
+  > box {
+    background: #282a36;
+    border-bottom: 1px solid #44475a;
+    min-height: 32px;
+    padding: 0;
   }
+}
 
-  button {
-    border-radius: 8px;
-    margin: 2px;
-  }
+.bar-left {
+  padding: 0;
+  gap: 0;
+}
+
+.bar-right {
+  padding: 0;
+  gap: 10px;
+  padding-right: 12px;
+}
+
+.bar-divider {
+  background: #44475a;
+  min-width: 1px;
+  margin: 8px 4px;
 }
