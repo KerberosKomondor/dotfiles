@@ -4,6 +4,8 @@ import app from "ags/gtk3/app"
 import DashboardButton from "./DashboardButton"
 import Workspaces from "./Workspaces"
 import WindowTitle from "./WindowTitle"
+import Volume from "./Volume"
+import Clock from "./Clock"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -23,7 +25,11 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <WindowTitle />
         </box>
         <box $type="end" halign={Gtk.Align.END} class="bar-right">
-          <label label="RIGHT" />
+          <box class="bar-divider" />
+          <Volume />
+          <label class="bar-sep" label="·" />
+          <Clock />
+          <box class="bar-divider" />
         </box>
       </box>
     </window>
