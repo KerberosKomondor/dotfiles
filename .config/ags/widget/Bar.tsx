@@ -1,6 +1,9 @@
 // ~/.config/ags/widget/Bar.tsx
 import { Astal, Gtk, Gdk } from "ags/gtk3"
 import app from "ags/gtk3/app"
+import DashboardButton from "./DashboardButton"
+import Workspaces from "./Workspaces"
+import WindowTitle from "./WindowTitle"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -14,11 +17,11 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       application={app}
     >
       <box>
-        {/* Left section */}
         <box $type="start" hexpand halign={Gtk.Align.START} class="bar-left">
-          <label label="LEFT" />
+          <DashboardButton />
+          <Workspaces />
+          <WindowTitle />
         </box>
-        {/* Right section */}
         <box $type="end" halign={Gtk.Align.END} class="bar-right">
           <label label="RIGHT" />
         </box>

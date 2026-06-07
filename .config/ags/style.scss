@@ -33,3 +33,46 @@
   min-width: 1px;
   margin: 8px 4px;
 }
+
+/* Dashboard button */
+.dashboard-button {
+  background: transparent;
+  border: none;
+  border-right: 1px solid #44475a;
+  border-radius: 0;
+  padding: 0 12px;
+  color: #6272a4;
+  min-height: 32px;
+
+  &:hover {
+    color: #f8f8f2;
+    background: transparent;
+  }
+}
+
+/* Workspaces */
+.workspaces {
+  padding: 0 8px;
+  gap: 5px;
+}
+
+.ws-dot {
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 4px;
+  background: #44475a;
+
+  &.occupied {
+    background: #6272a4;
+  }
+
+  &.active {
+    background: #8be9fd;
+  }
+}
+
+/* Window title */
+.window-title {
+  color: #bd93f9;
+  padding: 0 4px;
+}
