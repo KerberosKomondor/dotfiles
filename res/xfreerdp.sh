@@ -72,6 +72,7 @@ main() {
     /kbd:remap:58=29 \
     /kbd:remap:326=111 \
     +clipboard \
+    +grab-keyboard \
     /mouse:grab:off \
     /wm-class:wlfreerdp \
     /gfx:AVC420"

@@ -88,10 +88,10 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hyprpanel")
     hl.exec_cmd("pasystray")
     hl.exec_cmd("udiskie")
-    hl.exec_cmd("lan-mouse --frontend gtk")
     hl.exec_cmd("wl-clip-persist --clipboard both")
     hl.exec_cmd("wl-paste --watch xclip -selection clipboard")
-    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type text --watch /home/appa/res/clipboard-bake.sh")
+    hl.exec_cmd("/home/appa/res/clipboard-bake-watcher.sh")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
     hl.exec_cmd("dex --autostart --environment Hyprland")
     hl.exec_cmd("/home/appa/.local/bin/dictate-daemon")
@@ -225,6 +225,8 @@ hl.bind(execMod .. " + X", hl.dsp.exec_cmd("hyprshot --mode region"))
 
 -- Clipboard history
 hl.bind(execMod .. " + V", hl.dsp.exec_cmd('cliphist list | rofi -dmenu -p "clipboard" | cliphist decode | wl-copy'))
+-- Restore previous clipboard (recovers local copy after RDP steals focus and overwrites it)
+hl.bind(execMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | sed -n '2p' | cliphist decode | wl-copy"))
 
 -- Volume controls
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ +10%"))

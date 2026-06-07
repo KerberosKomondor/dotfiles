@@ -4,6 +4,6 @@ Version=1.0
 Terminal=false
 Type=Application
 Name=Microsoft Teams
-Exec=/opt/google/chrome/google-chrome --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo --enable-features=WebRTCPipeWireCapturer
+Exec=/opt/google/chrome/google-chrome --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo --ozone-platform=wayland --enable-features=WebRTCPipeWireCapturer,WaylandWindowDecorations,UseOzonePlatform
 Icon=chrome-cifhbcnohmdccbgoicgdjpfamggdegmo-Default
 StartupWMClass=crx_cifhbcnohmdccbgoicgdjpfamggdegmo
