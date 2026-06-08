@@ -82,13 +82,18 @@ function parse(json: string): WeatherData {
   const h = d.hourly
   const times = h.time as string[]
   const nowStr = currentHourString()
-  const startIdx = Math.max(0, times.indexOf(nowStr))
-  const hourly: HourlyForecast[] = times.slice(startIdx, startIdx + 12).map((time: string, i: number) => ({
-    time,
-    weatherCode: h.weather_code[startIdx + i],
-    temperature: Math.round(h.temperature_2m[startIdx + i]),
-    precipitationProbability: h.precipitation_probability[startIdx + i],
-  }))
+  const rawIdx = times.indexOf(nowStr)
+  // Fall back to last 12 available hours if current hour isn't in the response
+  const startIdx = rawIdx >= 0 ? rawIdx : Math.max(0, times.length - 12)
+  const hourly: HourlyForecast[] = times.slice(startIdx, startIdx + 12).map((time: string, i: number) => {
+    const idx = startIdx + i
+    return {
+      time,
+      weatherCode: h.weather_code[idx],
+      temperature: Math.round(h.temperature_2m[idx]),
+      precipitationProbability: h.precipitation_probability[idx],
+    }
+  })
 
   return {
     temperature: Math.round(c.temperature_2m),
