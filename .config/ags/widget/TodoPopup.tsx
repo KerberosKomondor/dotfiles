@@ -4,8 +4,9 @@ import app from "ags/gtk3/app"
 import { createState, With } from "ags"
 import { todoVisible, setTodoVisible } from "../app"
 import {
-  TodoItem, getCurrentWeekDates, today, getDayName,
+  TodoItem, getCurrentWeekDates, today, getDayName, getDayLetter,
   getTodosForDate, saveTodosForDate, initDayIfNeeded, refreshBadge,
+  getRecurring, saveRecurring, hasTodosFile, ALL_DAY_LETTERS,
 } from "../service/todos"
 
 export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
@@ -16,6 +17,9 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
   const [selectedDate, setSelectedDate] = createState(todayStr)
   const [items, setItems] = createState<TodoItem[]>([])
   const [showAdd, setShowAdd] = createState(false)
+  const [addMode, setAddMode] = createState<"oneoff" | "recurring">("oneoff")
+  const [selectedDays, setSelectedDays] = createState<string[]>([getDayLetter(todayStr)])
+  const [addText, setAddText] = createState("")
 
   function loadDay(date: string): void {
     initDayIfNeeded(date)
@@ -41,6 +45,46 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
     saveTodosForDate(date, updated)
     setItems(updated)
     refreshBadge()
+  }
+
+  function toggleDaySelection(letter: string): void {
+    const current = selectedDays()
+    const next = current.includes(letter)
+      ? current.filter(l => l !== letter)
+      : [...current, letter]
+    setSelectedDays(next)
+  }
+
+  function handleAdd(text: string): void {
+    if (!text.trim()) return
+    const days = selectedDays()
+
+    if (addMode() === "oneoff") {
+      for (const date of weekDates) {
+        if (days.includes(getDayLetter(date))) {
+          initDayIfNeeded(date)
+          const current = getTodosForDate(date)
+          saveTodosForDate(date, [...current, { text: text.trim(), done: false }])
+        }
+      }
+    } else {
+      const current = getRecurring()
+      saveRecurring([...current, { text: text.trim(), days }])
+      for (const date of weekDates) {
+        if (days.includes(getDayLetter(date))) {
+          if (hasTodosFile(date)) {
+            const content = getTodosForDate(date)
+            saveTodosForDate(date, [...content, { text: text.trim(), done: false }])
+          }
+        }
+      }
+    }
+
+    setItems(getTodosForDate(selectedDate()))
+    refreshBadge()
+    setShowAdd(false)
+    setAddMode("oneoff")
+    setSelectedDays([getDayLetter(selectedDate())])
   }
 
   // Load today on first open
@@ -114,16 +158,84 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
           )}
         </With>
 
-        {/* Add button placeholder — full add flow in Task 5 */}
+        {/* Add button / form */}
         <With value={showAdd}>
-          {(adding: boolean) => adding
-            ? <label label="" />
-            : (
-              <button class="todo-add-btn" onClicked={() => setShowAdd(true)}>
-                <label label="＋" />
-              </button>
-            )
-          }
+          {(adding: boolean) => adding ? (
+            <box vertical class="todo-add-form" spacing={6}>
+              <entry
+                class="todo-add-entry"
+                placeholder_text="What needs doing?"
+                onChanged={(self: any) => setAddText(self.text)}
+                onActivate={(self: any) => {
+                  handleAdd(self.text)
+                  self.set_text("")
+                  setAddText("")
+                }}
+              />
+              <With value={addMode}>
+                {(mode: "oneoff" | "recurring") => (
+                  <box vertical spacing={4}>
+                    <box spacing={4}>
+                      <button
+                        class={`todo-mode-btn${mode === "oneoff" ? " active" : ""}`}
+                        onClicked={() => { setAddMode("oneoff"); setSelectedDays([getDayLetter(selectedDate())]) }}
+                      >
+                        <label label="One-off" />
+                      </button>
+                      <button
+                        class={`todo-mode-btn${mode === "recurring" ? " active" : ""}`}
+                        onClicked={() => { setAddMode("recurring"); setSelectedDays([]) }}
+                      >
+                        <label label="Recurring" />
+                      </button>
+                    </box>
+                    <With value={selectedDays}>
+                      {(days: string[]) => (
+                        <box class="todo-day-picker" spacing={3}>
+                          {mode === "oneoff"
+                            ? weekDates.map(date => {
+                                const letter = getDayLetter(date)
+                                return (
+                                  <button
+                                    class={`todo-day-btn${days.includes(letter) ? " active" : ""}`}
+                                    onClicked={() => toggleDaySelection(letter)}
+                                  >
+                                    <label label={getDayName(date).slice(0, 2)} />
+                                  </button>
+                                )
+                              })
+                            : ALL_DAY_LETTERS.map(letter => (
+                                <button
+                                  class={`todo-day-btn${days.includes(letter) ? " active" : ""}`}
+                                  onClicked={() => toggleDaySelection(letter)}
+                                >
+                                  <label label={letter} />
+                                </button>
+                              ))
+                          }
+                        </box>
+                      )}
+                    </With>
+                    <box spacing={4}>
+                      <button
+                        class="todo-save-btn"
+                        onClicked={() => { handleAdd(addText()); setAddText("") }}
+                      >
+                        <label label="Add" />
+                      </button>
+                      <button class="todo-cancel-btn" onClicked={() => setShowAdd(false)}>
+                        <label label="Cancel" />
+                      </button>
+                    </box>
+                  </box>
+                )}
+              </With>
+            </box>
+          ) : (
+            <button class="todo-add-btn" onClicked={() => setShowAdd(true)}>
+              <label label="＋" />
+            </button>
+          )}
         </With>
 
       </box>
