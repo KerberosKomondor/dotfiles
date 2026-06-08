@@ -69,6 +69,7 @@ export default function WeatherPopup(gdkmonitor: Gdk.Monitor) {
                 <label class="weather-forecast-label" label="NEXT 12 HOURS" halign={Gtk.Align.START} />
                 <box class="weather-hourly" orientation={1} spacing={0}>
                   {(() => {
+                    if (w.hourly.length === 0) return null
                     const temps = w.hourly.map(h => h.temperature)
                     const minTemp = Math.min(...temps)
                     const maxTemp = Math.max(...temps)
