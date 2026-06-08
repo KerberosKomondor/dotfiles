@@ -8,7 +8,7 @@ export default function WindowTitle() {
   return (
     <label
       class="window-title"
-      truncate
+      ellipsize={3}
       maxWidthChars={75}
       label={createBinding(hypr, "focusedClient").as(client => client?.title ?? "")}
     />

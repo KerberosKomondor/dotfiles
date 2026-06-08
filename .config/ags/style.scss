@@ -1,8 +1,21 @@
 // ~/.config/ags/style.scss
 * {
-  font-family: "FiraCode Nerd Font", monospace;
+  font-family: "CommitMono Nerd Font", monospace;
   font-size: 14px;
   min-height: 0;
+}
+
+button,
+button:focus,
+button:hover,
+button:active,
+button:checked,
+button:focus:active {
+  border-color: transparent;
+  border-image: none;
+  box-shadow: none;
+  outline: none;
+  background-image: none;
 }
 
 .Bar {
@@ -45,11 +58,11 @@
   border-right: 1px solid #44475a;
   border-radius: 0;
   padding: 0 12px;
-  color: #6272a4;
+  color: #8b8fa8;
   min-height: 32px;
 
   &:hover {
-    color: #f8f8f2;
+    color: #bd93f9;
     background: transparent;
   }
 }
@@ -66,11 +79,11 @@
   background: #44475a;
 
   &.occupied {
-    background: #6272a4;
+    background: #ff79c6;
   }
 
   &.active {
-    background: #8be9fd;
+    background: #bd93f9;
   }
 }
 
@@ -143,7 +156,7 @@
 
 /* Weather popup */
 .WeatherPopup {
-  background: #282a36;
+  background: transparent;
 
   .weather-popup {
     background: #282a36;
@@ -162,19 +175,19 @@
 
   .weather-icon { font-size: 38px; }
   .weather-temp { font-size: 28px; color: #f8f8f2; }
-  .weather-desc { font-size: 11px; color: #6272a4; margin-top: 2px; }
+  .weather-desc { font-size: 11px; color: #8be9fd; margin-top: 2px; }
 
   .weather-meta {
     margin-top: 6px;
     font-size: 12px;
-    color: #6272a4;
+    color: #8be9fd;
   }
 
   .weather-sep { color: #44475a; }
 
   .weather-forecast-label {
     font-size: 10px;
-    color: #6272a4;
+    color: #8be9fd;
     letter-spacing: 0.5px;
     margin-bottom: 8px;
   }
@@ -188,10 +201,10 @@
     min-width: 0;
   }
 
-  .forecast-name { font-size: 10px; color: #6272a4; }
+  .forecast-name { font-size: 10px; color: #8be9fd; }
   .forecast-icon { font-size: 20px; }
   .forecast-hi { font-size: 12px; color: #f8f8f2; }
-  .forecast-lo { font-size: 11px; color: #6272a4; }
+  .forecast-lo { font-size: 11px; color: #8be9fd; }
 }
 
 /* Todo button */
@@ -201,11 +214,11 @@
   border-right: 1px solid #44475a;
   border-radius: 0;
   padding: 0 12px;
-  color: #6272a4;
+  color: #8b8fa8;
   min-height: 32px;
 
   &:hover {
-    color: #f8f8f2;
+    color: #bd93f9;
     background: transparent;
   }
 }
@@ -216,7 +229,7 @@
 
 
 .TodoPopup {
-  background: #282a36;
+  background: transparent;
 
   .todo-popup {
     background: #282a36;
@@ -236,13 +249,14 @@
     border: none;
     border-radius: 5px;
     padding: 3px 8px;
-    color: #6272a4;
-    font-size: 11px;
+    color: #8b8fa8;
+    font-size: 12px;
+    font-weight: bold;
 
-    &:hover    { background: #6272a4; color: #f8f8f2; }
-    &.today    { color: #6272a4; }
-    &.has-items { color: #bd93f9; background: #6272a4; }
-    &.active   { background: #6272a4; color: #f8f8f2; }
+    &:hover     { background: #bd93f9; color: #282a36; }
+    &.today     { color: #8b8fa8; }
+    &.has-items { color: #282a36; background: #ff79c6; }
+    &.active    { background: #bd93f9; color: #282a36; }
   }
 
   .todo-divider {
@@ -278,7 +292,7 @@
     background: transparent;
     border: none;
     padding: 0 4px 0 0;
-    color: #6272a4;
+    color: #bd93f9;
     min-width: 0;
 
     &:hover { color: #f8f8f2; background: transparent; }
@@ -293,8 +307,8 @@
     background: transparent;
     border: none;
     padding: 0 2px;
-    color: transparent;
-    font-size: 10px;
+    color: #6272a4;
+    font-size: 12px;
     min-width: 0;
 
     &:hover { color: #ff5555; background: transparent; }
@@ -306,11 +320,11 @@
     border-top: 1px solid #44475a;
     border-radius: 0 0 8px 8px;
     padding: 4px;
-    color: #44475a;
-    font-size: 16px;
+    color: #bd93f9;
+    font-size: 18px;
     margin-top: 6px;
 
-    &:hover { color: #bd93f9; background: transparent; }
+    &:hover { color: #f8f8f2; background: transparent; }
   }
 
   .todo-add-form {
@@ -335,11 +349,11 @@
     border: none;
     border-radius: 5px;
     padding: 3px 10px;
-    color: #6272a4;
+    color: #8b8fa8;
     font-size: 11px;
 
-    &.active { background: #6272a4; color: #f8f8f2; }
-    &:hover { background: #6272a4; color: #f8f8f2; }
+    &.active { background: #bd93f9; color: #282a36; }
+    &:hover { background: #bd93f9; color: #282a36; }
   }
 
   .todo-day-btn {
@@ -347,7 +361,7 @@
     border: none;
     border-radius: 4px;
     padding: 2px 5px;
-    color: #6272a4;
+    color: #8b8fa8;
     font-size: 10px;
     min-width: 0;
 
@@ -356,30 +370,36 @@
   }
 
   .todo-save-btn {
-    background: #6272a4;
+    background: #bd93f9;
     border: none;
     border-radius: 5px;
     padding: 3px 12px;
-    color: #f8f8f2;
+    color: #282a36;
     font-size: 12px;
 
-    &:hover { background: #bd93f9; }
+    &:hover { background: #ff79c6; color: #282a36; }
   }
 
   .todo-cancel-btn {
     background: transparent;
     border: none;
     padding: 3px 8px;
-    color: #6272a4;
+    color: #ff79c6;
     font-size: 12px;
 
     &:hover { color: #f8f8f2; background: transparent; }
   }
 }
 
+/* Transparent click-catcher backdrop */
+.Backdrop {
+  background: transparent;
+  > box { background: transparent; }
+}
+
 /* Dashboard popup */
 .Dashboard {
-  background: #282a36;
+  background: transparent;
 
   .dashboard-popup {
     background: #282a36;
@@ -399,7 +419,7 @@
 
   .dash-profile-icon {
     font-size: 26px;
-    background: #ff5555;
+    background: #bd93f9;
     border-radius: 8px;
     padding: 6px;
     min-width: 44px;
@@ -407,7 +427,7 @@
   }
 
   .dash-profile-name { color: #ff79c6; font-size: 15px; }
-  .dash-profile-sub  { color: #6272a4; font-size: 11px; }
+  .dash-profile-sub  { color: #8be9fd; font-size: 11px; }
 
   .dash-power { margin-bottom: 10px; }
 
@@ -435,12 +455,12 @@
     border: none;
     border-radius: 7px;
     padding: 9px 4px;
-    color: #6272a4;
+    color: #8b8fa8;
 
     &.on { background: #1e3a2e; }
     &.on .dash-toggle-icon { color: #50fa7b; }
   }
 
   .dash-toggle-icon  { font-size: 18px; margin-bottom: 4px; }
-  .dash-toggle-label { font-size: 9px; color: #6272a4; }
+  .dash-toggle-label { font-size: 11px; font-weight: bold; color: #f8f8f2; }
 }

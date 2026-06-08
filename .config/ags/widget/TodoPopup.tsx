@@ -1,6 +1,6 @@
 // ~/.config/ags/widget/TodoPopup.tsx
-import { Astal, Gtk, Gdk } from "ags/gtk3"
-import app from "ags/gtk3/app"
+import { Astal, Gtk, Gdk } from "ags/gtk4"
+import app from "ags/gtk4/app"
 import { createState, With } from "ags"
 import { todoVisible, setTodoVisible } from "../app"
 import {
@@ -10,7 +10,7 @@ import {
 } from "../service/todos"
 
 export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
-  const { TOP, LEFT } = Astal.WindowAnchor
+  const { TOP, LEFT, BOTTOM, RIGHT } = Astal.WindowAnchor
   const weekDates = getCurrentWeekDates()
   const todayStr = today()
 
@@ -97,15 +97,31 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
       gdkmonitor={gdkmonitor}
       layer={Astal.Layer.OVERLAY}
       keymode={Astal.Keymode.ON_DEMAND}
-      anchor={TOP | LEFT}
+      anchor={TOP | LEFT | BOTTOM | RIGHT}
       visible={todoVisible.as(v => v)}
       application={app}
-      onKeyPressEvent={(_self, event) => {
-        if (event.get_keyval()[1] === Gdk.KEY_Escape)
-          setTodoVisible(false)
+      $={(self: any) => {
+        const ctrl = new Gtk.EventControllerKey()
+        ctrl.connect("key-pressed", (_c: any, keyval: number) => {
+          if (keyval === Gdk.KEY_Escape) setTodoVisible(false)
+        })
+        self.add_controller(ctrl)
+        const click = new Gtk.GestureClick()
+        click.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+        click.connect("pressed", (gesture: any, _n: number, x: number, y: number) => {
+          const child = self.get_child()
+          if (!child) return
+          const a = child.get_allocation()
+          if (x >= a.x && x <= a.x + a.width && y >= a.y && y <= a.y + a.height) {
+            gesture.set_state(Gtk.EventSequenceState.DENIED)
+          } else {
+            setTodoVisible(false)
+          }
+        })
+        self.add_controller(click)
       }}
     >
-      <box class="todo-popup" vertical spacing={0}>
+      <box class="todo-popup" orientation={1} spacing={0} halign={Gtk.Align.START} valign={Gtk.Align.START}>
 
         {/* Day tabs */}
         <With value={selectedDate}>
@@ -140,17 +156,17 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
         {/* Item list */}
         <With value={items}>
           {(list: TodoItem[]) => (
-            <box vertical spacing={2} class="todo-list">
+            <box orientation={1} spacing={2} class="todo-list">
               {list.length === 0
                 ? <label class="todo-empty" label="Nothing here" halign={Gtk.Align.CENTER} />
                 : list.map((item, i) => (
                     <box class={`todo-item${item.done ? " done" : ""}`} spacing={4}>
                       <button class="todo-check" onClicked={() => toggleItem(item.text)}>
-                        <label label={item.done ? "☑" : "☐"} />
+                        <label label={item.done ? "󰄵" : "󰄱"} />
                       </button>
                       <label class="todo-text" label={item.text} hexpand halign={Gtk.Align.START} />
                       <button class="todo-delete" onClicked={() => deleteItem(item.text)}>
-                        <label label="✕" />
+                        <label label="󰅖" />
                       </button>
                     </box>
                   ))
@@ -162,7 +178,7 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
         {/* Add button / form */}
         <With value={showAdd}>
           {(adding: boolean) => adding ? (
-            <box vertical class="todo-add-form" spacing={6}>
+            <box orientation={1} class="todo-add-form" spacing={6}>
               <entry
                 class="todo-add-entry"
                 placeholder_text="What needs doing?"
@@ -175,7 +191,7 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
               />
               <With value={addMode}>
                 {(mode: "oneoff" | "recurring") => (
-                  <box vertical spacing={4}>
+                  <box orientation={1} spacing={4}>
                     <box spacing={4}>
                       <button
                         class={`todo-mode-btn${mode === "oneoff" ? " active" : ""}`}
@@ -234,7 +250,7 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
             </box>
           ) : (
             <button class="todo-add-btn" onClicked={() => setShowAdd(true)}>
-              <label label="＋" />
+              <label label="󰐕" />
             </button>
           )}
         </With>

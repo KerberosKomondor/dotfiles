@@ -1,6 +1,6 @@
 // ~/.config/ags/widget/Bar.tsx
-import { Astal, Gtk, Gdk } from "ags/gtk3"
-import app from "ags/gtk3/app"
+import { Astal, Gtk, Gdk } from "ags/gtk4"
+import app from "ags/gtk4/app"
 import DashboardButton from "./DashboardButton"
 import TodoButton from "./TodoButton"
 import Workspaces from "./Workspaces"
@@ -19,8 +19,10 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
     <window
       class="Bar"
       gdkmonitor={gdkmonitor}
+      layer={Astal.Layer.TOP}
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
       anchor={TOP | LEFT | RIGHT}
+      visible={true}
       application={app}
     >
       <box>

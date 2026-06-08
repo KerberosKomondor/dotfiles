@@ -1,5 +1,5 @@
 // ~/.config/ags/app.ts
-import app from "ags/gtk3/app"
+import app from "ags/gtk4/app"
 import style from "./style.scss"
 import Bar from "./widget/Bar"
 import WeatherPopup from "./widget/WeatherPopup"
@@ -15,7 +15,7 @@ app.start({
   css: style,
   main() {
     const monitors = app.get_monitors()
-    monitors.filter(m => m.get_geometry().x > 0).map(Bar)
+    monitors.filter((m: any) => m.get_geometry().x > 0).map(Bar)
     Dashboard(monitors[0])
     WeatherPopup(monitors[0])
     TodoPopup(monitors[0])

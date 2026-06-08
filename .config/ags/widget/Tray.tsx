@@ -1,5 +1,5 @@
 // ~/.config/ags/widget/Tray.tsx
-import { Gtk } from "ags/gtk3"
+import { Gtk } from "ags/gtk4"
 import AstalTray from "gi://AstalTray"
 import { createBinding, For, onCleanup } from "ags"
 
@@ -13,7 +13,6 @@ export default function Tray() {
           <menubutton
             class="tray-item"
             tooltipMarkup={createBinding(item, "tooltipMarkup")}
-            usePopover={false}
             menuModel={createBinding(item, "menuModel")}
             $={(self: Gtk.MenuButton) => {
               const update = () => {
@@ -25,7 +24,7 @@ export default function Tray() {
               onCleanup(dispose)
             }}
           >
-            <icon gicon={createBinding(item, "gicon")} />
+            <image gicon={createBinding(item, "gicon")} />
           </menubutton>
         )}
       </For>

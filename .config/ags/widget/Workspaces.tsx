@@ -1,5 +1,5 @@
 // ~/.config/ags/widget/Workspaces.tsx
-import { Gtk } from "ags/gtk3"
+import { Gtk } from "ags/gtk4"
 import Hyprland from "gi://AstalHyprland"
 import { createBinding, createMemo, For } from "ags"
 

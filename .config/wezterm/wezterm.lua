@@ -1,7 +1,7 @@
 local wezterm = require 'wezterm'
 return {
     font = wezterm.font_with_fallback {
-        'FiraCode Nerd Font',
+        'CommitMono Nerd Font Mono',
         'JetBrains Mono',
         'Noto Color Emoji',
     },

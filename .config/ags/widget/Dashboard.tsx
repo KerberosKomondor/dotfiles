@@ -1,6 +1,6 @@
 // ~/.config/ags/widget/Dashboard.tsx
-import { Astal, Gtk, Gdk } from "ags/gtk3"
-import app from "ags/gtk3/app"
+import { Astal, Gtk, Gdk } from "ags/gtk4"
+import app from "ags/gtk4/app"
 import { createBinding } from "ags"
 import { execAsync } from "ags/process"
 import Wp from "gi://AstalWp"
@@ -10,7 +10,7 @@ import Notifd from "gi://AstalNotifd"
 import { dashboardVisible, setDashboardVisible } from "../app"
 
 export default function Dashboard(gdkmonitor: Gdk.Monitor) {
-  const { TOP, LEFT } = Astal.WindowAnchor
+  const { TOP, LEFT, BOTTOM, RIGHT } = Astal.WindowAnchor
 
   const wp = Wp.get_default()
   const speaker = wp?.audio?.get_default_speaker()
@@ -32,20 +32,36 @@ export default function Dashboard(gdkmonitor: Gdk.Monitor) {
       gdkmonitor={gdkmonitor}
       layer={Astal.Layer.OVERLAY}
       keymode={Astal.Keymode.ON_DEMAND}
-      anchor={TOP | LEFT}
+      anchor={TOP | LEFT | BOTTOM | RIGHT}
       visible={dashboardVisible as unknown as boolean}
       application={app}
-      onKeyPressEvent={(_self, event) => {
-        if (event.get_keyval()[1] === Gdk.KEY_Escape)
-          setDashboardVisible(false)
+      $={(self: any) => {
+        const ctrl = new Gtk.EventControllerKey()
+        ctrl.connect("key-pressed", (_c: any, keyval: number) => {
+          if (keyval === Gdk.KEY_Escape) setDashboardVisible(false)
+        })
+        self.add_controller(ctrl)
+        const click = new Gtk.GestureClick()
+        click.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+        click.connect("pressed", (gesture: any, _n: number, x: number, y: number) => {
+          const child = self.get_child()
+          if (!child) return
+          const a = child.get_allocation()
+          if (x >= a.x && x <= a.x + a.width && y >= a.y && y <= a.y + a.height) {
+            gesture.set_state(Gtk.EventSequenceState.DENIED)
+          } else {
+            setDashboardVisible(false)
+          }
+        })
+        self.add_controller(click)
       }}
     >
-      <box class="dashboard-popup" vertical spacing={0}>
+      <box class="dashboard-popup" orientation={1} spacing={0} halign={Gtk.Align.START} valign={Gtk.Align.START}>
 
         {/* Profile card */}
         <box class="dash-profile" spacing={12}>
           <label class="dash-profile-icon" label="󰣇" />
-          <box vertical>
+          <box orientation={1}>
             <label class="dash-profile-name" label="appa" halign={Gtk.Align.START} />
             <label class="dash-profile-sub" label="Hyprland" halign={Gtk.Align.START} />
           </box>
@@ -57,7 +73,7 @@ export default function Dashboard(gdkmonitor: Gdk.Monitor) {
             class="dash-power-btn shutdown"
             onClicked={() => { setDashboardVisible(false); execAsync(["systemctl", "poweroff"]) }}
           >
-            <box vertical>
+            <box orientation={1}>
               <label class="dash-power-icon" label="󰐥" />
               <label label="Shutdown" />
             </box>
@@ -66,7 +82,7 @@ export default function Dashboard(gdkmonitor: Gdk.Monitor) {
             class="dash-power-btn restart"
             onClicked={() => { setDashboardVisible(false); execAsync(["systemctl", "reboot"]) }}
           >
-            <box vertical>
+            <box orientation={1}>
               <label class="dash-power-icon" label="󰜉" />
               <label label="Restart" />
             </box>
@@ -75,7 +91,7 @@ export default function Dashboard(gdkmonitor: Gdk.Monitor) {
             class="dash-power-btn logout"
             onClicked={() => { setDashboardVisible(false); execAsync(["hyprctl", "dispatch", "exit"]) }}
           >
-            <box vertical>
+            <box orientation={1}>
               <label class="dash-power-icon" label="󰍃" />
               <label label="Logout" />
             </box>
@@ -96,7 +112,7 @@ export default function Dashboard(gdkmonitor: Gdk.Monitor) {
               if (network?.wifi) network.wifi.enabled = !network.wifi.enabled
             }}
           >
-            <box vertical>
+            <box orientation={1}>
               <label class="dash-toggle-icon" label="󰤨" />
               <label class="dash-toggle-label" label="WiFi" />
             </box>
@@ -109,7 +125,7 @@ export default function Dashboard(gdkmonitor: Gdk.Monitor) {
               : "dash-toggle"}
             onClicked={() => { if (bt) bt.toggle() }}
           >
-            <box vertical>
+            <box orientation={1}>
               <label class="dash-toggle-icon" label="󰂯" />
               <label class="dash-toggle-label" label="Bluetooth" />
             </box>
@@ -124,7 +140,7 @@ export default function Dashboard(gdkmonitor: Gdk.Monitor) {
               if (notifd) notifd.dontDisturb = !notifd.dontDisturb
             }}
           >
-            <box vertical>
+            <box orientation={1}>
               <label class="dash-toggle-icon" label="󰂚" />
               <label class="dash-toggle-label" label="Notifs" />
             </box>
@@ -139,7 +155,7 @@ export default function Dashboard(gdkmonitor: Gdk.Monitor) {
               if (speaker) speaker.mute = !speaker.mute
             }}
           >
-            <box vertical>
+            <box orientation={1}>
               <label class="dash-toggle-icon" label="󰕾" />
               <label class="dash-toggle-label" label="Volume" />
             </box>
@@ -154,7 +170,7 @@ export default function Dashboard(gdkmonitor: Gdk.Monitor) {
               if (mic) mic.mute = !mic.mute
             }}
           >
-            <box vertical>
+            <box orientation={1}>
               <label class="dash-toggle-icon" label="󰍬" />
               <label class="dash-toggle-label" label="Mic" />
             </box>
