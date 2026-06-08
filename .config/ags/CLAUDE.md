@@ -25,6 +25,19 @@ ags bundle ~/.config/ags/app.ts /tmp/check.js
 | `widget/TodoPopup.tsx` | Todo popup — day tabs, item list, add flow |
 | `widget/Dashboard.tsx` | Dashboard popup — power, toggles |
 
+## Multi-monitor
+
+`app.get_monitors()` returns all `Gdk.Monitor` instances. To target a specific output:
+
+- **Do NOT use `get_connector()`** — not exposed in this GJS binding (throws `TypeError: not a function`)
+- **Do NOT use `is_primary()`** — always returns false on Wayland/Hyprland
+- **Use geometry**: filter by `m.get_geometry().x` based on Hyprland monitor positions
+
+DP-1 (right, x=1920) vs DP-2 (left, x=0):
+```typescript
+monitors.filter(m => m.get_geometry().x > 0).map(Bar)  // DP-1 only
+```
+
 ## Reactive primitives (gnim)
 
 ```typescript
