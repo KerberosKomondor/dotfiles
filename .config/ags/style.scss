@@ -227,6 +227,19 @@ button:focus:active {
   font-size: 14px;
 }
 
+.todo-badge {
+  background: #ff79c6;
+  color: #282a36;
+  border-radius: 9999px;
+  min-width: 12px;
+  min-height: 12px;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 0 2px;
+  margin-top: 2px;
+  margin-right: 2px;
+}
+
 
 .TodoPopup {
   background: transparent;

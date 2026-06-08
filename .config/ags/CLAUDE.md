@@ -1,11 +1,16 @@
 # AGS Config — Developer Notes
 
-AGS 3.1.2 with gnim reactive library. TypeScript/TSX targeting GTK3.
+AGS 3.1.2 with gnim reactive library. TypeScript/TSX targeting GTK4.
 
 ## Run / restart
 
 ```bash
 ags quit && ags run ~/.config/ags
+```
+
+Auto-restart on file changes (eliminates manual restarts during dev):
+```bash
+~/.config/ags/watch.sh
 ```
 
 Compile-check without running:
@@ -62,39 +67,29 @@ interval(5000, callback)  // every 5s, no immediate call
 
 **Use `.as()` on props directly instead of `<With>` when you don't need conditional rendering** — it's simpler and avoids a Fragment wrapper.
 
-## GTK3 layout gotchas
-
-### Box children always expand
-
-`Gtk.Box.add()` packs children with `expand=true, fill=true` by default. Setting `halign`, `valign`, or `hexpand={false}` on a child **does not fix this** — the packing expand is set at the container level and overrides widget properties.
-
-**Consequence:** a label with `background` CSS inside a `<box>` will stretch to fill available space, regardless of alignment props.
-
-**Fix for inline styled text** (e.g. a count badge next to an icon): use **Pango markup on a single label** instead of separate sibling widgets:
-
-```tsx
-<label
-  use_markup={true}
-  label={count.as(n => n > 0
-    ? `icon <span foreground="#282a36" background="#ff79c6" size="small" weight="bold"> ${n} </span>`
-    : "icon"
-  )}
-/>
-```
-
-Pango `background` only covers the span text, not the widget allocation.
+## GTK4 layout notes
 
 ### Overlay JSX
 
-`<overlay>` uses `overlays={[...]}` for overlay children — JSX children set the base widget only:
+GTK4 `Gtk.Overlay` has no `overlays` prop. Use `$type="overlay"` on JSX children to route them through GTK's buildable API (`vfunc_add_child` with type `"overlay"` calls `add_overlay`). First child without `$type` becomes the base widget.
 
 ```tsx
-<overlay overlays={[<label halign={Gtk.Align.END} valign={Gtk.Align.START} />]}>
-  <label label="base" />
+<overlay>
+  <button>base widget</button>
+  <label
+    $type="overlay"
+    halign={Gtk.Align.END}
+    valign={Gtk.Align.START}
+    label={count.as(n => String(n))}
+  />
 </overlay>
 ```
 
-Do NOT put reactive `.as()` bindings inside the `overlays={[]}` array — causes a `Cannot convert non-null JS value to G_POINTER` crash at runtime.
+Reactive `.as()` bindings on overlay child **props** are fine — they're on the widget itself, not in an array.
+
+### tsconfig jsxImportSource
+
+Must be `"ags/gtk4"` — if set to `"ags/gtk3"` the bundler includes the GTK3 jsx-runtime and GJS throws `Version 4.0 of GI module Gtk already loaded, cannot load version 3.0` at startup.
 
 ## Popup pattern
 
