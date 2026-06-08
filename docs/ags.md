@@ -20,6 +20,17 @@ Bar runs on all monitors via `app.get_monitors().map(Bar)`. Popups target `monit
 Open-Meteo, ZIP 80921 (Colorado Springs). Coordinates: 39.02°N, 104.77°W.
 Update interval: 10 min. No API key required. To change location, edit `service/weather.ts`.
 
+### Hourly Weather
+
+The weather popup fetches 12 hours of hourly data from Open-Meteo alongside current conditions and the 5-day forecast.
+
+- Fields: `temperature_2m`, `weather_code`, `precipitation_probability`
+- Displayed as a timeline between current conditions and the daily forecast
+- Bar color: cyan (dry), purple (precip ≥ 20%)
+- Bar width: relative to min/max temp across the 12-hour window
+- Time labels: "Now" for current hour, then 12-hour format (e.g. "3 PM")
+- API `startIdx` fallback: when the current hour is not found in the hourly array, falls back to the last 12 available hours (not the first 12)
+
 ## Dashboard
 Opens via the 󰣇 button at far left of bar. Escape or button click to close.
 - Power: systemctl poweroff/reboot, hyprctl dispatch exit
