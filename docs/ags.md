@@ -25,6 +25,23 @@ Opens via the 󰣇 button at far left of bar. Escape or button click to close.
 - Power: systemctl poweroff/reboot, hyprctl dispatch exit
 - Toggles: wifi (AstalNetwork), bluetooth (AstalBluetooth bt.toggle()), notifications DnD (AstalNotifd), volume/mic mute (AstalWirePlumber)
 
+## Todo list
+
+Button at far left (after DashboardButton). Click to open a per-day checklist popup.
+
+### Storage
+- `~/.local/share/ags/todos/YYYY-MM-DD.txt` — daily items (`[ ] text` / `[x] text`)
+- `~/.local/share/ags/todos/recurring.txt` — recurring items (`MTWRF [ ] text`)
+
+### Adding items
+Click `＋` in the popup. Toggle One-off (pick days this week) or Recurring (pick day-of-week letters). Press Enter or click Add.
+
+### Recurring items
+Injected into a day's file when that tab is first opened. Checking a recurring item marks it done only in that day's file — `recurring.txt` always stays `[ ]`.
+
+### Deleting recurring items
+Edit `~/.local/share/ags/todos/recurring.txt` directly.
+
 ## Known limitations
 - MPRIS position counter refreshes on song change only, not live
 - Dashboard popup doesn't close on click-outside (use Escape or the button)
