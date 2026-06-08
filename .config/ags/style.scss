@@ -209,10 +209,7 @@ button:focus:active {
   .weather-hourly { margin-top: 4px; }
 
   .hourly-row {
-    display: flex;
-    align-items: center;
     padding: 3px 0;
-    gap: 8px;
     border-bottom: 1px solid #383a4a;
     &:last-child { border-bottom: none; }
   }

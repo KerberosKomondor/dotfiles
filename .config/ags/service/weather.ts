@@ -35,7 +35,7 @@ const URL =
   "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
   "&hourly=temperature_2m,weather_code,precipitation_probability" +
   "&temperature_unit=fahrenheit&wind_speed_unit=mph" +
-  "&forecast_days=5&timezone=America%2FDenver"
+  "&forecast_days=6&timezone=America%2FDenver"
 
 export const WMO_ICON: Record<number, string> = {
   0: "󰖙", 1: "󰖙", 2: "󰖕", 3: "󰖐",
@@ -72,7 +72,7 @@ function parse(json: string): WeatherData {
   const d = JSON.parse(json)
   const c = d.current
   const daily = d.daily
-  const forecast: DayForecast[] = (daily.time as string[]).map((date: string, i: number) => ({
+  const forecast: DayForecast[] = (daily.time as string[]).slice(0, 5).map((date: string, i: number) => ({
     date,
     weatherCode: daily.weather_code[i],
     maxTemp: Math.round(daily.temperature_2m_max[i]),

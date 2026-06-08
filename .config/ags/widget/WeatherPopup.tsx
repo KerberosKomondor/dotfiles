@@ -86,7 +86,7 @@ export default function WeatherPopup(gdkmonitor: Gdk.Monitor) {
                             return `${hr % 12 || 12} ${hr < 12 ? "AM" : "PM"}`
                           })()
                       return (
-                        <box class="hourly-row" spacing={0}>
+                        <box class="hourly-row" spacing={8}>
                           <label class="hourly-time" label={timeLabel} halign={Gtk.Align.START} />
                           <label class="hourly-icon" label={WMO_ICON[h.weatherCode] ?? "󰖐"} halign={Gtk.Align.CENTER} />
                           <box class="hourly-bar-wrap" hexpand={true}>
