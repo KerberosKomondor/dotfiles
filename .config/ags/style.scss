@@ -194,6 +194,35 @@
   .forecast-lo { font-size: 11px; color: #6272a4; }
 }
 
+/* Todo button */
+.todo-button {
+  background: transparent;
+  border: none;
+  border-right: 1px solid #44475a;
+  border-radius: 0;
+  padding: 0 12px;
+  color: #6272a4;
+  min-height: 32px;
+
+  &:hover {
+    color: #f8f8f2;
+    background: transparent;
+  }
+}
+
+/* TodoPopup stub */
+.TodoPopup {
+  background: #282a36;
+  .todo-popup {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 300px;
+    margin-top: 2px;
+  }
+}
+
 /* Dashboard popup */
 .Dashboard {
   background: #282a36;

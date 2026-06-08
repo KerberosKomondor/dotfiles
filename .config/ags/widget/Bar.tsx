@@ -2,6 +2,7 @@
 import { Astal, Gtk, Gdk } from "ags/gtk3"
 import app from "ags/gtk3/app"
 import DashboardButton from "./DashboardButton"
+import TodoButton from "./TodoButton"
 import Workspaces from "./Workspaces"
 import WindowTitle from "./WindowTitle"
 import Volume from "./Volume"
@@ -25,6 +26,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       <box>
         <box hexpand halign={Gtk.Align.START} class="bar-left">
           <DashboardButton />
+          <TodoButton />
           <Workspaces />
           <WindowTitle />
         </box>
