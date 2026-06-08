@@ -66,6 +66,48 @@ export default function WeatherPopup(gdkmonitor: Gdk.Monitor) {
                     </box>
                   </box>
                 </box>
+                <label class="weather-forecast-label" label="NEXT 12 HOURS" halign={Gtk.Align.START} />
+                <box class="weather-hourly" orientation={1} spacing={0}>
+                  {(() => {
+                    const temps = w.hourly.map(h => h.temperature)
+                    const minTemp = Math.min(...temps)
+                    const maxTemp = Math.max(...temps)
+                    const range = maxTemp - minTemp || 1
+                    return w.hourly.map((h, i) => {
+                      const pct = (h.temperature - minTemp) / range
+                      const barPx = Math.max(2, Math.round(pct * 120))
+                      const hasRain = h.precipitationProbability >= 20
+                      const barColor = hasRain ? "#bd93f9" : "#8be9fd"
+                      const timeLabel = i === 0
+                        ? "Now"
+                        : (() => {
+                            const hr = new Date(h.time).getHours()
+                            return `${hr % 12 || 12} ${hr < 12 ? "AM" : "PM"}`
+                          })()
+                      return (
+                        <box class="hourly-row" spacing={0}>
+                          <label class="hourly-time" label={timeLabel} halign={Gtk.Align.START} />
+                          <label class="hourly-icon" label={WMO_ICON[h.weatherCode] ?? "󰖐"} halign={Gtk.Align.CENTER} />
+                          <box class="hourly-bar-wrap" hexpand={true}>
+                            <box
+                              class="hourly-bar"
+                              halign={Gtk.Align.START}
+                              valign={Gtk.Align.FILL}
+                              widthRequest={barPx}
+                              css={`background: ${barColor};`}
+                            />
+                          </box>
+                          <label class="hourly-temp" label={`${h.temperature}°`} halign={Gtk.Align.END} />
+                          <label
+                            class="hourly-precip"
+                            label={hasRain ? `${h.precipitationProbability}%` : ""}
+                            halign={Gtk.Align.END}
+                          />
+                        </box>
+                      )
+                    })
+                  })()}
+                </box>
                 <label class="weather-forecast-label" label="5-DAY FORECAST" halign={Gtk.Align.START} />
                 <box class="weather-forecast" spacing={6} homogeneous>
                   {w.forecast.map((day, i) => (
