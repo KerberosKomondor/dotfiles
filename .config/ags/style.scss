@@ -248,9 +248,9 @@
     color: #6272a4;
     font-size: 11px;
 
-    &:hover    { background: #383a4a; color: #f8f8f2; }
+    &:hover    { background: #6272a4; color: #f8f8f2; }
     &.today    { color: #6272a4; }
-    &.has-items { color: #bd93f9; background: #383a4a; }
+    &.has-items { color: #bd93f9; background: #6272a4; }
     &.active   { background: #6272a4; color: #f8f8f2; }
   }
 
@@ -348,7 +348,7 @@
     font-size: 11px;
 
     &.active { background: #6272a4; color: #f8f8f2; }
-    &:hover { background: #383a4a; color: #f8f8f2; }
+    &:hover { background: #6272a4; color: #f8f8f2; }
   }
 
   .todo-day-btn {
@@ -361,7 +361,7 @@
     min-width: 0;
 
     &.active { background: #bd93f9; color: #282a36; }
-    &:hover { background: #383a4a; color: #f8f8f2; }
+    &:hover { background: #6272a4; color: #f8f8f2; }
   }
 
   .todo-save-btn {
@@ -372,7 +372,7 @@
     color: #f8f8f2;
     font-size: 12px;
 
-    &:hover { background: #7282b4; }
+    &:hover { background: #bd93f9; }
   }
 
   .todo-cancel-btn {
