@@ -1,5 +1,7 @@
 // ~/.config/ags/widget/TodoButton.tsx
+import { With } from "ags"
 import { todoVisible, setTodoVisible } from "../app"
+import { todayCount } from "../service/todos"
 
 export default function TodoButton() {
   return (
@@ -7,7 +9,14 @@ export default function TodoButton() {
       class="todo-button"
       onClicked={() => setTodoVisible(!todoVisible())}
     >
-      <label label="󰄬" />
+      <box spacing={2}>
+        <label class="todo-icon" label="󰄬" />
+        <With value={todayCount}>
+          {(n: number) => (
+            <label class="todo-badge" label={String(n)} visible={n > 0} />
+          )}
+        </With>
+      </box>
     </button>
   )
 }

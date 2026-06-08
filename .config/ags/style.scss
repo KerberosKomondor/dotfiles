@@ -210,6 +210,20 @@
   }
 }
 
+.todo-icon {
+  font-size: 14px;
+}
+
+.todo-badge {
+  background: #ff79c6;
+  color: #282a36;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: bold;
+  padding: 0 4px;
+  min-width: 14px;
+}
+
 /* TodoPopup stub */
 .TodoPopup {
   background: #282a36;
