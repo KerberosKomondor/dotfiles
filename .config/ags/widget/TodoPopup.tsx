@@ -153,27 +153,29 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
 
         <box class="todo-divider" />
 
-        {/* Item list */}
-        <With value={items}>
-          {(list: TodoItem[]) => (
-            <box orientation={1} spacing={2} class="todo-list">
-              {list.length === 0
-                ? <label class="todo-empty" label="Nothing here" halign={Gtk.Align.CENTER} />
-                : list.map((item, i) => (
-                    <box class={`todo-item${item.done ? " done" : ""}`} spacing={4}>
-                      <button class="todo-check" onClicked={() => toggleItem(item.text)}>
-                        <label label={item.done ? "󰄵" : "󰄱"} />
-                      </button>
-                      <label class="todo-text" label={item.text} hexpand halign={Gtk.Align.START} />
-                      <button class="todo-delete" onClicked={() => deleteItem(item.text)}>
-                        <label label="󰅖" />
-                      </button>
-                    </box>
-                  ))
-              }
-            </box>
-          )}
-        </With>
+        {/* Item list — stable wrapper prevents <With> re-appending after siblings */}
+        <box orientation={1}>
+          <With value={items}>
+            {(list: TodoItem[]) => (
+              <box orientation={1} spacing={2} class="todo-list">
+                {list.length === 0
+                  ? <label class="todo-empty" label="Nothing here" halign={Gtk.Align.CENTER} />
+                  : list.map((item, i) => (
+                      <box class={`todo-item${item.done ? " done" : ""}`} spacing={4}>
+                        <button class="todo-check" onClicked={() => toggleItem(item.text)}>
+                          <label label={item.done ? "󰄵" : "󰄱"} />
+                        </button>
+                        <label class="todo-text" label={item.text} hexpand halign={Gtk.Align.START} />
+                        <button class="todo-delete" onClicked={() => deleteItem(item.text)}>
+                          <label label="󰅖" />
+                        </button>
+                      </box>
+                    ))
+                }
+              </box>
+            )}
+          </With>
+        </box>
 
         {/* Add button / form */}
         <With value={showAdd}>
