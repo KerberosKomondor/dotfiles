@@ -15,10 +15,10 @@ restart() {
 
 restart
 
-inotifywait -m -r -e modify,create,delete \
+inotifywait -m -r -e modify,close_write,create,delete \
     --include '.*\.(tsx?|scss)$' \
     "$AGS_DIR" 2>/dev/null |
 while read -r _dir _event _file; do
-    echo "[watch] $\_file changed"
+    echo "[watch] $_file changed"
     restart
 done
