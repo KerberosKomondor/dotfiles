@@ -245,11 +245,12 @@
     border: none;
     border-radius: 5px;
     padding: 3px 8px;
-    color: #44475a;
+    color: #6272a4;
     font-size: 11px;
 
+    &:hover    { background: #383a4a; color: #f8f8f2; }
     &.today    { color: #6272a4; }
-    &.has-items { color: #bd93f9; background: #2d2d44; }
+    &.has-items { color: #bd93f9; background: #383a4a; }
     &.active   { background: #6272a4; color: #f8f8f2; }
   }
 

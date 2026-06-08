@@ -4,7 +4,7 @@ import app from "ags/gtk3/app"
 import { createState, With } from "ags"
 import { todoVisible, setTodoVisible } from "../app"
 import {
-  TodoItem, getCurrentWeekDates, today, getDayName, getDayLetter,
+  TodoItem, getCurrentWeekDates, today, getDayName,
   getTodosForDate, saveTodosForDate, initDayIfNeeded, refreshBadge,
 } from "../service/todos"
 
@@ -23,21 +23,23 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
     setShowAdd(false)
   }
 
-  function toggleItem(index: number): void {
+  function toggleItem(text: string): void {
     const date = selectedDate()
     const current = getTodosForDate(date)
-    current[index] = { ...current[index], done: !current[index].done }
+    const idx = current.findIndex(it => it.text === text)
+    if (idx === -1) return
+    current[idx].done = !current[idx].done
     saveTodosForDate(date, current)
     setItems([...current])
     refreshBadge()
   }
 
-  function deleteItem(index: number): void {
+  function deleteItem(text: string): void {
     const date = selectedDate()
     const current = getTodosForDate(date)
-    current.splice(index, 1)
-    saveTodosForDate(date, current)
-    setItems([...current])
+    const updated = current.filter(it => it.text !== text)
+    saveTodosForDate(date, updated)
+    setItems(updated)
     refreshBadge()
   }
 
@@ -51,7 +53,7 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
       layer={Astal.Layer.OVERLAY}
       keymode={Astal.Keymode.ON_DEMAND}
       anchor={TOP | LEFT}
-      visible={todoVisible as unknown as boolean}
+      visible={todoVisible.as(v => v)}
       application={app}
       onKeyPressEvent={(_self, event) => {
         if (event.get_keyval()[1] === Gdk.KEY_Escape)
@@ -98,11 +100,11 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
                 ? <label class="todo-empty" label="Nothing here" halign={Gtk.Align.CENTER} />
                 : list.map((item, i) => (
                     <box class={`todo-item${item.done ? " done" : ""}`} spacing={4}>
-                      <button class="todo-check" onClicked={() => toggleItem(i)}>
+                      <button class="todo-check" onClicked={() => toggleItem(item.text)}>
                         <label label={item.done ? "☑" : "☐"} />
                       </button>
                       <label class="todo-text" label={item.text} hexpand halign={Gtk.Align.START} />
-                      <button class="todo-delete" onClicked={() => deleteItem(i)}>
+                      <button class="todo-delete" onClicked={() => deleteItem(item.text)}>
                         <label label="✕" />
                       </button>
                     </box>
