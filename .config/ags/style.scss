@@ -335,6 +335,8 @@
     color: #f8f8f2;
     padding: 4px 8px;
     font-size: 13px;
+
+    &:focus { border-color: #bd93f9; }
   }
 
   .todo-mode-btn {
@@ -346,9 +348,8 @@
     font-size: 11px;
 
     &.active { background: #6272a4; color: #f8f8f2; }
+    &:hover { background: #383a4a; color: #f8f8f2; }
   }
-
-  .todo-day-picker { }
 
   .todo-day-btn {
     background: #44475a;
@@ -360,6 +361,7 @@
     min-width: 0;
 
     &.active { background: #bd93f9; color: #282a36; }
+    &:hover { background: #383a4a; color: #f8f8f2; }
   }
 
   .todo-save-btn {

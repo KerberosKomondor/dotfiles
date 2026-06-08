@@ -58,6 +58,7 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
   function handleAdd(text: string): void {
     if (!text.trim()) return
     const days = selectedDays()
+    if (days.length === 0) return
 
     if (addMode() === "oneoff") {
       for (const date of weekDates) {
