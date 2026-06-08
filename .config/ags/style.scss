@@ -225,8 +225,8 @@ button:focus:active {
     border-radius: 3px;
   }
   .hourly-bar    { min-height: 6px; border-radius: 3px; }
-  .hourly-temp   { font-size: 11px; min-width: 32px; }
-  .hourly-precip { font-size: 9px; min-width: 30px; }
+  .hourly-temp   { font-size: 11px; color: #f8f8f2; min-width: 32px; }
+  .hourly-precip { font-size: 9px; color: #bd93f9; min-width: 30px; }
 }
 
 /* Todo button */
