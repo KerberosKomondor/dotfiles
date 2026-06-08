@@ -21,8 +21,12 @@ const DAY_LETTERS = ["U", "M", "T", "W", "R", "F", "S"]
 const DAY_NAMES   = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 export const ALL_DAY_LETTERS = ["M", "T", "W", "R", "F", "S", "U"]
 
+function localDateString(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`
+}
+
 export function today(): string {
-  return new Date().toISOString().split("T")[0]
+  return localDateString(new Date())
 }
 
 export function getDayLetter(date: string): string {
@@ -42,7 +46,7 @@ export function getCurrentWeekDates(): string[] {
   return Array.from({ length: 7 }, (_, i) => {
     const d = new Date(monday)
     d.setDate(monday.getDate() + i)
-    return d.toISOString().split("T")[0]
+    return localDateString(d)
   })
 }
 
@@ -60,17 +64,21 @@ function readFileSync(path: string): string | null {
 }
 
 function writeFileSync(path: string, content: string): void {
-  const file = Gio.File.new_for_path(path)
-  const parent = file.get_parent()
-  if (parent) {
-    try { parent.make_directory_with_parents(null) } catch (_) { /* exists */ }
+  try {
+    const file = Gio.File.new_for_path(path)
+    const parent = file.get_parent()
+    if (parent) {
+      try { parent.make_directory_with_parents(null) } catch (_) { /* exists */ }
+    }
+    file.replace_contents(
+      new TextEncoder().encode(content),
+      null, false,
+      Gio.FileCreateFlags.REPLACE_DESTINATION,
+      null
+    )
+  } catch (e) {
+    console.error(`todos: failed to write ${path}:`, e)
   }
-  file.replace_contents(
-    new TextEncoder().encode(content),
-    null, false,
-    Gio.FileCreateFlags.REPLACE_DESTINATION,
-    null
-  )
 }
 
 // ── Daily todos ───────────────────────────────────────────────────────────────
@@ -144,7 +152,9 @@ export function initDayIfNeeded(date: string): void {
 
 // ── Badge count (used by TodoButton) ─────────────────────────────────────────
 
-export const [todayCount, setTodayCount] = createState(0)
+const todoCountState = createState(0)
+export const todayCount = todoCountState[0]
+const setTodayCount = todoCountState[1]
 
 export function refreshBadge(): void {
   const content = readFileSync(`${TODOS_DIR}/${today()}.txt`)
