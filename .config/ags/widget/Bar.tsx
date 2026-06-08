@@ -23,21 +23,21 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       application={app}
     >
       <box>
-        <box $type="start" hexpand halign={Gtk.Align.START} class="bar-left">
+        <box hexpand halign={Gtk.Align.START} class="bar-left">
           <DashboardButton />
           <Workspaces />
           <WindowTitle />
         </box>
-        <box $type="end" halign={Gtk.Align.END} class="bar-right">
+        <box halign={Gtk.Align.END} class="bar-right" spacing={10}>
           <Cmus />
-          <Weather />
           <box class="bar-divider" />
-          <Volume />
-          <label class="bar-sep" label="·" />
-          <Clock />
+          <Tray />
           <box class="bar-divider" />
           <Notifications />
-          <Tray />
+          <Clock />
+          <label class="bar-sep" label="·" />
+          <Volume />
+          <Weather />
         </box>
       </box>
     </window>

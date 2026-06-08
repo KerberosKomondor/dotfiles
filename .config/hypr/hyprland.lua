@@ -98,6 +98,10 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/home/appa/res/teams-tile.sh")
 end)
 
+-- ── Layer rules ───────────────────────────────────────────────────────────────
+-- Disable blur on AGS bar/popups (gtk-layer-shell namespace) so text renders crisp
+hl.layer_rule({ match = { namespace = "gtk-layer-shell" }, blur = false })
+
 -- ── Window rules ──────────────────────────────────────────────────────────────
 hl.window_rule({
     name        = "firefox",

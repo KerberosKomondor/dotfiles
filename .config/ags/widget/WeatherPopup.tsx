@@ -1,6 +1,7 @@
 // ~/.config/ags/widget/WeatherPopup.tsx
 import { Astal, Gtk, Gdk } from "ags/gtk3"
 import app from "ags/gtk3/app"
+import { With } from "ags"
 import { weather, WMO_ICON, WMO_DESC } from "../service/weather"
 import { weatherVisible, setWeatherVisible } from "../app"
 
@@ -30,36 +31,40 @@ export default function WeatherPopup(gdkmonitor: Gdk.Monitor) {
       }}
     >
       <box class="weather-popup" vertical>
-        {weather.as(w => {
-          if (!w) return []
-          return [
-            <box class="weather-current" spacing={12}>
-              <label class="weather-icon" label={WMO_ICON[w.weatherCode] ?? "󰖐"} />
-              <box vertical>
-                <label class="weather-temp" label={`${w.temperature}°F`} halign={Gtk.Align.START} />
-                <label class="weather-desc" label={`${WMO_DESC[w.weatherCode] ?? "Unknown"} · Colorado Springs`} halign={Gtk.Align.START} />
-                <box class="weather-meta" spacing={6}>
-                  <label label={`󰔏 ${w.apparentTemperature}°F`} />
-                  <label label="·" class="weather-sep" />
-                  <label label={`󰖝 ${w.windSpeed} mph`} />
-                  <label label="·" class="weather-sep" />
-                  <label label={`󰖐 ${w.humidity}%`} />
+        <With value={weather}>
+          {(w) => {
+            if (!w) return null
+            return (
+              <box vertical spacing={0}>
+                <box class="weather-current" spacing={12}>
+                  <label class="weather-icon" label={WMO_ICON[w.weatherCode] ?? "󰖐"} />
+                  <box vertical>
+                    <label class="weather-temp" label={`${w.temperature}°F`} halign={Gtk.Align.START} />
+                    <label class="weather-desc" label={`${WMO_DESC[w.weatherCode] ?? "Unknown"} · Colorado Springs`} halign={Gtk.Align.START} />
+                    <box class="weather-meta" spacing={6}>
+                      <label label={`󰔏 ${w.apparentTemperature}°F`} />
+                      <label label="·" class="weather-sep" />
+                      <label label={`󰖝 ${w.windSpeed} mph`} />
+                      <label label="·" class="weather-sep" />
+                      <label label={`󰖐 ${w.humidity}%`} />
+                    </box>
+                  </box>
+                </box>
+                <label class="weather-forecast-label" label="5-DAY FORECAST" halign={Gtk.Align.START} />
+                <box class="weather-forecast" spacing={6} homogeneous>
+                  {w.forecast.map((day, i) => (
+                    <box class="forecast-day" vertical spacing={4}>
+                      <label class="forecast-name" label={dayLabel(day.date, i)} />
+                      <label class="forecast-icon" label={WMO_ICON[day.weatherCode] ?? "󰖐"} />
+                      <label class="forecast-hi" label={`${day.maxTemp}°`} />
+                      <label class="forecast-lo" label={`${day.minTemp}°`} />
+                    </box>
+                  ))}
                 </box>
               </box>
-            </box>,
-            <label class="weather-forecast-label" label="5-DAY FORECAST" halign={Gtk.Align.START} />,
-            <box class="weather-forecast" spacing={6} homogeneous>
-              {w.forecast.map((day, i) => (
-                <box class="forecast-day" vertical spacing={4}>
-                  <label class="forecast-name" label={dayLabel(day.date, i)} />
-                  <label class="forecast-icon" label={WMO_ICON[day.weatherCode] ?? "󰖐"} />
-                  <label class="forecast-hi" label={`${day.maxTemp}°`} />
-                  <label class="forecast-lo" label={`${day.minTemp}°`} />
-                </box>
-              ))}
-            </box>
-          ]
-        })}
+            )
+          }}
+        </With>
       </box>
     </window>
   )
