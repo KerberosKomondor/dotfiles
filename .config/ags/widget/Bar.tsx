@@ -36,7 +36,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <Cmus />
           <Tray />
           <Notifications />
-          <label class="bar-sep" label="·" />
           <Volume />
           <Weather />
           <Clock />
