@@ -53,6 +53,20 @@ Injected into a day's file when that tab is first opened. Checking a recurring i
 ### Deleting recurring items
 Edit `~/.local/share/ags/todos/recurring.txt` directly.
 
+## Clock
+
+Stacked button widget in bar (far right). Top line: time (`2:30 PM`), bottom line: date (`Mon Jun 8`). Click anywhere to open the calendar popup.
+
+## Calendar popup
+
+Opens on clock click. Fullscreen overlay, content top-right corner. Monday-first month grid with today highlighted in pink.
+
+- `◀` / `▶` navigate months
+- Today only highlighted when viewing current month
+- Escape or click-outside closes and resets to current month
+
+State: `calendarVisible` in `app.ts`. Widget: `widget/CalendarPopup.tsx`.
+
 ## Known limitations
 - MPRIS position counter refreshes on song change only, not live
 - Dashboard popup doesn't close on click-outside (use Escape or the button)
