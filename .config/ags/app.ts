@@ -10,6 +10,7 @@ import { createState } from "ags"
 export const [dashboardVisible, setDashboardVisible] = createState(false)
 export const [weatherVisible, setWeatherVisible] = createState(false)
 export const [todoVisible, setTodoVisible] = createState(false)
+export const [calendarVisible, setCalendarVisible] = createState(false)
 
 app.start({
   css: style,
