@@ -98,9 +98,23 @@ button:focus:active {
   color: #ff79c6;
 }
 
-/* Clock */
-.clock {
+/* Clock widget (stacked button) */
+.clock-widget {
+  background: transparent;
+  border-radius: 4px;
+  padding: 2px 5px;
+
+  &:hover { background: rgba(255, 121, 198, 0.12); }
+}
+
+.clock-time {
   color: #ff79c6;
+  font-size: 12px;
+}
+
+.clock-date {
+  color: #bd93f9;
+  font-size: 9px;
 }
 
 /* Separator dot */
@@ -496,4 +510,58 @@ button:focus:active {
 
   .dash-toggle-icon  { font-size: 18px; margin-bottom: 4px; }
   .dash-toggle-label { font-size: 11px; font-weight: bold; color: #f8f8f2; }
+}
+
+/* Calendar popup */
+.CalendarPopup {
+  background: transparent;
+
+  .calendar-box {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 8px;
+    padding: 10px;
+    min-width: 176px;
+    margin: 6px;
+  }
+
+  .calendar-nav-arrow {
+    background: transparent;
+    border: none;
+    color: #6272a4;
+    padding: 1px 6px;
+    border-radius: 3px;
+
+    &:hover { background: #44475a; color: #f8f8f2; }
+  }
+
+  .calendar-nav-label {
+    color: #bd93f9;
+    font-weight: bold;
+    font-size: 11px;
+  }
+
+  .calendar-dow {
+    color: #6272a4;
+    font-size: 9px;
+    min-width: 22px;
+  }
+
+  .calendar-day {
+    color: #f8f8f2;
+    font-size: 10px;
+    min-width: 22px;
+    border-radius: 3px;
+
+    &.today {
+      background: #ff79c6;
+      color: #282a36;
+      font-weight: bold;
+    }
+  }
+
+  .calendar-empty {
+    min-width: 22px;
+    color: transparent;
+  }
 }
