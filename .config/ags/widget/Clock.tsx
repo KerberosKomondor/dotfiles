@@ -1,8 +1,18 @@
 // ~/.config/ags/widget/Clock.tsx
+import { Gtk } from "ags/gtk4"
 import { createPoll } from "ags/time"
+import { setCalendarVisible } from "../app"
 
 export default function Clock() {
-  const time = createPoll("", 60000, ["date", "+%a %b %d  %I:%M %p"])
+  const time = createPoll("", 60000, ["date", "+%I:%M %p"])
+  const date = createPoll("", 60000, ["date", "+%a %b %d"])
 
-  return <label class="clock" label={time} />
+  return (
+    <button class="clock-widget" onClicked={() => setCalendarVisible(true)}>
+      <box orientation={1} valign={Gtk.Align.CENTER} spacing={0}>
+        <label class="clock-time" label={time} halign={Gtk.Align.CENTER} />
+        <label class="clock-date" label={date} halign={Gtk.Align.CENTER} />
+      </box>
+    </button>
+  )
 }
