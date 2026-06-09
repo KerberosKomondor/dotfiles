@@ -34,9 +34,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         </box>
         <box halign={Gtk.Align.END} class="bar-right" spacing={10}>
           <Cmus />
-          <box class="bar-divider" />
           <Tray />
-          <box class="bar-divider" />
           <Notifications />
           <label class="bar-sep" label="·" />
           <Volume />
