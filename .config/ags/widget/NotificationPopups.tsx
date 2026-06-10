@@ -21,7 +21,7 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
       layer={Astal.Layer.OVERLAY}
       keymode={Astal.Keymode.NONE}
       anchor={TOP | RIGHT}
-      visible={true}
+      visible={popupStack.as((s: Notifd.Notification[]) => s.length > 0)}
       application={app}
     >
       <box orientation={1} spacing={8} class="notif-popups">

@@ -4,7 +4,7 @@ import app from "ags/gtk4/app"
 import { With } from "ags"
 import Notifd from "gi://AstalNotifd"
 import { notifHistoryVisible, setNotifHistoryVisible } from "../app"
-import { history, clearHistory, removeFromHistory, notifIcon } from "../service/notifications"
+import { history, clearHistory, removeFromHistory, notifIcon, urgencyClass } from "../service/notifications"
 
 function relativeTime(unixSeconds: number): string {
   const diffSec = Math.floor(Date.now() / 1000) - unixSeconds
@@ -75,7 +75,7 @@ export default function NotificationHistory(gdkmonitor: Gdk.Monitor) {
                         />
                         <box orientation={1} hexpand>
                           <label
-                            class="notif-history-app"
+                            class={`notif-history-app ${urgencyClass(notif)}`}
                             label={`${notif.app_name} · ${relativeTime(notif.get_time())}`}
                             halign={Gtk.Align.START}
                           />

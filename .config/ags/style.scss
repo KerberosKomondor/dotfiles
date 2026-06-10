@@ -588,13 +588,14 @@ button:focus:active {
     border-radius: 8px;
     padding: 12px;
     min-width: 320px;
-    border-left: 4px solid #8be9fd;
+    border: 2px solid #8be9fd;
+    border-left-width: 8px;
 
-    &.low { border-left-color: #44475a; }
-    &.normal { border-left-color: #8be9fd; }
+    &.low { border-color: #bd93f9; }
+    &.normal { border-color: #8be9fd; }
     &.critical {
-      border-left-color: #ff5555;
-      background: #3a1a1a;
+      border-color: #ff79c6;
+      background: #282a36;
     }
   }
 
@@ -604,20 +605,21 @@ button:focus:active {
   }
 
   .notif-app {
-    font-size: 9px;
-    color: #6272a4;
+    font-size: 11px;
+    color: #8be9fd;
     text-transform: uppercase;
   }
 
   .notif-title {
     color: #f8f8f2;
     font-weight: bold;
+    font-size: 16px;
   }
 
   .notif-body {
     color: #f8f8f2;
     opacity: 0.85;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .notif-actions {
@@ -630,7 +632,7 @@ button:focus:active {
     border: none;
     border-radius: 4px;
     padding: 4px 10px;
-    font-size: 11px;
+    font-size: 13px;
 
     &:hover { background: #6272a4; }
   }
@@ -669,8 +671,8 @@ button:focus:active {
   .notif-history-clear {
     background: transparent;
     border: none;
-    color: #ff5555;
-    font-size: 11px;
+    color: #8be9fd;
+    font-size: 13px;
     padding: 0 4px;
 
     &:hover { background: #44475a; }
@@ -688,7 +690,7 @@ button:focus:active {
 
   .notif-history-empty {
     color: #44475a;
-    font-size: 12px;
+    font-size: 14px;
     padding: 8px 0;
   }
 
@@ -700,28 +702,31 @@ button:focus:active {
   }
 
   .notif-history-app {
-    font-size: 9px;
+    font-size: 13px;
     color: #6272a4;
-    text-transform: uppercase;
+
+    &.low { color: #bd93f9; }
+    &.normal { color: #8be9fd; }
+    &.critical { color: #ff79c6; }
   }
 
   .notif-history-title {
     color: #f8f8f2;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .notif-history-body {
     color: #f8f8f2;
     opacity: 0.8;
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .notif-history-x {
     background: transparent;
     border: none;
     color: #6272a4;
-    font-size: 11px;
+    font-size: 13px;
     padding: 0 2px;
 
     &:hover { color: #f8f8f2; }
