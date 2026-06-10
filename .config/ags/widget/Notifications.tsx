@@ -1,17 +1,13 @@
 // ~/.config/ags/widget/Notifications.tsx
-import Notifd from "gi://AstalNotifd"
-import { createBinding } from "ags"
+import { notifHistoryVisible, setNotifHistoryVisible, togglePopup } from "../app"
+import { history } from "../service/notifications"
 
 export default function Notifications() {
-  const notifd = Notifd.get_default()
-  const notifications = createBinding(notifd, "notifications")
-
   return (
-    <box visible={notifications.as(n => n.length > 0)}>
-      <label
-        class="notifications"
-        label={notifications.as(n => `󰂚 ${n.length}`)}
-      />
+    <box visible={history.as(h => h.length > 0)}>
+      <button class="notifications" onClicked={() => togglePopup(notifHistoryVisible, setNotifHistoryVisible)}>
+        <label label={history.as(h => `󰂚 ${h.length}`)} />
+      </button>
       <box class="bar-divider" />
     </box>
   )
