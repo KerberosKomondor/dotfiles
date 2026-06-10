@@ -6,6 +6,7 @@ import WeatherPopup from "./widget/WeatherPopup"
 import Dashboard from "./widget/Dashboard"
 import TodoPopup from "./widget/TodoPopup"
 import CalendarPopup from "./widget/CalendarPopup"
+import NotificationPopups from "./widget/NotificationPopups"
 import { createState } from "ags"
 
 export const [dashboardVisible, setDashboardVisible] = createState(false)
@@ -36,5 +37,6 @@ app.start({
     WeatherPopup(monitors[0])
     TodoPopup(monitors[0])
     CalendarPopup(monitors[0])
+    NotificationPopups(monitors[0])
   },
 })

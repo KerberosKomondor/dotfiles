@@ -565,3 +565,49 @@ button:focus:active {
     color: transparent;
   }
 }
+
+/* Notification popups */
+.NotificationPopups {
+  background: transparent;
+
+  .notif-popups {
+    margin: 10px 10px 0 0;
+  }
+
+  .notif-popup-row {
+    background: #282a36;
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 320px;
+    border-left: 4px solid #8be9fd;
+
+    &.low { border-left-color: #44475a; }
+    &.normal { border-left-color: #8be9fd; }
+    &.critical {
+      border-left-color: #ff5555;
+      background: #3a1a1a;
+    }
+  }
+
+  .notif-icon {
+    min-width: 32px;
+    min-height: 32px;
+  }
+
+  .notif-app {
+    font-size: 9px;
+    color: #6272a4;
+    text-transform: uppercase;
+  }
+
+  .notif-title {
+    color: #f8f8f2;
+    font-weight: bold;
+  }
+
+  .notif-body {
+    color: #f8f8f2;
+    opacity: 0.85;
+    font-size: 12px;
+  }
+}
