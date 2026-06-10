@@ -167,7 +167,18 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
                   : list.map((item, i) => (
                       <box class={`todo-item${item.done ? " done" : ""}`} spacing={4}>
                         <button class="todo-check" onClicked={() => toggleItem(item.text)}>
-                          <label label={item.done ? "󰄵" : "󰄱"} />
+                          <overlay>
+                            <label label="󰄱" />
+                            {item.done && (
+                              <label
+                                $type="overlay"
+                                class="todo-checkmark"
+                                label="󰄬"
+                                halign={Gtk.Align.CENTER}
+                                valign={Gtk.Align.CENTER}
+                              />
+                            )}
+                          </overlay>
                         </button>
                         <label class="todo-text" label={item.text} hexpand halign={Gtk.Align.START} />
                         <button class="todo-delete" onClicked={() => deleteItem(item.text)}>

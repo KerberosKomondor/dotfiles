@@ -50,6 +50,11 @@ Click `＋` in the popup. Toggle One-off (pick days this week) or Recurring (pic
 ### Recurring items
 Injected into a day's file when that tab is first opened. Checking a recurring item marks it done only in that day's file — `recurring.txt` always stays `[ ]`.
 
+### Checkbox/text colors
+- Checkbox box outline (`󰄱`): always purple (`#bd93f9`), checked or not.
+- Checkmark overlay (`󰄬`, shown only when done): teal (`#8be9fd`), layered via `<overlay>`/`$type="overlay"` on top of the box icon.
+- Completed item text: teal (`#8be9fd`) with strikethrough (was green `#50fa7b`).
+
 ### Deleting recurring items
 Edit `~/.local/share/ags/todos/recurring.txt` directly.
 

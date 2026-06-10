@@ -330,8 +330,7 @@ button:focus:active {
     &:hover { background: #44475a22; }
 
     &.done {
-      .todo-text { color: #50fa7b; text-decoration: line-through; }
-      .todo-check label { color: #50fa7b; }
+      .todo-text { color: #8be9fd; text-decoration: line-through; }
     }
   }
 
@@ -343,6 +342,10 @@ button:focus:active {
     min-width: 0;
 
     &:hover { color: #f8f8f2; background: transparent; }
+  }
+
+  .todo-checkmark {
+    color: #8be9fd;
   }
 
   .todo-text {
@@ -609,6 +612,21 @@ button:focus:active {
     color: #f8f8f2;
     opacity: 0.85;
     font-size: 12px;
+  }
+
+  .notif-actions {
+    margin-top: 8px;
+  }
+
+  .notif-action-btn {
+    background: #44475a;
+    color: #f8f8f2;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 11px;
+
+    &:hover { background: #6272a4; }
   }
 
   .notif-progress {
