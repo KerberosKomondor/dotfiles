@@ -41,6 +41,71 @@ export function invokeAction(notif: Notifd.Notification, actionId: string): void
   notif.invoke(actionId)
 }
 
+// --- Auto-dismiss timers ---
+// low: 8s, normal: 10s, critical: never (matches the old mako config)
+
+const URGENCY_TIMEOUT_MS: Record<number, number | null> = {
+  [Notifd.Urgency.LOW]: 8000,
+  [Notifd.Urgency.NORMAL]: 10000,
+  [Notifd.Urgency.CRITICAL]: null,
+}
+
+interface TimerState {
+  sourceId: number | null
+  total: number | null   // null = critical, never expires
+  runRemaining: number   // ms remaining at the start of the current run (or when paused)
+  startedAt: number      // Date.now() when the current run started
+}
+
+const timers = new Map<number, TimerState>()
+
+function scheduleRun(id: number, remainingMs: number, total: number | null): void {
+  const sourceId = setTimeout(() => {
+    const notif = notifd.get_notification(id)
+    if (notif) notif.dismiss()
+  }, remainingMs)
+  timers.set(id, { sourceId, total, runRemaining: remainingMs, startedAt: Date.now() })
+}
+
+function startTimer(id: number, urgency: Notifd.Urgency): void {
+  const total = URGENCY_TIMEOUT_MS[urgency] ?? 10000
+  if (total === null) {
+    timers.set(id, { sourceId: null, total: null, runRemaining: 0, startedAt: 0 })
+    return
+  }
+  scheduleRun(id, total, total)
+}
+
+function clearTimer(id: number): void {
+  const t = timers.get(id)
+  if (t?.sourceId !== null && t?.sourceId !== undefined) clearTimeout(t.sourceId)
+  timers.delete(id)
+}
+
+export function pauseTimer(id: number): void {
+  const t = timers.get(id)
+  if (!t || t.sourceId === null) return
+  clearTimeout(t.sourceId)
+  const elapsed = Date.now() - t.startedAt
+  const remaining = Math.max(0, t.runRemaining - elapsed)
+  timers.set(id, { ...t, sourceId: null, runRemaining: remaining })
+}
+
+export function resumeTimer(id: number): void {
+  const t = timers.get(id)
+  if (!t || t.total === null || t.sourceId !== null) return
+  scheduleRun(id, t.runRemaining, t.total)
+}
+
+// Fraction of time remaining (0-1), or null if the notification never expires
+export function getTimerFraction(id: number): number | null {
+  const t = timers.get(id)
+  if (!t || t.total === null) return null
+  if (t.sourceId === null) return t.runRemaining / t.total
+  const elapsed = Date.now() - t.startedAt
+  return Math.max(0, t.runRemaining - elapsed) / t.total
+}
+
 notifd.connect("notified", (_src, id: number) => {
   const notif = notifd.get_notification(id)
   if (!notif) return
@@ -49,10 +114,17 @@ notifd.connect("notified", (_src, id: number) => {
 
   setPopupStack(stack => {
     const next = [...stack, notif]
-    return next.length > MAX_VISIBLE ? next.slice(next.length - MAX_VISIBLE) : next
+    if (next.length > MAX_VISIBLE) {
+      const dropped = next.shift()
+      if (dropped) clearTimer(dropped.id)
+    }
+    return next
   })
+
+  startTimer(id, notif.urgency)
 })
 
 notifd.connect("resolved", (_src, id: number) => {
+  clearTimer(id)
   setPopupStack(stack => stack.filter(n => n.id !== id))
 })

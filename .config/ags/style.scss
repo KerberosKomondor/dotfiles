@@ -610,4 +610,17 @@ button:focus:active {
     opacity: 0.85;
     font-size: 12px;
   }
+
+  .notif-progress {
+    background: #44475a;
+    min-height: 3px;
+    border-radius: 2px;
+    margin-top: 8px;
+  }
+
+  .notif-progress-bar {
+    background: #8be9fd;
+    min-height: 3px;
+    border-radius: 2px;
+  }
 }
