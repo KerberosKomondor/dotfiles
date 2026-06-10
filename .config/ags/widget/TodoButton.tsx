@@ -1,12 +1,12 @@
 // ~/.config/ags/widget/TodoButton.tsx
 import { Gtk } from "ags/gtk4"
-import { todoVisible, setTodoVisible } from "../app"
+import { todoVisible, setTodoVisible, togglePopup } from "../app"
 import { todayCount } from "../service/todos"
 
 export default function TodoButton() {
   return (
     <overlay>
-      <button class="todo-button" onClicked={() => setTodoVisible(!todoVisible())}>
+      <button class="todo-button" onClicked={() => togglePopup(todoVisible, setTodoVisible)}>
         <label class="todo-icon" label="󰄬" />
       </button>
       <label

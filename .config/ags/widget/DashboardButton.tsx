@@ -1,11 +1,11 @@
 // ~/.config/ags/widget/DashboardButton.tsx
-import { dashboardVisible, setDashboardVisible } from "../app"
+import { dashboardVisible, setDashboardVisible, togglePopup } from "../app"
 
 export default function DashboardButton() {
   return (
     <button
       class="dashboard-button"
-      onClicked={() => setDashboardVisible(!dashboardVisible())}
+      onClicked={() => togglePopup(dashboardVisible, setDashboardVisible)}
     >
       <label label="󰣇" />
     </button>

@@ -55,17 +55,22 @@ Edit `~/.local/share/ags/todos/recurring.txt` directly.
 
 ## Clock
 
-Stacked button widget in bar (far right). Top line: time (`2:30 PM`), bottom line: date (`Mon Jun 8`). Click anywhere to open the calendar popup.
+Stacked button widget in bar (far right). Top line: time (`2:30 PM`), bottom line: date (`Mon Jun 8`). Click toggles the calendar popup open/closed.
 
 ## Calendar popup
 
-Opens on clock click. Fullscreen overlay, content top-right corner. Monday-first month grid with today highlighted in pink.
+Toggled by clock click. Fullscreen overlay, content top-right corner. Monday-first month grid with today highlighted in pink.
 
 - `◀` / `▶` navigate months
 - Today only highlighted when viewing current month
-- Escape or click-outside closes and resets to current month
+- Escape, click-outside, or clicking the clock again closes it
+- Month always resets to current on open (`calendarVisible.subscribe` in `CalendarPopup.tsx`)
 
 State: `calendarVisible` in `app.ts`. Widget: `widget/CalendarPopup.tsx`.
+
+## Popup behavior
+
+All popups (Dashboard, Weather, Todo, Calendar) are mutually exclusive: opening one closes any other that's open. Each toggle button calls `togglePopup(visible, setVisible)` from `app.ts`, which closes all popup states then opens the target if it wasn't already open. Clicking a popup's own toggle button again closes it.
 
 ## Known limitations
 - MPRIS position counter refreshes on song change only, not live

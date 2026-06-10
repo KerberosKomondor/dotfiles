@@ -13,6 +13,20 @@ export const [weatherVisible, setWeatherVisible] = createState(false)
 export const [todoVisible, setTodoVisible] = createState(false)
 export const [calendarVisible, setCalendarVisible] = createState(false)
 
+function closeAllPopups(): void {
+  setDashboardVisible(false)
+  setWeatherVisible(false)
+  setTodoVisible(false)
+  setCalendarVisible(false)
+}
+
+// Toggle one popup, closing any other popups that are open
+export function togglePopup(visible: () => boolean, setVisible: (v: boolean) => void): void {
+  const next = !visible()
+  closeAllPopups()
+  if (next) setVisible(true)
+}
+
 app.start({
   css: style,
   main() {

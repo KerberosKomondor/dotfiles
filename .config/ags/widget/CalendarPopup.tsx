@@ -49,10 +49,10 @@ export default function CalendarPopup(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, BOTTOM, RIGHT } = Astal.WindowAnchor
   const [monthOffset, setMonthOffset] = createState(0)
 
-  function close() {
-    setCalendarVisible(false)
-    setMonthOffset(0)
-  }
+  // Reset to current month each time the popup opens
+  calendarVisible.subscribe((v: boolean) => {
+    if (v) setMonthOffset(0)
+  })
 
   return (
     <window
@@ -66,7 +66,7 @@ export default function CalendarPopup(gdkmonitor: Gdk.Monitor) {
       $={(self: any) => {
         const ctrl = new Gtk.EventControllerKey()
         ctrl.connect("key-pressed", (_c: any, keyval: number) => {
-          if (keyval === Gdk.KEY_Escape) close()
+          if (keyval === Gdk.KEY_Escape) setCalendarVisible(false)
         })
         self.add_controller(ctrl)
         const click = new Gtk.GestureClick()
@@ -85,7 +85,7 @@ export default function CalendarPopup(gdkmonitor: Gdk.Monitor) {
             ) {
               gesture.set_state(Gtk.EventSequenceState.DENIED)
             } else {
-              close()
+              setCalendarVisible(false)
             }
           },
         )

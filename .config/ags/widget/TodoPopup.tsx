@@ -88,8 +88,15 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
     setSelectedDays([getDayLetter(selectedDate())])
   }
 
-  // Load today on first open
+  // Load today on first open, and reset to today each time popup opens
   loadDay(todayStr)
+  todoVisible.subscribe((v: boolean) => {
+    if (v) {
+      const nowToday = today()
+      setSelectedDate(nowToday)
+      loadDay(nowToday)
+    }
+  })
 
   return (
     <window
@@ -123,33 +130,30 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
     >
       <box class="todo-popup" orientation={1} spacing={0} halign={Gtk.Align.START} valign={Gtk.Align.START}>
 
-        {/* Day tabs */}
-        <With value={selectedDate}>
-          {(active: string) => (
-            <box class="todo-tabs" spacing={2}>
-              {weekDates.map(date => {
-                const hasItems = getTodosForDate(date).length > 0
-                const isToday = date === todayStr
-                const isActive = date === active
-                let cls = "todo-tab"
-                if (isActive) cls += " active"
-                else if (hasItems) cls += " has-items"
-                else if (isToday) cls += " today"
-                return (
-                  <button
-                    class={cls}
-                    onClicked={() => {
-                      setSelectedDate(date)
-                      loadDay(date)
-                    }}
-                  >
-                    <label label={getDayName(date)} />
-                  </button>
-                )
-              })}
-            </box>
-          )}
-        </With>
+        {/* Day tabs — static box, only button classes react to selectedDate */}
+        <box class="todo-tabs" spacing={2}>
+          {weekDates.map(date => {
+            const hasItems = getTodosForDate(date).length > 0
+            const isToday = date === todayStr
+            return (
+              <button
+                class={selectedDate.as((active: string) => {
+                  let cls = "todo-tab"
+                  if (date === active) cls += " active"
+                  else if (hasItems) cls += " has-items"
+                  else if (isToday) cls += " today"
+                  return cls
+                })}
+                onClicked={() => {
+                  setSelectedDate(date)
+                  loadDay(date)
+                }}
+              >
+                <label label={getDayName(date)} />
+              </button>
+            )
+          })}
+        </box>
 
         <box class="todo-divider" />
 
