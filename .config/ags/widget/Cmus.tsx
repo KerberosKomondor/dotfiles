@@ -1,6 +1,7 @@
 // ~/.config/ags/widget/Cmus.tsx
 import Mpris from "gi://AstalMpris"
-import { createBinding, With } from "ags"
+import { createBinding, createMemo, With } from "ags"
+import { createPoll } from "ags/time"
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60)
@@ -27,16 +28,22 @@ export default function Cmus() {
         {(playerList) => {
           const player = playerList[0]
           if (!player) return null
-          return (
-            <label label={createBinding(player, "title").as(() => {
-              const artist = player.artist ?? ""
-              const title = player.title ?? ""
-              const pos = formatTime(player.position ?? 0)
-              const len = formatTime(player.length ?? 0)
-              const text = artist ? `${artist} - ${title}` : title
-              return `󰝚 ${text} [${pos}/${len}]`
-            })} />
-          )
+
+          const title = createBinding(player, "title")
+          const artist = createBinding(player, "artist")
+          const length = createBinding(player, "length")
+          const position = createPoll(player.position ?? 0, 1000, () => player.position ?? 0)
+
+          const text = createMemo(() => {
+            const a = artist() ?? ""
+            const t = title() ?? ""
+            const pos = formatTime(position())
+            const len = formatTime(length() ?? 0)
+            const label = a ? `${a} - ${t}` : t
+            return `󰝚 ${label} [${pos}/${len}]`
+          })
+
+          return <label label={text} />
         }}
       </With>
     </box>

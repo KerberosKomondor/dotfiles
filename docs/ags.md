@@ -72,8 +72,14 @@ State: `calendarVisible` in `app.ts`. Widget: `widget/CalendarPopup.tsx`.
 
 All popups (Dashboard, Weather, Todo, Calendar) are mutually exclusive: opening one closes any other that's open. Each toggle button calls `togglePopup(visible, setVisible)` from `app.ts`, which closes all popup states then opens the target if it wasn't already open. Clicking a popup's own toggle button again closes it.
 
+## Cmus / MPRIS widget
+
+`widget/Cmus.tsx` shows `artist - title [pos/len]` for the active MPRIS player (browsers excluded via `BROWSER_IDS`).
+
+- `position` doesn't fire `notify::position` — AstalMpris/cmus don't push position updates, so a plain `createBinding(player, "position")` never updates during playback.
+- Fix: `createPoll(player.position ?? 0, 1000, () => player.position ?? 0)` polls position every second; combined with `title`/`artist`/`length` bindings via `createMemo`.
+
 ## Known limitations
-- MPRIS position counter refreshes on song change only, not live
 - Dashboard popup doesn't close on click-outside (use Escape or the button)
 - Audio device capture is static at launch; switching default sink requires restart
 
