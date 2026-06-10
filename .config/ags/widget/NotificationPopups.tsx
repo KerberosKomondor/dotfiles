@@ -5,7 +5,7 @@ import { For, createState } from "ags"
 import { interval } from "ags/time"
 import Notifd from "gi://AstalNotifd"
 import {
-  popupStack, dismissPopup, urgencyClass, notifIcon,
+  popupStack, dismissPopup, urgencyClass, notifIcon, invokeAction,
   pauseTimer, resumeTimer, getTimerFraction,
 } from "../service/notifications"
 
@@ -28,6 +28,7 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
         <For each={popupStack} id={(notif: Notifd.Notification) => notif.id}>
           {(notif: Notifd.Notification) => {
             const icon = notifIcon(notif)
+            const actions = notif.get_actions()
             const initialFraction = getTimerFraction(notif.id)
             const showProgress = initialFraction !== null
             const [progress, setProgress] = createState(initialFraction ?? 1)
@@ -38,6 +39,8 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
                   if (frac !== null) setProgress(frac)
                 })
               : null
+
+            let actionsBox: any = null
 
             return (
               <box
@@ -52,7 +55,17 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
                   self.add_controller(motion)
 
                   const click = new Gtk.GestureClick()
-                  click.connect("pressed", () => dismissPopup(notif))
+                  click.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+                  click.connect("pressed", (gesture: any, _n: number, x: number, y: number) => {
+                    if (actionsBox) {
+                      const a = actionsBox.get_allocation()
+                      if (x >= a.x && x <= a.x + a.width && y >= a.y && y <= a.y + a.height) {
+                        gesture.set_state(Gtk.EventSequenceState.DENIED)
+                        return
+                      }
+                    }
+                    dismissPopup(notif)
+                  })
                   self.add_controller(click)
                 }}
               >
@@ -67,6 +80,15 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
                   <label class="notif-app" label={notif.app_name} halign={Gtk.Align.START} />
                   <label class="notif-title" label={notif.summary} halign={Gtk.Align.START} wrap />
                   <label class="notif-body" label={notif.body} halign={Gtk.Align.START} wrap />
+                  {actions.length > 0 ? (
+                    <box class="notif-actions" spacing={6} $={(self: any) => { actionsBox = self }}>
+                      {actions.map(action => (
+                        <button class="notif-action-btn" onClicked={() => invokeAction(notif, action.id)}>
+                          <label label={action.label} />
+                        </button>
+                      ))}
+                    </box>
+                  ) : null}
                   {showProgress && (
                     <box class="notif-progress">
                       <box
