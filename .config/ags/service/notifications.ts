@@ -68,7 +68,7 @@ function scheduleRun(id: number, remainingMs: number, total: number | null): voi
 }
 
 function startTimer(id: number, urgency: Notifd.Urgency): void {
-  const total = URGENCY_TIMEOUT_MS[urgency] ?? 10000
+  const total = urgency in URGENCY_TIMEOUT_MS ? URGENCY_TIMEOUT_MS[urgency] : 10000
   if (total === null) {
     timers.set(id, { sourceId: null, total: null, runRemaining: 0, startedAt: 0 })
     return
