@@ -797,4 +797,18 @@ popover.tray-menu {
 
     &:hover { color: #f8f8f2; }
   }
+
+  .notif-history-group {
+    margin-bottom: 2px;
+  }
+
+  .notif-history-app-header {
+    background: transparent;
+    border: none;
+    color: #6272a4;
+    font-size: 13px;
+    padding: 4px;
+
+    &:hover { background: #44475a22; }
+  }
 }
