@@ -4,7 +4,7 @@ import app from "ags/gtk4/app"
 import { With, createState } from "ags"
 import Notifd from "gi://AstalNotifd"
 import { notifHistoryVisible, setNotifHistoryVisible } from "../app"
-import { history, clearHistory, removeFromHistory, notifIcon, urgencyClass } from "../service/notifications"
+import { history, clearHistory, removeFromHistory, notifIcon, notifImagePixbuf, urgencyClass } from "../service/notifications"
 
 function relativeTime(unixSeconds: number): string {
   const diffSec = Math.floor(Date.now() / 1000) - unixSeconds
@@ -35,6 +35,12 @@ function renderRow(notif: Notifd.Notification) {
         />
         <label class="notif-history-title" label={notif.summary} halign={Gtk.Align.START} wrap />
         <label class="notif-history-body" label={notif.body} halign={Gtk.Align.START} wrap />
+        {(() => {
+          const pb = notifImagePixbuf(notif)
+          return pb ? (
+            <image class="notif-preview-image" $={(self: any) => self.set_from_pixbuf(pb)} />
+          ) : null
+        })()}
       </box>
       <button class="notif-history-x" valign={Gtk.Align.START} onClicked={() => removeFromHistory(notif.id)}>
         <label label="✕" />

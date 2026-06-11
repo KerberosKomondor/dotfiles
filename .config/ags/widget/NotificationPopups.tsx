@@ -6,7 +6,7 @@ import { interval } from "ags/time"
 import Notifd from "gi://AstalNotifd"
 import { setNotifHistoryVisible } from "../app"
 import {
-  popupStack, overflowCount, dismissPopup, urgencyClass, notifIcon, invokeAction,
+  popupStack, overflowCount, dismissPopup, urgencyClass, notifIcon, notifImagePixbuf, invokeAction,
   pauseTimer, resumeTimer, getTimerFraction, type PopupGroup,
 } from "../service/notifications"
 
@@ -92,6 +92,12 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
                   </box>
                   <label class="notif-title" label={notif.summary} halign={Gtk.Align.START} wrap />
                   <label class="notif-body" label={notif.body} halign={Gtk.Align.START} wrap />
+                  {(() => {
+                    const pb = notifImagePixbuf(notif)
+                    return pb ? (
+                      <image class="notif-preview-image" $={(self: any) => self.set_from_pixbuf(pb)} />
+                    ) : null
+                  })()}
                   {actions.length > 0 ? (
                     <box class="notif-actions" spacing={6} $={(self: any) => { actionsBox = self }}>
                       {actions.map(action => (
