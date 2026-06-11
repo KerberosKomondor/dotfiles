@@ -128,7 +128,3 @@ Remaining cleanup (manual, requires `doas`):
 doas pacman -R mako
 ```
 After uninstalling, also remove `~/.config/mako/` (config dir, no longer used).
-
-## Known issues / notes
-
-- None currently open.
