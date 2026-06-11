@@ -689,6 +689,32 @@ popover.tray-menu {
     min-height: 3px;
     border-radius: 2px;
   }
+
+  .notif-popup-count {
+    font-size: 11px;
+    color: #6272a4;
+  }
+
+  .notif-dismiss-all {
+    background: transparent;
+    border: none;
+    color: #8be9fd;
+    font-size: 12px;
+    padding: 0 4px;
+
+    &:hover { background: #44475a; }
+  }
+
+  .notif-overflow {
+    background: #44475a;
+    border: none;
+    border-radius: 8px;
+    color: #f8f8f2;
+    font-size: 12px;
+    padding: 6px;
+
+    &:hover { background: #6272a4; }
+  }
 }
 
 /* Notification history panel */

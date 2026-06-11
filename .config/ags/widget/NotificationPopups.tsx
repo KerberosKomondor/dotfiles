@@ -4,9 +4,10 @@ import app from "ags/gtk4/app"
 import { For, createState } from "ags"
 import { interval } from "ags/time"
 import Notifd from "gi://AstalNotifd"
+import { setNotifHistoryVisible } from "../app"
 import {
-  popupStack, dismissPopup, urgencyClass, notifIcon, invokeAction,
-  pauseTimer, resumeTimer, getTimerFraction,
+  popupStack, overflowCount, dismissPopup, urgencyClass, notifIcon, invokeAction,
+  pauseTimer, resumeTimer, getTimerFraction, type PopupGroup,
 } from "../service/notifications"
 
 const PROGRESS_TRACK_PX = 254 // 320 (row) - 24 (padding) - 32 (icon) - 10 (spacing)
@@ -21,12 +22,20 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
       layer={Astal.Layer.OVERLAY}
       keymode={Astal.Keymode.NONE}
       anchor={TOP | RIGHT}
-      visible={popupStack.as((s: Notifd.Notification[]) => s.length > 0)}
+      visible={popupStack.as((s: PopupGroup[]) => s.length > 0)}
       application={app}
     >
       <box orientation={1} spacing={8} class="notif-popups">
-        <For each={popupStack} id={(notif: Notifd.Notification) => notif.id}>
-          {(notif: Notifd.Notification) => {
+        <button
+          class="notif-dismiss-all"
+          halign={Gtk.Align.END}
+          onClicked={() => popupStack().forEach(g => dismissPopup(g.notif))}
+        >
+          <label label="Clear all" />
+        </button>
+        <For each={popupStack} id={(g: PopupGroup) => g.notif.id}>
+          {(g: PopupGroup) => {
+            const notif = g.notif
             const icon = notifIcon(notif)
             const actions = notif.get_actions()
             const initialFraction = getTimerFraction(notif.id)
@@ -77,7 +86,10 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
                   valign={Gtk.Align.START}
                 />
                 <box orientation={1} hexpand class="notif-content">
-                  <label class="notif-app" label={notif.app_name} halign={Gtk.Align.START} />
+                  <box spacing={6}>
+                    <label class="notif-app" label={notif.app_name} halign={Gtk.Align.START} />
+                    {g.count > 1 ? <label class="notif-popup-count" label={`×${g.count}`} /> : null}
+                  </box>
                   <label class="notif-title" label={notif.summary} halign={Gtk.Align.START} wrap />
                   <label class="notif-body" label={notif.body} halign={Gtk.Align.START} wrap />
                   {actions.length > 0 ? (
@@ -103,6 +115,13 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
             )
           }}
         </For>
+        <button
+          class="notif-overflow"
+          visible={overflowCount.as((n: number) => n > 0)}
+          onClicked={() => setNotifHistoryVisible(true)}
+        >
+          <label label={overflowCount.as((n: number) => `+${n} more`)} />
+        </button>
       </box>
     </window>
   )

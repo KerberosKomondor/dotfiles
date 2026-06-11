@@ -6,7 +6,14 @@ export const notifd = Notifd.get_default()
 
 export const MAX_VISIBLE = 5
 
-export const [popupStack, setPopupStack] = createState<Notifd.Notification[]>([])
+export interface PopupGroup {
+  appName: string
+  notif: Notifd.Notification // currently displayed (latest)
+  count: number              // total notifs folded into this group
+}
+
+export const [popupStack, setPopupStack] = createState<PopupGroup[]>([])
+export const [overflowCount, setOverflowCount] = createState(0)
 export const [history, setHistory] = createState<Notifd.Notification[]>([])
 
 export function urgencyClass(notif: Notifd.Notification): string {
@@ -115,12 +122,22 @@ notifd.connect("notified", (_src, id: number) => {
   if (notifd.dontDisturb) return
 
   setPopupStack(stack => {
-    const next = [...stack, notif]
-    if (next.length > MAX_VISIBLE) {
-      const dropped = next.shift()
-      if (dropped) clearTimer(dropped.id)
+    const idx = stack.findIndex(g => g.appName === notif.app_name)
+    if (idx !== -1) {
+      clearTimer(stack[idx].notif.id)
+      const next = [...stack]
+      next[idx] = { appName: notif.app_name, notif, count: stack[idx].count + 1 }
+      return next
     }
-    return next
+
+    let next = stack
+    if (stack.length >= MAX_VISIBLE) {
+      const dropped = stack[0]
+      clearTimer(dropped.notif.id)
+      setOverflowCount(n => n + dropped.count)
+      next = stack.slice(1)
+    }
+    return [...next, { appName: notif.app_name, notif, count: 1 }]
   })
 
   startTimer(id, notif.urgency)
@@ -128,5 +145,9 @@ notifd.connect("notified", (_src, id: number) => {
 
 notifd.connect("resolved", (_src, id: number) => {
   clearTimer(id)
-  setPopupStack(stack => stack.filter(n => n.id !== id))
+  setPopupStack(stack => {
+    const next = stack.filter(g => g.notif.id !== id)
+    if (next.length === 0) setOverflowCount(0)
+    return next
+  })
 })
