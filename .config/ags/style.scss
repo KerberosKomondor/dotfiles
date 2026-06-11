@@ -162,6 +162,46 @@ button:focus:active {
   }
 }
 
+/* Tray right-click menu */
+popover.tray-menu {
+  > contents {
+    background: #282a36;
+    border: 1px solid #6272a4;
+    border-radius: 6px;
+    padding: 4px;
+  }
+
+  > arrow {
+    background: #282a36;
+  }
+
+  modelbutton.flat {
+    color: #f8f8f2;
+    background: transparent;
+    border-radius: 4px;
+    padding: 4px 8px;
+
+    label {
+      color: #f8f8f2;
+    }
+
+    &:hover {
+      background: #44475a;
+    }
+
+    &:disabled,
+    &:disabled label {
+      color: #6272a4;
+    }
+  }
+
+  separator {
+    background: #44475a;
+    min-height: 1px;
+    margin: 4px 4px;
+  }
+}
+
 /* Weather bar button */
 .weather-btn {
   background: transparent;

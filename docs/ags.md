@@ -84,6 +84,19 @@ All popups (Dashboard, Weather, Todo, Calendar) are mutually exclusive: opening 
 - `position` doesn't fire `notify::position` — AstalMpris/cmus don't push position updates, so a plain `createBinding(player, "position")` never updates during playback.
 - Fix: `createPoll(player.position ?? 0, 1000, () => player.position ?? 0)` polls position every second; combined with `title`/`artist`/`length` bindings via `createMemo`.
 
+## Tray (system tray icons)
+
+`widget/Tray.tsx` — left-click calls `item.activate(x,y)` (primary action), right-click opens the dbusmenu context menu via a manually-built `Gtk.PopoverMenu`.
+
+- Each tray item gets its own `Gtk.PopoverMenu.new_from_model(item.menuModel)`, parented to the icon's `<button>` via `set_parent()`. Rebuilt whenever `menuModel`/`actionGroup` change.
+- Two `Gtk.GestureClick` controllers (button = `Gdk.BUTTON_PRIMARY` / `Gdk.BUTTON_SECONDARY`) are added as JSX children of the `<button>` — `<menubutton>` only triggers on left-click in GTK4, so right-click needs its own gesture.
+- **Must call `item.about_to_show()` before `popover.popup()`** — the dbusmenu protocol requires this to populate fresh item state/labels (e.g. battery %); skipping it doesn't break things visually but the app won't refresh menu contents.
+
+### Styling the right-click menu (`style.scss`, `.tray-menu` block)
+- `Gtk.PopoverMenu.new_from_model()` renders items as `modelbutton.flat` (CSS node `modelbutton`, class `.flat`) — **not** `button.model` as GTK4 docs for `GtkPopoverMenu` claim. Style selectors must target `popover.tray-menu modelbutton.flat` (and its `label` child) or text color falls back to the light-theme default `.background { color: #2e3436 }`, which is nearly invisible on the dark `#282a36` popover background.
+- `popover.tray-menu` class is added via `popover.add_css_class("tray-menu")` in `Tray.tsx`.
+- `!important` is **not valid in GTK CSS** — causes a silent parse error (`CSS Error: Junk at end of value for color`) that drops the whole declaration. Rely on `Gtk.STYLE_PROVIDER_PRIORITY_USER` (used by ags's `apply_css`) + selector specificity instead.
+
 ## Known limitations
 - Dashboard popup doesn't close on click-outside (use Escape or the button)
 - Audio device capture is static at launch; switching default sink requires restart
