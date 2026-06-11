@@ -33,7 +33,7 @@ export function notifIcon(notif: Notifd.Notification): { file?: string; iconName
   return { iconName: "dialog-information-symbolic" }
 }
 
-const MAX_PREVIEW_PX = 200
+const MAX_PREVIEW_PX = 128
 
 function scalePreview(pixbuf: GdkPixbuf.Pixbuf): GdkPixbuf.Pixbuf {
   const w = pixbuf.get_width()
@@ -43,10 +43,7 @@ function scalePreview(pixbuf: GdkPixbuf.Pixbuf): GdkPixbuf.Pixbuf {
   return pixbuf.scale_simple(Math.round(w * scale), Math.round(h * scale), GdkPixbuf.InterpType.BILINEAR) ?? pixbuf
 }
 
-// Decodes the standard "image-data" hint (raw pixbuf bytes), e.g. inline
-// photo/screenshot previews from Teams. Falls back through legacy hint
-// names. Returns null if no decodable image-data hint is present.
-export function notifImagePixbuf(notif: Notifd.Notification): GdkPixbuf.Pixbuf | null {
+function decodeImagePixbuf(notif: Notifd.Notification): GdkPixbuf.Pixbuf | null {
   for (const key of ["image-data", "image_data", "icon_data"]) {
     const v = notif.get_hint(key)
     if (!v) continue
@@ -79,15 +76,33 @@ export function notifImagePixbuf(notif: Notifd.Notification): GdkPixbuf.Pixbuf |
   return null
 }
 
+// Cached by notification id — both popup and history rows call this, and
+// NotificationHistory re-renders its whole list on every history change.
+const imagePreviewCache = new Map<number, GdkPixbuf.Pixbuf | null>()
+
+// Decodes the standard "image-data" hint (raw pixbuf bytes), e.g. inline
+// photo/screenshot previews from Teams. Falls back through legacy hint
+// names. Returns null if no decodable image is present.
+export function notifImagePixbuf(notif: Notifd.Notification): GdkPixbuf.Pixbuf | null {
+  const cached = imagePreviewCache.get(notif.id)
+  if (cached !== undefined) return cached
+
+  const pixbuf = decodeImagePixbuf(notif)
+  imagePreviewCache.set(notif.id, pixbuf)
+  return pixbuf
+}
+
 export function dismissPopup(notif: Notifd.Notification): void {
   notif.dismiss()
 }
 
 export function clearHistory(): void {
+  imagePreviewCache.clear()
   setHistory([])
 }
 
 export function removeFromHistory(id: number): void {
+  imagePreviewCache.delete(id)
   setHistory(h => h.filter(n => n.id !== id))
 }
 
