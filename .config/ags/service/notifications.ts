@@ -1,5 +1,6 @@
 // ~/.config/ags/service/notifications.ts
 import Notifd from "gi://AstalNotifd"
+import GdkPixbuf from "gi://GdkPixbuf"
 import { createState } from "ags"
 
 export const notifd = Notifd.get_default()
@@ -30,6 +31,29 @@ export function notifIcon(notif: Notifd.Notification): { file?: string; iconName
   const appIcon = notif.get_app_icon()
   if (appIcon) return appIcon.startsWith("/") ? { file: appIcon } : { iconName: appIcon }
   return { iconName: "dialog-information-symbolic" }
+}
+
+const MAX_PREVIEW_PX = 200
+
+// Decodes the standard "image-data" hint (raw pixbuf bytes), e.g. inline
+// photo/screenshot previews from Teams. Falls back through legacy hint
+// names. Returns null if no decodable image-data hint is present.
+export function notifImagePixbuf(notif: Notifd.Notification): GdkPixbuf.Pixbuf | null {
+  for (const key of ["image-data", "image_data", "icon_data"]) {
+    const v = notif.get_hint(key)
+    if (!v) continue
+    try {
+      const [w, h, rowstride, hasAlpha, bps, _channels, data] =
+        v.deep_unpack<[number, number, number, boolean, number, number, Uint8Array]>()
+      const pixbuf = GdkPixbuf.Pixbuf.new_from_bytes(data, GdkPixbuf.Colorspace.RGB, hasAlpha, bps, w, h, rowstride)
+      if (w <= MAX_PREVIEW_PX && h <= MAX_PREVIEW_PX) return pixbuf
+      const scale = MAX_PREVIEW_PX / Math.max(w, h)
+      return pixbuf.scale_simple(Math.round(w * scale), Math.round(h * scale), GdkPixbuf.InterpType.BILINEAR) ?? pixbuf
+    } catch {
+      continue
+    }
+  }
+  return null
 }
 
 export function dismissPopup(notif: Notifd.Notification): void {
