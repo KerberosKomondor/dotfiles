@@ -100,6 +100,7 @@ export default function NotificationHistory(gdkmonitor: Gdk.Monitor) {
               return <label class="notif-history-empty" label="Nothing here" halign={Gtk.Align.CENTER} />
             }
 
+            // history is newest-first; notifs[0] is the most recent for this app
             const groups = new Map<string, Notifd.Notification[]>()
             for (const notif of list) {
               const arr = groups.get(notif.app_name)
