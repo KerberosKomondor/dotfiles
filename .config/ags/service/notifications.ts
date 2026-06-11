@@ -49,7 +49,8 @@ export function notifImagePixbuf(notif: Notifd.Notification): GdkPixbuf.Pixbuf |
       if (w <= MAX_PREVIEW_PX && h <= MAX_PREVIEW_PX) return pixbuf
       const scale = MAX_PREVIEW_PX / Math.max(w, h)
       return pixbuf.scale_simple(Math.round(w * scale), Math.round(h * scale), GdkPixbuf.InterpType.BILINEAR) ?? pixbuf
-    } catch {
+    } catch (e) {
+      console.warn(`notifImagePixbuf: failed to decode hint "${key}"`, e)
       continue
     }
   }
