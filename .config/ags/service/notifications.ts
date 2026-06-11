@@ -35,6 +35,14 @@ export function notifIcon(notif: Notifd.Notification): { file?: string; iconName
 
 const MAX_PREVIEW_PX = 200
 
+function scalePreview(pixbuf: GdkPixbuf.Pixbuf): GdkPixbuf.Pixbuf {
+  const w = pixbuf.get_width()
+  const h = pixbuf.get_height()
+  if (w <= MAX_PREVIEW_PX && h <= MAX_PREVIEW_PX) return pixbuf
+  const scale = MAX_PREVIEW_PX / Math.max(w, h)
+  return pixbuf.scale_simple(Math.round(w * scale), Math.round(h * scale), GdkPixbuf.InterpType.BILINEAR) ?? pixbuf
+}
+
 // Decodes the standard "image-data" hint (raw pixbuf bytes), e.g. inline
 // photo/screenshot previews from Teams. Falls back through legacy hint
 // names. Returns null if no decodable image-data hint is present.
@@ -45,15 +53,29 @@ export function notifImagePixbuf(notif: Notifd.Notification): GdkPixbuf.Pixbuf |
     try {
       const [w, h, rowstride, hasAlpha, bps, _channels, data] =
         v.deep_unpack<[number, number, number, boolean, number, number, Uint8Array]>()
-      const pixbuf = GdkPixbuf.Pixbuf.new_from_bytes(data, GdkPixbuf.Colorspace.RGB, hasAlpha, bps, w, h, rowstride)
-      if (w <= MAX_PREVIEW_PX && h <= MAX_PREVIEW_PX) return pixbuf
-      const scale = MAX_PREVIEW_PX / Math.max(w, h)
-      return pixbuf.scale_simple(Math.round(w * scale), Math.round(h * scale), GdkPixbuf.InterpType.BILINEAR) ?? pixbuf
+      return scalePreview(GdkPixbuf.Pixbuf.new_from_bytes(data, GdkPixbuf.Colorspace.RGB, hasAlpha, bps, w, h, rowstride))
     } catch (e) {
       console.warn(`notifImagePixbuf: failed to decode hint "${key}"`, e)
       continue
     }
   }
+
+  // astal-notifd normalizes "image-data" into a cached PNG exposed via the
+  // "image-path" hint (notifIcon() also shows this as the small icon — a
+  // larger preview here is intentionally redundant with it).
+  for (const key of ["image-path", "image_path"]) {
+    const v = notif.get_hint(key)
+    if (!v) continue
+    const path = v.deep_unpack<string>()
+    if (!path) continue
+    try {
+      return scalePreview(GdkPixbuf.Pixbuf.new_from_file(path))
+    } catch (e) {
+      console.warn(`notifImagePixbuf: failed to load hint "${key}"`, e)
+      continue
+    }
+  }
+
   return null
 }
 
