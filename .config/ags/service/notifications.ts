@@ -112,6 +112,8 @@ notifd.connect("notified", (_src, id: number) => {
 
   setHistory(h => [notif, ...h])
 
+  if (notifd.dontDisturb) return
+
   setPopupStack(stack => {
     const next = [...stack, notif]
     if (next.length > MAX_VISIBLE) {
