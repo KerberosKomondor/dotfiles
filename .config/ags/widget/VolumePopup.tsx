@@ -115,23 +115,29 @@ export default function VolumePopup(gdkmonitor: Gdk.Monitor) {
           visible={activeTab.as((t) => t === 0)}
         >
           <For each={speakers}>
-            {(spk: Wp.Endpoint) => (
-              <button
-                class={createBinding(spk, "is-default").as((d) =>
-                  d ? "volume-device active" : "volume-device",
-                )}
-                onClicked={() => setDefaultDevice(spk)}
-              >
-                <box spacing={8}>
-                  <image iconName={spk.icon} />
-                  <label
-                    label={spk.description ?? spk.name ?? "Unknown device"}
-                    hexpand
-                    halign={Gtk.Align.START}
-                  />
-                </box>
-              </button>
-            )}
+            {(spk: Wp.Endpoint) => {
+              const name = spk.description ?? spk.name ?? "Unknown device"
+              return (
+                <button
+                  class={createBinding(spk, "is-default").as((d) =>
+                    d ? "volume-device active" : "volume-device",
+                  )}
+                  onClicked={() => setDefaultDevice(spk)}
+                >
+                  <box spacing={8}>
+                    <image iconName={spk.icon} />
+                    <label
+                      label={name}
+                      tooltipText={name}
+                      ellipsize={3}
+                      maxWidthChars={22}
+                      hexpand
+                      halign={Gtk.Align.START}
+                    />
+                  </box>
+                </button>
+              )
+            }}
           </For>
         </box>
 
@@ -142,34 +148,40 @@ export default function VolumePopup(gdkmonitor: Gdk.Monitor) {
           visible={activeTab.as((t) => t === 1)}
         >
           <For each={streams}>
-            {(stream: Wp.Stream) => (
-              <box class="volume-app-row" spacing={8}>
-                <button
-                  class={createBinding(stream, "mute").as((m) =>
-                    m ? "volume-app-icon-btn muted" : "volume-app-icon-btn",
-                  )}
-                  onClicked={() => { stream.mute = !stream.mute }}
-                >
-                  <image iconName={stream.icon} />
-                </button>
-                <label
-                  class="volume-app-name"
-                  label={stream.description ?? stream.name ?? "Unknown app"}
-                  hexpand
-                  halign={Gtk.Align.START}
-                />
-                <slider
-                  class="volume-app-slider"
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  value={createBinding(stream, "volume")}
-                  onValueChanged={(self: Gtk.Range) => {
-                    stream.volume = Math.max(0, Math.min(1, self.get_value()))
-                  }}
-                />
-              </box>
-            )}
+            {(stream: Wp.Stream) => {
+              const name = stream.description ?? stream.name ?? "Unknown app"
+              return (
+                <box class="volume-app-row" spacing={8}>
+                  <button
+                    class={createBinding(stream, "mute").as((m) =>
+                      m ? "volume-app-icon-btn muted" : "volume-app-icon-btn",
+                    )}
+                    onClicked={() => { stream.mute = !stream.mute }}
+                  >
+                    <image iconName={stream.icon} />
+                  </button>
+                  <label
+                    class="volume-app-name"
+                    label={name}
+                    tooltipText={name}
+                    ellipsize={3}
+                    maxWidthChars={14}
+                    hexpand
+                    halign={Gtk.Align.START}
+                  />
+                  <slider
+                    class="volume-app-slider"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={createBinding(stream, "volume")}
+                    onValueChanged={(self: Gtk.Range) => {
+                      stream.volume = Math.max(0, Math.min(1, self.get_value()))
+                    }}
+                  />
+                </box>
+              )
+            }}
           </For>
           <label
             class="volume-empty"
@@ -204,23 +216,29 @@ export default function VolumePopup(gdkmonitor: Gdk.Monitor) {
           </box>
           <box class="volume-divider" />
           <For each={microphones}>
-            {(mic: Wp.Endpoint) => (
-              <button
-                class={createBinding(mic, "is-default").as((d) =>
-                  d ? "volume-device active" : "volume-device",
-                )}
-                onClicked={() => setDefaultDevice(mic)}
-              >
-                <box spacing={8}>
-                  <image iconName={mic.icon} />
-                  <label
-                    label={mic.description ?? mic.name ?? "Unknown device"}
-                    hexpand
-                    halign={Gtk.Align.START}
-                  />
-                </box>
-              </button>
-            )}
+            {(mic: Wp.Endpoint) => {
+              const name = mic.description ?? mic.name ?? "Unknown device"
+              return (
+                <button
+                  class={createBinding(mic, "is-default").as((d) =>
+                    d ? "volume-device active" : "volume-device",
+                  )}
+                  onClicked={() => setDefaultDevice(mic)}
+                >
+                  <box spacing={8}>
+                    <image iconName={mic.icon} />
+                    <label
+                      label={name}
+                      tooltipText={name}
+                      ellipsize={3}
+                      maxWidthChars={22}
+                      hexpand
+                      halign={Gtk.Align.START}
+                    />
+                  </box>
+                </button>
+              )
+            }}
           </For>
         </box>
       </box>
