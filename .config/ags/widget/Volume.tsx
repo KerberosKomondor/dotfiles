@@ -2,6 +2,7 @@
 import { Gtk } from "ags/gtk4"
 import Wp from "gi://AstalWp"
 import { createBinding } from "ags"
+import { togglePopup, volumeVisible, setVolumeVisible } from "../app"
 
 export default function Volume() {
   const wp = Wp.get_default()
@@ -16,13 +17,17 @@ export default function Volume() {
     <box
       class="volume"
       $={(self: Gtk.Box) => {
-        const ctrl = new Gtk.EventControllerScroll()
-        ctrl.set_flags(Gtk.EventControllerScrollFlags.VERTICAL)
-        ctrl.connect("scroll", (_c: any, _dx: number, dy: number) => {
+        const scroll = new Gtk.EventControllerScroll()
+        scroll.set_flags(Gtk.EventControllerScrollFlags.VERTICAL)
+        scroll.connect("scroll", (_c: any, _dx: number, dy: number) => {
           const delta = dy > 0 ? -0.05 : 0.05
           speaker.volume = Math.max(0, Math.min(1, speaker.volume + delta))
         })
-        self.add_controller(ctrl)
+        self.add_controller(scroll)
+
+        const click = new Gtk.GestureClick()
+        click.connect("pressed", () => togglePopup(volumeVisible, setVolumeVisible))
+        self.add_controller(click)
       }}
     >
       <label label={muteAcc.as(m => m ? "🔇" : "🔊")} />

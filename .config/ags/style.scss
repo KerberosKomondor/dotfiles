@@ -615,6 +615,44 @@ popover.tray-menu {
   }
 }
 
+/* Volume popup */
+.VolumePopup {
+  background: transparent;
+
+  .volume-popup {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 280px;
+    margin: 6px;
+  }
+
+  .volume-master {
+    .volume-icon-btn {
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 16px;
+
+      &:hover { background: #44475a; }
+    }
+
+    .volume-slider {
+      trough { background: #44475a; border-radius: 3px; min-height: 6px; }
+      highlight { background: #bd93f9; border-radius: 3px; }
+      slider { background: #f8f8f2; border-radius: 50%; min-width: 12px; min-height: 12px; }
+    }
+
+    .volume-pct {
+      color: #6272a4;
+      font-size: 12px;
+      min-width: 36px;
+    }
+  }
+}
+
 /* Notification popups */
 .NotificationPopups {
   background: transparent;

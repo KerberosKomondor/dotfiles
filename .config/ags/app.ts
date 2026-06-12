@@ -8,6 +8,7 @@ import TodoPopup from "./widget/TodoPopup"
 import CalendarPopup from "./widget/CalendarPopup"
 import NotificationPopups from "./widget/NotificationPopups"
 import NotificationHistory from "./widget/NotificationHistory"
+import VolumePopup from "./widget/VolumePopup"
 import { createState } from "ags"
 
 export const [dashboardVisible, setDashboardVisible] = createState(false)
@@ -15,6 +16,7 @@ export const [weatherVisible, setWeatherVisible] = createState(false)
 export const [todoVisible, setTodoVisible] = createState(false)
 export const [calendarVisible, setCalendarVisible] = createState(false)
 export const [notifHistoryVisible, setNotifHistoryVisible] = createState(false)
+export const [volumeVisible, setVolumeVisible] = createState(false)
 
 function closeAllPopups(): void {
   setDashboardVisible(false)
@@ -22,6 +24,7 @@ function closeAllPopups(): void {
   setTodoVisible(false)
   setCalendarVisible(false)
   setNotifHistoryVisible(false)
+  setVolumeVisible(false)
 }
 
 // Toggle one popup, closing any other popups that are open
@@ -42,5 +45,6 @@ app.start({
     CalendarPopup(monitors[0])
     NotificationPopups(monitors[0])
     NotificationHistory(monitors[0])
+    VolumePopup(monitors[0])
   },
 })
