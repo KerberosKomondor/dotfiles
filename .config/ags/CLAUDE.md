@@ -22,13 +22,15 @@ ags bundle ~/.config/ags/app.ts /tmp/check.js
 
 | File | Responsibility |
 |------|----------------|
-| `app.ts` | Entry point, global state (`todoVisible`, `dashboardVisible`, `weatherVisible`), popup instantiation |
+| `app.ts` | Entry point, global state (`todoVisible`, `dashboardVisible`, `weatherVisible`, `volumeVisible`), popup instantiation |
 | `style.scss` | All styles — Dracula theme throughout |
 | `service/weather.ts` | Weather polling, Open-Meteo API |
 | `service/todos.ts` | Todo file I/O, badge count state |
+| `service/audio.ts` | AstalWp reactive wrapper — speaker/mic/stream lists, default-device volume & mute |
 | `widget/Bar.tsx` | Bar window, left/right clusters |
 | `widget/TodoPopup.tsx` | Todo popup — day tabs, item list, add flow |
 | `widget/Dashboard.tsx` | Dashboard popup — power, toggles |
+| `widget/VolumePopup.tsx` | Volume mixer popup — master volume + Output/Apps/Input tabs |
 
 ## Multi-monitor
 

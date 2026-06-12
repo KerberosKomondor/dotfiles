@@ -97,9 +97,29 @@ All popups (Dashboard, Weather, Todo, Calendar) are mutually exclusive: opening 
 - `popover.tray-menu` class is added via `popover.add_css_class("tray-menu")` in `Tray.tsx`.
 - `!important` is **not valid in GTK CSS** — causes a silent parse error (`CSS Error: Junk at end of value for color`) that drops the whole declaration. Rely on `Gtk.STYLE_PROVIDER_PRIORITY_USER` (used by ags's `apply_css`) + selector specificity instead.
 
+## Volume mixer popup
+
+Click the `Volume` widget on the bar to open a full mixer popup (top-right, same overlay pattern as `CalendarPopup`). Scroll over the bar widget still adjusts master volume directly, as before.
+
+- **Master row** (always visible): speaker mute toggle (🔊/🔇) + slider + percent, bound to the current default speaker.
+- **Tabs** (Output / Apps / Input), tab bar below the master row:
+  - **Output** — lists speaker devices (`AstalWp.Audio.get_speakers()`); click a row to make it the default sink (`endpoint.set_is_default(true)`).
+  - **Apps** — lists active playback streams (`get_streams()`), each with its own mute toggle + volume slider. Shows "No apps playing audio" when empty.
+  - **Input** — mic mute/volume row (🎙️/🔇) for the default source, a divider, then a list of input devices (same picker pattern as Output).
+- Tab selection persists across open/close (local `createState` in `VolumePopup.tsx`, component instantiated once at startup).
+- Click-outside or `Esc` closes the popup.
+
+### `service/audio.ts`
+
+Reactive wrapper around `Wp.get_default()!.audio`:
+- `speakers` / `microphones` / `streams` — `createState` arrays kept in sync via `speaker-added/removed`, `microphone-added/removed`, `stream-added/removed`.
+- `defaultSpeakerVolume` / `defaultSpeakerMute` / `defaultMicVolume` / `defaultMicMute` — track the *current* default device, re-subscribing (and disconnecting old handlers) on `notify::default-speaker` / `notify::default-microphone`. This is what fixes the old "static at launch" limitation below.
+- Actions: `setSpeakerVolume`, `toggleSpeakerMute`, `setMicVolume`, `toggleMicMute` (all clamp 0–1), `setDefaultDevice(endpoint)`.
+
+Design doc: `~/.config/ags/docs/superpowers/specs/2026-06-11-volume-mixer-popup-design.md`. Plan: `~/.config/ags/docs/superpowers/plans/2026-06-11-volume-mixer-popup.md`.
+
 ## Known limitations
 - Dashboard popup doesn't close on click-outside (use Escape or the button)
-- Audio device capture is static at launch; switching default sink requires restart
 
 ## Cleanup (after confirming stable)
 ```bash
