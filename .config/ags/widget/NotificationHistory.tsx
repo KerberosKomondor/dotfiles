@@ -17,15 +17,15 @@ function relativeTime(unixSeconds: number): string {
 }
 
 function renderRow(notif: Notifd.Notification) {
-  const icon = notifIcon(notif)
+  const icon = notifIcon(notif, 24)
   return (
     <box class="notif-history-row" spacing={8}>
       <image
         class="notif-icon"
-        file={icon.file}
         iconName={icon.iconName}
         pixelSize={24}
         valign={Gtk.Align.START}
+        $={(self: any) => { if (icon.pixbuf) self.set_from_pixbuf(icon.pixbuf) }}
       />
       <box orientation={1} hexpand>
         <label

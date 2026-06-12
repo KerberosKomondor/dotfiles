@@ -12,7 +12,7 @@ mako's body text wrapping was fixed (`width`/`height` only). HyprPanel's built-i
   - `popupStack: PopupGroup[]`, `overflowCount`, `history` — reactive state (`createState`)
   - `dismissPopup`, `clearHistory`, `removeFromHistory`, `invokeAction`
   - `urgencyClass(notif)` → `"low" | "normal" | "critical"`
-  - `notifIcon(notif)` → `{ file? }` or `{ iconName? }`
+  - `notifIcon(notif, size?)` → `{ pixbuf? }` or `{ iconName? }` (default `size = 32`)
   - `notifImagePixbuf(notif)` → `GdkPixbuf.Pixbuf | null` — inline image preview (see below)
   - `pauseTimer` / `resumeTimer` / `getTimerFraction` — auto-dismiss timer control
   - Listens to `notifd` `"notified"`/`"resolved"` signals to keep `popupStack` and `history` in sync
@@ -97,6 +97,33 @@ the title/body in both popups and history.
   implementation) — the `image-path` fallback was validated with a synthetic
   `gdbus`-sent `image-data` hint (1×1 pixel), which astal-notifd normalized to
   `image-path` as expected.
+
+## Notif icon sizing
+
+**Fixed bug**: `notifIcon()` originally returned `{ file: path }` for
+file-based app icons (e.g. kitty's `app-icon` hint is
+`/usr/lib/kitty/logo/kitty.png`, 256×256), rendered as
+`<image file={...} pixelSize={32}>`. GTK4's `pixel-size` property only
+applies to icon-name (`GTK_IMAGE_ICON_NAME`) images — for file-based images
+it has no effect, so the icon rendered at its native 256×256, dwarfing the
+notification text and showing as a large dark/black square (the PNG's
+transparent background over the popup's dark `#282a36`).
+
+Fixed by having `notifIcon(notif, size)` load file-based icons via
+`GdkPixbuf.Pixbuf.new_from_file_at_size(path, size, size)` and rendering with
+`<image $={(self) => self.set_from_pixbuf(icon.pixbuf)}>` (same pattern as
+`notif-preview-image`). Icon-name icons still use `iconName`+`pixelSize` as
+before. Popups pass `size=32`, history rows pass `size=24`.
+
+## Default action button
+
+**Fixed bug**: kitty (and likely other senders) include a `default` action
+(`id="default"`, `label=" "`) representing "click the notification body to
+activate" per the notification spec — not meant to be rendered as its own
+button. `NotificationPopups.tsx` rendered every entry from `get_actions()` as
+a `.notif-action-btn`, so this showed up as an empty dark rounded box below
+the body text. Fixed by filtering `a.id !== "default"` before rendering
+`notif-actions`.
 
 ## Auto-dismiss timers
 

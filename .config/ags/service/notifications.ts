@@ -25,12 +25,23 @@ export function urgencyClass(notif: Notifd.Notification): string {
   }
 }
 
-export function notifIcon(notif: Notifd.Notification): { file?: string; iconName?: string } {
+// GTK4 Gtk.Image's pixel-size property only applies to icon-name images, not
+// file-based ones — a file-based image renders at its native size. App icons
+// like kitty's 256x256 logo would dwarf the notification text, so file-based
+// icons are pre-scaled to a pixbuf instead.
+export function notifIcon(notif: Notifd.Notification, size = 32): { pixbuf?: GdkPixbuf.Pixbuf; iconName?: string } {
   const image = notif.get_image()
-  if (image) return image.startsWith("/") ? { file: image } : { iconName: image }
   const appIcon = notif.get_app_icon()
-  if (appIcon) return appIcon.startsWith("/") ? { file: appIcon } : { iconName: appIcon }
-  return { iconName: "dialog-information-symbolic" }
+  const path = image?.startsWith("/") ? image : appIcon?.startsWith("/") ? appIcon : null
+  if (path) {
+    try {
+      return { pixbuf: GdkPixbuf.Pixbuf.new_from_file_at_size(path, size, size) }
+    } catch (e) {
+      console.warn(`notifIcon: failed to load "${path}"`, e)
+    }
+  }
+  const name = image && !image.startsWith("/") ? image : appIcon && !appIcon.startsWith("/") ? appIcon : null
+  return { iconName: name ?? "dialog-information-symbolic" }
 }
 
 const MAX_PREVIEW_PX = 128

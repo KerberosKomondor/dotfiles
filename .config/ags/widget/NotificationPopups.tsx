@@ -37,7 +37,10 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
           {(g: PopupGroup) => {
             const notif = g.notif
             const icon = notifIcon(notif)
-            const actions = notif.get_actions()
+            // The "default" action represents clicking the notification body
+            // itself (e.g. focus the sending app's window), not a UI button —
+            // per the notification spec it shouldn't be rendered separately.
+            const actions = notif.get_actions().filter(a => a.id !== "default")
             const initialFraction = getTimerFraction(notif.id)
             const showProgress = initialFraction !== null
             const [progress, setProgress] = createState(initialFraction ?? 1)
@@ -80,10 +83,10 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
               >
                 <image
                   class="notif-icon"
-                  file={icon.file}
                   iconName={icon.iconName}
                   pixelSize={32}
                   valign={Gtk.Align.START}
+                  $={(self: any) => { if (icon.pixbuf) self.set_from_pixbuf(icon.pixbuf) }}
                 />
                 <box orientation={1} hexpand class="notif-content">
                   <box spacing={6}>
