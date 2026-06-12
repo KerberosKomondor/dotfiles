@@ -9,6 +9,7 @@ import {
   setSpeakerVolume,
   toggleSpeakerMute,
   speakers,
+  streams,
   setDefaultDevice,
 } from "../service/audio"
 import { volumeVisible, setVolumeVisible } from "../app"
@@ -127,6 +128,49 @@ export default function VolumePopup(gdkmonitor: Gdk.Monitor) {
               </button>
             )}
           </For>
+        </box>
+
+        <box
+          class="volume-tab-content"
+          orientation={1}
+          spacing={4}
+          visible={activeTab.as((t) => t === 1)}
+        >
+          <For each={streams}>
+            {(stream: Wp.Stream) => (
+              <box class="volume-app-row" spacing={8}>
+                <button
+                  class={createBinding(stream, "mute").as((m) =>
+                    m ? "volume-app-icon-btn muted" : "volume-app-icon-btn",
+                  )}
+                  onClicked={() => { stream.mute = !stream.mute }}
+                >
+                  <image iconName={stream.icon} />
+                </button>
+                <label
+                  class="volume-app-name"
+                  label={stream.description ?? stream.name ?? "Unknown app"}
+                  hexpand
+                  halign={Gtk.Align.START}
+                />
+                <slider
+                  class="volume-app-slider"
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  value={createBinding(stream, "volume")}
+                  onValueChanged={(self: Gtk.Range) => {
+                    stream.volume = Math.max(0, Math.min(1, self.get_value()))
+                  }}
+                />
+              </box>
+            )}
+          </For>
+          <label
+            class="volume-empty"
+            label="No apps playing audio"
+            visible={streams.as((s) => s.length === 0)}
+          />
         </box>
       </box>
     </window>

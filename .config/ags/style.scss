@@ -690,6 +690,38 @@ popover.tray-menu {
 
     &:hover { background: #6272a4; }
   }
+
+  .volume-app-row {
+    .volume-app-name {
+      color: #f8f8f2;
+      font-size: 12px;
+    }
+
+    .volume-app-slider {
+      min-width: 90px;
+
+      trough { background: #44475a; border-radius: 3px; min-height: 6px; }
+      highlight { background: #bd93f9; border-radius: 3px; }
+      slider { background: #f8f8f2; border-radius: 50%; min-width: 10px; min-height: 10px; }
+    }
+
+    .volume-app-icon-btn {
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      padding: 2px 4px;
+
+      &:hover { background: #44475a; }
+
+      &.muted { opacity: 0.4; }
+    }
+  }
+
+  .volume-empty {
+    color: #6272a4;
+    font-size: 12px;
+    padding: 8px 0;
+  }
 }
 
 /* Notification popups */
