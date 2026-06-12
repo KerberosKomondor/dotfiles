@@ -11,6 +11,11 @@ import {
   speakers,
   streams,
   setDefaultDevice,
+  defaultMicVolume,
+  defaultMicMute,
+  setMicVolume,
+  toggleMicMute,
+  microphones,
 } from "../service/audio"
 import { volumeVisible, setVolumeVisible } from "../app"
 
@@ -171,6 +176,52 @@ export default function VolumePopup(gdkmonitor: Gdk.Monitor) {
             label="No apps playing audio"
             visible={streams.as((s) => s.length === 0)}
           />
+        </box>
+
+        <box
+          class="volume-tab-content"
+          orientation={1}
+          spacing={4}
+          visible={activeTab.as((t) => t === 2)}
+        >
+          <box class="volume-master" spacing={8}>
+            <button class="volume-icon-btn" onClicked={() => toggleMicMute()}>
+              <label label={defaultMicMute.as((m) => (m ? "🔇" : "🎙️"))} />
+            </button>
+            <slider
+              class="volume-slider"
+              hexpand
+              min={0}
+              max={1}
+              step={0.01}
+              value={defaultMicVolume}
+              onValueChanged={(self: Gtk.Range) => setMicVolume(self.get_value())}
+            />
+            <label
+              class="volume-pct"
+              label={defaultMicVolume.as((v) => `${Math.round(v * 100)}%`)}
+            />
+          </box>
+          <box class="volume-divider" />
+          <For each={microphones}>
+            {(mic: Wp.Endpoint) => (
+              <button
+                class={createBinding(mic, "is-default").as((d) =>
+                  d ? "volume-device active" : "volume-device",
+                )}
+                onClicked={() => setDefaultDevice(mic)}
+              >
+                <box spacing={8}>
+                  <image iconName={mic.icon} />
+                  <label
+                    label={mic.description ?? mic.name ?? "Unknown device"}
+                    hexpand
+                    halign={Gtk.Align.START}
+                  />
+                </box>
+              </button>
+            )}
+          </For>
         </box>
       </box>
     </window>
