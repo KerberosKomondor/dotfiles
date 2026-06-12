@@ -93,8 +93,8 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
                     <label class="notif-app" label={notif.app_name} halign={Gtk.Align.START} />
                     {g.count > 1 ? <label class="notif-popup-count" label={`×${g.count}`} /> : null}
                   </box>
-                  <label class="notif-title" label={notif.summary} halign={Gtk.Align.START} wrap />
-                  <label class="notif-body" label={notif.body} halign={Gtk.Align.START} wrap />
+                  <label class="notif-title" label={notif.summary} halign={Gtk.Align.START} wrap maxWidthChars={32} />
+                  <label class="notif-body" label={notif.body} halign={Gtk.Align.START} wrap maxWidthChars={32} />
                   {(() => {
                     const pb = notifImagePixbuf(notif)
                     return pb ? (

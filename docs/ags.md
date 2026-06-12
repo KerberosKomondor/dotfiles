@@ -97,6 +97,12 @@ All popups (Dashboard, Weather, Todo, Calendar) are mutually exclusive: opening 
 - `popover.tray-menu` class is added via `popover.add_css_class("tray-menu")` in `Tray.tsx`.
 - `!important` is **not valid in GTK CSS** — causes a silent parse error (`CSS Error: Junk at end of value for color`) that drops the whole declaration. Rely on `Gtk.STYLE_PROVIDER_PRIORITY_USER` (used by ags's `apply_css`) + selector specificity instead.
 
+## Notification popups
+
+`widget/NotificationPopups.tsx` — `.notif-title`/`.notif-body` labels use `wrap` + `maxWidthChars={32}`.
+
+- `maxWidthChars` (not `widthRequest`) is what's needed to cap a wrapping GTK label — `width-request` only sets the *minimum* size, the *natural* size for a wrap-enabled label is the full unwrapped text width, so without `max-width-chars` long notifications stretch the popup window to monitor width.
+
 ## Volume mixer popup
 
 Click the `Volume` widget on the bar to open a full mixer popup (top-right, same overlay pattern as `CalendarPopup`). Scroll over the bar widget still adjusts master volume directly, as before.
