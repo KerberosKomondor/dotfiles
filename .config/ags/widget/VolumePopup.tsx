@@ -1,16 +1,21 @@
 // ~/.config/ags/widget/VolumePopup.tsx
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import app from "ags/gtk4/app"
+import { createState, createBinding, For } from "ags"
+import Wp from "gi://AstalWp"
 import {
   defaultSpeakerVolume,
   defaultSpeakerMute,
   setSpeakerVolume,
   toggleSpeakerMute,
+  speakers,
+  setDefaultDevice,
 } from "../service/audio"
 import { volumeVisible, setVolumeVisible } from "../app"
 
 export default function VolumePopup(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, BOTTOM, RIGHT } = Astal.WindowAnchor
+  const [activeTab, setActiveTab] = createState(0)
 
   return (
     <window
@@ -74,6 +79,54 @@ export default function VolumePopup(gdkmonitor: Gdk.Monitor) {
             class="volume-pct"
             label={defaultSpeakerVolume.as((v) => `${Math.round(v * 100)}%`)}
           />
+        </box>
+
+        <box class="volume-tabs" spacing={4} homogeneous>
+          <button
+            class={activeTab.as((t) => (t === 0 ? "volume-tab active" : "volume-tab"))}
+            onClicked={() => setActiveTab(0)}
+          >
+            <label label="Output" />
+          </button>
+          <button
+            class={activeTab.as((t) => (t === 1 ? "volume-tab active" : "volume-tab"))}
+            onClicked={() => setActiveTab(1)}
+          >
+            <label label="Apps" />
+          </button>
+          <button
+            class={activeTab.as((t) => (t === 2 ? "volume-tab active" : "volume-tab"))}
+            onClicked={() => setActiveTab(2)}
+          >
+            <label label="Input" />
+          </button>
+        </box>
+
+        <box
+          class="volume-tab-content"
+          orientation={1}
+          spacing={4}
+          visible={activeTab.as((t) => t === 0)}
+        >
+          <For each={speakers}>
+            {(spk: Wp.Endpoint) => (
+              <button
+                class={createBinding(spk, "is-default").as((d) =>
+                  d ? "volume-device active" : "volume-device",
+                )}
+                onClicked={() => setDefaultDevice(spk)}
+              >
+                <box spacing={8}>
+                  <image iconName={spk.icon} />
+                  <label
+                    label={spk.description ?? spk.name ?? "Unknown device"}
+                    hexpand
+                    halign={Gtk.Align.START}
+                  />
+                </box>
+              </button>
+            )}
+          </For>
         </box>
       </box>
     </window>

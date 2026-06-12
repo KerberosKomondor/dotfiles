@@ -651,6 +651,45 @@ popover.tray-menu {
       min-width: 36px;
     }
   }
+
+  .volume-tabs {
+    margin-top: 4px;
+  }
+
+  .volume-tab {
+    background: #44475a;
+    color: #f8f8f2;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 0;
+    font-size: 12px;
+
+    &.active {
+      background: #bd93f9;
+      color: #282a36;
+      font-weight: bold;
+    }
+
+    &:hover { background: #6272a4; }
+  }
+
+  .volume-tab-content {
+    margin-top: 4px;
+  }
+
+  .volume-device {
+    background: #44475a;
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: #f8f8f2;
+
+    &.active {
+      background: #bd93f9;
+      color: #282a36;
+    }
+
+    &:hover { background: #6272a4; }
+  }
 }
 
 /* Notification popups */
