@@ -11,14 +11,13 @@ import {
 
 export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, BOTTOM, RIGHT } = Astal.WindowAnchor
-  const weekDates = getCurrentWeekDates()
-  const todayStr = today()
+  const [weekInfo, setWeekInfo] = createState({ weekDates: getCurrentWeekDates(), todayStr: today() })
 
-  const [selectedDate, setSelectedDate] = createState(todayStr)
+  const [selectedDate, setSelectedDate] = createState(today())
   const [items, setItems] = createState<TodoItem[]>([])
   const [showAdd, setShowAdd] = createState(false)
   const [addMode, setAddMode] = createState<"oneoff" | "recurring">("oneoff")
-  const [selectedDays, setSelectedDays] = createState<string[]>([getDayLetter(todayStr)])
+  const [selectedDays, setSelectedDays] = createState<string[]>([getDayLetter(today())])
   const [addText, setAddText] = createState("")
 
   function loadDay(date: string): void {
@@ -59,6 +58,7 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
     if (!text.trim()) return
     const days = selectedDays()
     if (days.length === 0) return
+    const { weekDates } = weekInfo()
 
     if (addMode() === "oneoff") {
       for (const date of weekDates) {
@@ -88,11 +88,12 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
     setSelectedDays([getDayLetter(selectedDate())])
   }
 
-  // Load today on first open, and reset to today each time popup opens
-  loadDay(todayStr)
+  // Load today on first open, and reset to today/this week each time popup opens
+  loadDay(today())
   todoVisible.subscribe((v: boolean) => {
     if (v) {
       const nowToday = today()
+      setWeekInfo({ weekDates: getCurrentWeekDates(), todayStr: nowToday })
       setSelectedDate(nowToday)
       loadDay(nowToday)
     }
@@ -130,30 +131,34 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
     >
       <box class="todo-popup" orientation={1} spacing={0} halign={Gtk.Align.START} valign={Gtk.Align.START}>
 
-        {/* Day tabs — static box, only button classes react to selectedDate */}
-        <box class="todo-tabs" spacing={2}>
-          {weekDates.map(date => {
-            const hasItems = getTodosForDate(date).length > 0
-            const isToday = date === todayStr
-            return (
-              <button
-                class={selectedDate.as((active: string) => {
-                  let cls = "todo-tab"
-                  if (date === active) cls += " active"
-                  else if (hasItems) cls += " has-items"
-                  else if (isToday) cls += " today"
-                  return cls
-                })}
-                onClicked={() => {
-                  setSelectedDate(date)
-                  loadDay(date)
-                }}
-              >
-                <label label={getDayName(date)} />
-              </button>
-            )
-          })}
-        </box>
+        {/* Day tabs — re-rendered via <With> when weekInfo changes (popup reopened in a new week) */}
+        <With value={weekInfo}>
+          {({ weekDates, todayStr }: { weekDates: string[]; todayStr: string }) => (
+            <box class="todo-tabs" spacing={2}>
+              {weekDates.map(date => {
+                const hasItems = getTodosForDate(date).length > 0
+                const isToday = date === todayStr
+                return (
+                  <button
+                    class={selectedDate.as((active: string) => {
+                      let cls = "todo-tab"
+                      if (date === active) cls += " active"
+                      else if (hasItems) cls += " has-items"
+                      else if (isToday) cls += " today"
+                      return cls
+                    })}
+                    onClicked={() => {
+                      setSelectedDate(date)
+                      loadDay(date)
+                    }}
+                  >
+                    <label label={getDayName(date)} />
+                  </button>
+                )
+              })}
+            </box>
+          )}
+        </With>
 
         <box class="todo-divider" />
 
@@ -227,7 +232,7 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
                       {(days: string[]) => (
                         <box class="todo-day-picker" spacing={3}>
                           {mode === "oneoff"
-                            ? weekDates.map(date => {
+                            ? weekInfo().weekDates.map(date => {
                                 const letter = getDayLetter(date)
                                 return (
                                   <button

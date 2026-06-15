@@ -58,6 +58,11 @@ Injected into a day's file when that tab is first opened. Checking a recurring i
 ### Deleting recurring items
 Edit `~/.local/share/ags/todos/recurring.txt` directly.
 
+### Week rollover bug (fixed 2026-06-15)
+`weekDates`/`todayStr` used to be computed once in `TodoPopup()` at AGS startup (`app.ts` calls it once in `main()`). Since AGS is a long-running daemon, if it stayed up across a week boundary, the day-tab row stayed frozen on the old week (and new items added via the day-picker wrote to old-week date files).
+
+Fix: `weekDates`/`todayStr` are now `createState` (`weekInfo`), recomputed in the `todoVisible.subscribe` callback on every popup open, with the tab row wrapped in `<With value={weekInfo}>` so it re-renders.
+
 ## Clock
 
 Stacked button widget in bar (far right). Top line: time (`2:30 PM`), bottom line: date (`Mon Jun 8`). Click toggles the calendar popup open/closed.
