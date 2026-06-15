@@ -39,6 +39,28 @@ ya pkg add yazi-rs/plugins:<name>
 ya pkg add <github-user>/<repo>:<plugin-name>
 ```
 
+## PDF Opener (Zathura)
+
+Zathura didn't appear in the "open with" (`O`) menu for PDFs because:
+- `org.pwmt.zathura.desktop` declares no `MimeType=`
+- `org.pwmt.zathura-pdf-mupdf.desktop` (which has `MimeType=application/pdf`) sets `NoDisplay=true`, so yazi hides it from the picker
+
+Fixed by adding an explicit opener in `yazi.toml`:
+
+```toml
+[opener]
+zathura = [
+	{ run = 'zathura "$@"', desc = "Zathura", orphan = true, for = "unix" },
+]
+
+[open]
+prepend_rules = [
+	{ mime = "application/pdf", use = "zathura" },
+]
+```
+
+This makes zathura the default for PDFs (`o`/`Enter`) and also available in "open with" (`O`).
+
 ## Updating the Flavor
 
 Re-copy from the upstream repo, or use the `ya` package manager:
