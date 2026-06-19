@@ -63,6 +63,11 @@ Edit `~/.local/share/ags/todos/recurring.txt` directly.
 
 Fix: `weekDates`/`todayStr` are now `createState` (`weekInfo`), recomputed in the `todoVisible.subscribe` callback on every popup open, with the tab row wrapped in `<With value={weekInfo}>` so it re-renders.
 
+### Badge looked "done" right after midnight (fixed 2026-06-19)
+`refreshBadge()` (`service/todos.ts`) polls every 5s and reads `${today()}.txt` directly. The file for a new day is only created by `initDayIfNeeded()`, which used to run solely inside `TodoPopup`'s `loadDay()` — i.e. only when the popup was opened. Right after midnight, before the popup was ever opened that day, the file didn't exist yet, so `refreshBadge` read `null`, counted 0, and hid the badge — looking like the day was already done, even though recurring items hadn't been injected.
+
+Fix: `refreshBadge()` now calls `initDayIfNeeded(date)` itself before reading, so the file (with recurring items injected) gets created on the first 5s poll after rollover, independent of whether the popup is opened.
+
 ## Clock
 
 Stacked button widget in bar (far right). Top line: time (`2:30 PM`), bottom line: date (`Mon Jun 8`). Click toggles the calendar popup open/closed.

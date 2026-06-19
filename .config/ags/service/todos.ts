@@ -157,7 +157,9 @@ export const todayCount = todoCountState[0]
 const setTodayCount = todoCountState[1]
 
 export function refreshBadge(): void {
-  const content = readFileSync(`${TODOS_DIR}/${today()}.txt`)
+  const date = today()
+  initDayIfNeeded(date)
+  const content = readFileSync(`${TODOS_DIR}/${date}.txt`)
   setTodayCount(content !== null ? parseTodos(content).filter(i => !i.done).length : 0)
 }
 
