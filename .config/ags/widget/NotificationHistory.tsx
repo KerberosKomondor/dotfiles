@@ -33,8 +33,22 @@ function renderRow(notif: Notifd.Notification) {
           label={`${notif.app_name} · ${relativeTime(notif.get_time())}`}
           halign={Gtk.Align.START}
         />
-        <label class="notif-history-title" label={notif.summary} halign={Gtk.Align.START} wrap />
-        <label class="notif-history-body" label={notif.body} halign={Gtk.Align.START} wrap />
+        <label
+          class="notif-history-title"
+          label={notif.summary}
+          halign={Gtk.Align.START}
+          maxWidthChars={40}
+          ellipsize={3}
+        />
+        <label
+          class="notif-history-body"
+          label={notif.body}
+          halign={Gtk.Align.START}
+          wrap
+          lines={2}
+          maxWidthChars={40}
+          ellipsize={3}
+        />
         {(() => {
           const pb = notifImagePixbuf(notif)
           return pb ? (

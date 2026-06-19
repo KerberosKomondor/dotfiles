@@ -108,6 +108,16 @@ All popups (Dashboard, Weather, Todo, Calendar) are mutually exclusive: opening 
 
 - `maxWidthChars` (not `widthRequest`) is what's needed to cap a wrapping GTK label — `width-request` only sets the *minimum* size, the *natural* size for a wrap-enabled label is the full unwrapped text width, so without `max-width-chars` long notifications stretch the popup window to monitor width.
 
+## Notification history panel (fixed 2026-06-18)
+
+`widget/NotificationHistory.tsx` had the same bug as the toast popups above: `.notif-history-title`/`.notif-history-body` had no `maxWidthChars`/`ellipsize`, and since the window anchors all four sides (`TOP|LEFT|BOTTOM|RIGHT`), a long notification body stretched the panel across the whole screen — pushing the action buttons (clear/dismiss) off past the visible/clickable area.
+
+Fix, same pattern as `NotificationPopups.tsx`:
+- `.notif-history-title`: `maxWidthChars={40}` + `ellipsize={3}` (single-line truncation, Pango `EllipsizeMode.END`)
+- `.notif-history-body`: `wrap` + `lines={2}` + `maxWidthChars={40}` + `ellipsize={3}` (caps at 2 lines, ellipsizes the last line)
+
+**`max-width` is not a valid GTK CSS property** (only `min-width` is supported) — adding `max-width: 420px` to `.notif-history` in `style.scss` causes a silent-ish CSS parse error at startup (`CSS Error :890:3 No property named "max-width"`) and the rule is dropped. Width capping for wrapping/ellipsized labels must be done via `maxWidthChars` in the JSX, not CSS.
+
 ## Volume mixer popup
 
 Click the `Volume` widget on the bar to open a full mixer popup (top-right, same overlay pattern as `CalendarPopup`). Scroll over the bar widget still adjusts master volume directly, as before.
