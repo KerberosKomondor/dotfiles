@@ -1,0 +1,154 @@
+# AGS Bar
+
+Custom AGS 3.x bar replacing HyprPanel on DP-1 (all monitors via app.get_monitors().map(Bar)).
+
+## Config location
+`~/.config/ags/`
+
+## Run / restart
+```bash
+ags quit && ags run ~/.config/ags/app.ts
+```
+
+## AGS version
+AGS 3.1.2 with gnim reactive library. Uses `createState`/`createBinding`/`createPoll` (not the older `Variable`/`bind` API).
+
+## Monitor targeting
+Bar runs on all monitors via `app.get_monitors().map(Bar)`. Popups target `monitors[0]`. If the wrong monitor gets the bar or a popup, adjust the index in `app.ts` and check with `ags inspect`.
+
+## Weather
+Open-Meteo, ZIP 80921 (Colorado Springs). Coordinates: 39.02°N, 104.77°W.
+Update interval: 10 min. No API key required. To change location, edit `service/weather.ts`.
+
+### Hourly Weather
+
+The weather popup fetches 12 hours of hourly data from Open-Meteo alongside current conditions and the 5-day forecast.
+
+- Fields: `temperature_2m`, `weather_code`, `precipitation_probability`
+- Displayed as a timeline between current conditions and the daily forecast
+- Bar color: cyan (dry), purple (precip ≥ 20%)
+- Bar width: relative to min/max temp across the 12-hour window
+- Time labels: "Now" for current hour, then 12-hour format (e.g. "3 PM")
+- API `startIdx` fallback: when the current hour is not found in the hourly array, falls back to the last 12 available hours (not the first 12)
+
+## Dashboard
+Opens via the 󰣇 button at far left of bar. Escape or button click to close.
+- Power: systemctl poweroff/reboot, hyprctl dispatch exit
+- Toggles: wifi (AstalNetwork), bluetooth (AstalBluetooth bt.toggle()), notifications DnD (AstalNotifd), volume/mic mute (AstalWirePlumber)
+
+## Todo list
+
+Button at far left (after DashboardButton). Click to open a per-day checklist popup.
+
+### Storage
+- `~/.local/share/ags/todos/YYYY-MM-DD.txt` — daily items (`[ ] text` / `[x] text`)
+- `~/.local/share/ags/todos/recurring.txt` — recurring items (`MTWRF [ ] text`)
+
+### Adding items
+Click `＋` in the popup. Toggle One-off (pick days this week) or Recurring (pick day-of-week letters). Press Enter or click Add.
+
+### Recurring items
+Injected into a day's file when that tab is first opened. Checking a recurring item marks it done only in that day's file — `recurring.txt` always stays `[ ]`.
+
+### Checkbox/text colors
+- Checkbox box outline (`󰄱`): always purple (`#bd93f9`), checked or not.
+- Checkmark overlay (`󰄬`, shown only when done): teal (`#8be9fd`), layered via `<overlay>`/`$type="overlay"` on top of the box icon.
+- Completed item text: teal (`#8be9fd`) with strikethrough (was green `#50fa7b`).
+
+### Deleting recurring items
+Edit `~/.local/share/ags/todos/recurring.txt` directly.
+
+### Week rollover bug (fixed 2026-06-15)
+`weekDates`/`todayStr` used to be computed once in `TodoPopup()` at AGS startup (`app.ts` calls it once in `main()`). Since AGS is a long-running daemon, if it stayed up across a week boundary, the day-tab row stayed frozen on the old week (and new items added via the day-picker wrote to old-week date files).
+
+Fix: `weekDates`/`todayStr` are now `createState` (`weekInfo`), recomputed in the `todoVisible.subscribe` callback on every popup open, with the tab row wrapped in `<With value={weekInfo}>` so it re-renders.
+
+### Badge looked "done" right after midnight (fixed 2026-06-19)
+`refreshBadge()` (`service/todos.ts`) polls every 5s and reads `${today()}.txt` directly. The file for a new day is only created by `initDayIfNeeded()`, which used to run solely inside `TodoPopup`'s `loadDay()` — i.e. only when the popup was opened. Right after midnight, before the popup was ever opened that day, the file didn't exist yet, so `refreshBadge` read `null`, counted 0, and hid the badge — looking like the day was already done, even though recurring items hadn't been injected.
+
+Fix: `refreshBadge()` now calls `initDayIfNeeded(date)` itself before reading, so the file (with recurring items injected) gets created on the first 5s poll after rollover, independent of whether the popup is opened.
+
+## Clock
+
+Stacked button widget in bar (far right). Top line: time (`2:30 PM`), bottom line: date (`Mon Jun 8`). Click toggles the calendar popup open/closed.
+
+## Calendar popup
+
+Toggled by clock click. Fullscreen overlay, content top-right corner. Monday-first month grid with today highlighted in pink.
+
+- `◀` / `▶` navigate months
+- Today only highlighted when viewing current month
+- Escape, click-outside, or clicking the clock again closes it
+- Month always resets to current on open (`calendarVisible.subscribe` in `CalendarPopup.tsx`)
+
+State: `calendarVisible` in `app.ts`. Widget: `widget/CalendarPopup.tsx`.
+
+## Popup behavior
+
+All popups (Dashboard, Weather, Todo, Calendar) are mutually exclusive: opening one closes any other that's open. Each toggle button calls `togglePopup(visible, setVisible)` from `app.ts`, which closes all popup states then opens the target if it wasn't already open. Clicking a popup's own toggle button again closes it.
+
+## Cmus / MPRIS widget
+
+`widget/Cmus.tsx` shows `artist - title [pos/len]` for the active MPRIS player (browsers excluded via `BROWSER_IDS`).
+
+- `position` doesn't fire `notify::position` — AstalMpris/cmus don't push position updates, so a plain `createBinding(player, "position")` never updates during playback.
+- Fix: `createPoll(player.position ?? 0, 1000, () => player.position ?? 0)` polls position every second; combined with `title`/`artist`/`length` bindings via `createMemo`.
+
+## Tray (system tray icons)
+
+`widget/Tray.tsx` — left-click calls `item.activate(x,y)` (primary action), right-click opens the dbusmenu context menu via a manually-built `Gtk.PopoverMenu`.
+
+- Each tray item gets its own `Gtk.PopoverMenu.new_from_model(item.menuModel)`, parented to the icon's `<button>` via `set_parent()`. Rebuilt whenever `menuModel`/`actionGroup` change.
+- Two `Gtk.GestureClick` controllers (button = `Gdk.BUTTON_PRIMARY` / `Gdk.BUTTON_SECONDARY`) are added as JSX children of the `<button>` — `<menubutton>` only triggers on left-click in GTK4, so right-click needs its own gesture.
+- **Must call `item.about_to_show()` before `popover.popup()`** — the dbusmenu protocol requires this to populate fresh item state/labels (e.g. battery %); skipping it doesn't break things visually but the app won't refresh menu contents.
+
+### Styling the right-click menu (`style.scss`, `.tray-menu` block)
+- `Gtk.PopoverMenu.new_from_model()` renders items as `modelbutton.flat` (CSS node `modelbutton`, class `.flat`) — **not** `button.model` as GTK4 docs for `GtkPopoverMenu` claim. Style selectors must target `popover.tray-menu modelbutton.flat` (and its `label` child) or text color falls back to the light-theme default `.background { color: #2e3436 }`, which is nearly invisible on the dark `#282a36` popover background.
+- `popover.tray-menu` class is added via `popover.add_css_class("tray-menu")` in `Tray.tsx`.
+- `!important` is **not valid in GTK CSS** — causes a silent parse error (`CSS Error: Junk at end of value for color`) that drops the whole declaration. Rely on `Gtk.STYLE_PROVIDER_PRIORITY_USER` (used by ags's `apply_css`) + selector specificity instead.
+
+## Notification popups
+
+`widget/NotificationPopups.tsx` — `.notif-title`/`.notif-body` labels use `wrap` + `maxWidthChars={32}`.
+
+- `maxWidthChars` (not `widthRequest`) is what's needed to cap a wrapping GTK label — `width-request` only sets the *minimum* size, the *natural* size for a wrap-enabled label is the full unwrapped text width, so without `max-width-chars` long notifications stretch the popup window to monitor width.
+
+## Notification history panel (fixed 2026-06-18)
+
+`widget/NotificationHistory.tsx` had the same bug as the toast popups above: `.notif-history-title`/`.notif-history-body` had no `maxWidthChars`/`ellipsize`, and since the window anchors all four sides (`TOP|LEFT|BOTTOM|RIGHT`), a long notification body stretched the panel across the whole screen — pushing the action buttons (clear/dismiss) off past the visible/clickable area.
+
+Fix, same pattern as `NotificationPopups.tsx`:
+- `.notif-history-title`: `maxWidthChars={40}` + `ellipsize={3}` (single-line truncation, Pango `EllipsizeMode.END`)
+- `.notif-history-body`: `wrap` + `lines={2}` + `maxWidthChars={40}` + `ellipsize={3}` (caps at 2 lines, ellipsizes the last line)
+
+**`max-width` is not a valid GTK CSS property** (only `min-width` is supported) — adding `max-width: 420px` to `.notif-history` in `style.scss` causes a silent-ish CSS parse error at startup (`CSS Error :890:3 No property named "max-width"`) and the rule is dropped. Width capping for wrapping/ellipsized labels must be done via `maxWidthChars` in the JSX, not CSS.
+
+## Volume mixer popup
+
+Click the `Volume` widget on the bar to open a full mixer popup (top-right, same overlay pattern as `CalendarPopup`). Scroll over the bar widget still adjusts master volume directly, as before.
+
+- **Master row** (always visible): speaker mute toggle (🔊/🔇) + slider + percent, bound to the current default speaker.
+- **Tabs** (Output / Apps / Input), tab bar below the master row:
+  - **Output** — lists speaker devices (`AstalWp.Audio.get_speakers()`); click a row to make it the default sink (`endpoint.set_is_default(true)`).
+  - **Apps** — lists active playback streams (`get_streams()`), each with its own mute toggle + volume slider. Shows "No apps playing audio" when empty.
+  - **Input** — mic mute/volume row (🎙️/🔇) for the default source, a divider, then a list of input devices (same picker pattern as Output).
+- Tab selection persists across open/close (local `createState` in `VolumePopup.tsx`, component instantiated once at startup).
+- Click-outside or `Esc` closes the popup.
+
+### `service/audio.ts`
+
+Reactive wrapper around `Wp.get_default()!.audio`:
+- `speakers` / `microphones` / `streams` — `createState` arrays kept in sync via `speaker-added/removed`, `microphone-added/removed`, `stream-added/removed`.
+- `defaultSpeakerVolume` / `defaultSpeakerMute` / `defaultMicVolume` / `defaultMicMute` — track the *current* default device, re-subscribing (and disconnecting old handlers) on `notify::default-speaker` / `notify::default-microphone`. This is what fixes the old "static at launch" limitation below.
+- Actions: `setSpeakerVolume`, `toggleSpeakerMute`, `setMicVolume`, `toggleMicMute` (all clamp 0–1), `setDefaultDevice(endpoint)`.
+
+Design doc: `~/.config/ags/docs/superpowers/specs/2026-06-11-volume-mixer-popup-design.md`. Plan: `~/.config/ags/docs/superpowers/plans/2026-06-11-volume-mixer-popup.md`.
+
+## Known limitations
+- Dashboard popup doesn't close on click-outside (use Escape or the button)
+
+## Cleanup (after confirming stable)
+```bash
+cp -r ~/.config/hyprpanel ~/.config/hyprpanel.bak
+paru -Rns ags-hyprpanel-git
+```

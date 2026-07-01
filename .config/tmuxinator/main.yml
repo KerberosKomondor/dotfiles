@@ -48,19 +48,12 @@ windows:
   - jira:
       panes:
         - jira issue list -a$(jira me) -s~done
-  - code: zsh
-  - runtime: zsh
+  - Choice360: zsh ~/code/Choice360/
+  - runtime: zsh ~/code/Choice360/
+  - terminal: zsh
   - terminal: zsh
   - terminal: zsh
   - terminal: zsh
   - music:
       panes:
         - cmus
-  - stonks: 
-      layout: d310,187x42,0,0{113x42,0,0,1,73x42,114,0,3}
-      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
-      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
-      # synchronize: after
-      panes:
-        - ~/code/mop/mop
-        - tickrs

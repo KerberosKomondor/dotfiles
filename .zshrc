@@ -14,6 +14,13 @@ ZSH_THEME="dracula"
 ~/res/dracula-tty.sh
 export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
+#FZF settings
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+# Don't save commands starting with a space to history
+setopt HIST_IGNORE_SPACE
+
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
 # cause zsh load theme from this variable instead of
@@ -84,10 +91,14 @@ export LANG=en_US.UTF-8
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/id_rsa"
+# Use kitty's SSH kitten when inside kitty — auto-copies xterm-kitty terminfo to remote
+[[ "$TERM" == "xterm-kitty" ]] && alias ssh="kitty +kitten ssh"
 
 # dotnet
 export DOTNET_ROOT="/usr/share/dotnet"
-export MSBuildSDKsPath=$(echo /usr/share/dotnet/sdk/7.*/Sdks)
+export MSBuildSDKsPath="$DOTNET_ROOT/sdk/$(${DOTNET_ROOT}/dotnet --version)/Sdks"
+export DOTNET_RUNTIME_IDENTIFIER=linux-x64
+export DOTNET_RUNTIME_ID=linux-x64
 # zsh parameter completion for the dotnet CLI
 
 _dotnet_zsh_complete()
@@ -116,12 +127,17 @@ export NVM_DIR="$HOME/.nvm"
 # For a full list of active aliases, run `alias`.
 #
 export HISTORY_FILTER_EXCLUDE=("mplayer" "/complete")
-export PATH=$PATH:~/lib/vsts-cli/bin:~/.nvm:~/.local/share/gem/ruby/3.2.0/bin:~/go/bin:~/.dotnet/tools/:~/.local/bin/
+
+# Ensure PATH entries are unique (remove duplicates)
+typeset -U PATH path
+
+# Set PATH with ~/.local/bin prioritized
+export PATH=~/.local/bin:~/lib/vsts-cli/bin:~/.nvm:~/go/bin:~/.dotnet/tools:$PATH
+
 export EDITOR=nvim
 export BROWSER=firefox
 export proj=/mnt/c/a/
 export LS_COLORS="$LS_COLORS:ow=1;34:tw=1;34:"
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export GPG_TTY=$(tty)
 
 if [ -f ~/res/env_vars.sh ]
@@ -134,16 +150,7 @@ else
   echo ":r! cat ~/res/env_vars-example.sh"
 fi
 
-# http://owen.cymru/fzf-ripgrep-navigate-with-bash-faster-than-ever-before/
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-bindkey -s '^[t' 'vim $(fzf);'
-
 export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1
-
-alias vi="nvim"
-alias vim="nvim"
 
 # https://www.atlassian.com/git/tutorials/dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
@@ -154,13 +161,33 @@ alias ll='eza -lah'
 alias ls='eza --color=auto'
 
 alias cat='bat --style=plain'
+alias auth='source ~/res/auth.sh'
+
+_dn_select_file() {
+  find . -name "$1" | fzf
+}
+
+dnrun() {
+  local project=$(_dn_select_file "*.csproj")
+  [ -n "$project" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet run --project "$project" -r $DOTNET_RUNTIME_IDENTIFIER)
+}
+
+dnrestore() {
+  local solution=$(_dn_select_file "*.sln")
+  [ -n "$solution" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet restore "$solution" --interactive -r $DOTNET_RUNTIME_IDENTIFIER)
+}
+
+dnbuild() {
+  local solution=$(_dn_select_file "*.sln")
+  [ -n "$solution" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet build "$solution" -r $DOTNET_RUNTIME_IDENTIFIER)
+}
 
 if [[ $(uname) == 'Darwin' ]]; then
   source .zshrc.mac.zsh
 fi
 
 if command -v systemctl > /dev/null; then
-  source .zshrc.systemd.zsh
+  source ~/.zshrc.systemd.zsh
 fi
 
 # make this only run in wsl
@@ -172,5 +199,5 @@ vv() {
   select config in custom
   do NVIM_APPNAME=nvim-$config nvim $@; break; done
 }
-#asdf
-. /opt/asdf-vm/asdf.sh
+
+export PATH="$HOME/.local/bin:$PATH"
