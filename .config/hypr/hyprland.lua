@@ -88,7 +88,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("pasystray")
     hl.exec_cmd("udiskie")
     hl.exec_cmd("wl-clip-persist --clipboard both")
-    hl.exec_cmd("wl-paste --watch xclip -selection clipboard")
+    hl.exec_cmd("wl-paste --watch /home/appa/res/clipboard-xclip.sh")
     hl.exec_cmd("wl-paste --type text --watch /home/appa/res/clipboard-bake.sh")
     hl.exec_cmd("/home/appa/res/clipboard-bake-watcher.sh")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
@@ -136,6 +136,13 @@ hl.window_rule({
     name        = "overwatch",
     match       = { class = "^steam_app_2357570$" },
     border_size = 0,
+})
+
+-- Stop hypridle/lock kicking in on fullscreen video (youtube, mpv, etc)
+hl.window_rule({
+    name         = "idle-inhibit-fullscreen",
+    match        = { class = ".*" },
+    idle_inhibit = "fullscreen",
 })
 
 -- ── Keybindings ───────────────────────────────────────────────────────────────
