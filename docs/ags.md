@@ -68,6 +68,16 @@ Fix: `weekDates`/`todayStr` are now `createState` (`weekInfo`), recomputed in th
 
 Fix: `refreshBadge()` now calls `initDayIfNeeded(date)` itself before reading, so the file (with recurring items injected) gets created on the first 5s poll after rollover, independent of whether the popup is opened.
 
+### Popup kept showing previous day even after both fixes above (2026-06-23)
+Both fixes were already correct in source, but the bug still reproduced. Root cause: the running `ags run` process predated the 2026-06-19 fix commit by ~1 minute and was never reloaded — `watch.sh` (auto-restart on file save) wasn't running at edit time, so the daemon kept executing the stale pre-fix bundle for 4 days across multiple midnights.
+
+Fix: `ags quit && ags run ~/.config/ags` to reload. Always run `~/.config/ags/watch.sh` during any edit session so future fixes take effect immediately — check with `pgrep -af "watch.sh$"` before assuming edits are live.
+
+### Popup still opened on stale date after all fixes above (fixed 2026-07-06)
+Root cause: gnim's `Accessor.subscribe(callback)` (`node_modules/gnim/dist/jsx/state.ts`) invokes the callback with **zero arguments** — `Array.from(subscribers).forEach((cb) => cb())`. Both `TodoPopup.tsx` and `CalendarPopup.tsx` wrote `todoVisible.subscribe((v: boolean) => { if (v) ... })` / `calendarVisible.subscribe((v: boolean) => { if (v) ... })`, expecting the new value as an arg. `v` was always `undefined`, so `if (v)` never ran — the entire "reset on open" block (including the 2026-06-15 week-rollover fix above) was dead code. The only reset that ever happened was the one-time construction-time `loadDay(today())` call at AGS startup, so both popups stayed correct until the next midnight and then silently went stale until the daemon was restarted (which is why it looked intermittent — restarting during dev via `watch.sh` reset it).
+
+Fix: read the accessor's current value inside the callback instead of a phantom arg — `todoVisible.subscribe(() => { if (todoVisible()) {...} })` / `calendarVisible.subscribe(() => { if (calendarVisible()) setMonthOffset(0) })`. Applies to any future `Accessor.subscribe()` usage in this codebase — the callback is always `() => void`, never `(value) => void`.
+
 ## Clock
 
 Stacked button widget in bar (far right). Top line: time (`2:30 PM`), bottom line: date (`Mon Jun 8`). Click toggles the calendar popup open/closed.

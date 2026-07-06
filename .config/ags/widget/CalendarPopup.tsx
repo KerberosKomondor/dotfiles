@@ -50,8 +50,8 @@ export default function CalendarPopup(gdkmonitor: Gdk.Monitor) {
   const [monthOffset, setMonthOffset] = createState(0)
 
   // Reset to current month each time the popup opens
-  calendarVisible.subscribe((v: boolean) => {
-    if (v) setMonthOffset(0)
+  calendarVisible.subscribe(() => {
+    if (calendarVisible()) setMonthOffset(0)
   })
 
   return (

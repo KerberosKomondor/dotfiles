@@ -90,8 +90,8 @@ export default function TodoPopup(gdkmonitor: Gdk.Monitor) {
 
   // Load today on first open, and reset to today/this week each time popup opens
   loadDay(today())
-  todoVisible.subscribe((v: boolean) => {
-    if (v) {
+  todoVisible.subscribe(() => {
+    if (todoVisible()) {
       const nowToday = today()
       setWeekInfo({ weekDates: getCurrentWeekDates(), todayStr: nowToday })
       setSelectedDate(nowToday)
