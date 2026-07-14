@@ -1,8 +1,9 @@
 return {
   "nvim-neotest/neotest",
   dependencies = {
+    "nvim-neotest/nvim-nio",
+    "nvim-telescope/telescope.nvim",
     "thenbe/neotest-playwright",
-    dependencies = "nvim-telescope/telescope.nvim",
   },
   config = function()
     require("neotest").setup({
