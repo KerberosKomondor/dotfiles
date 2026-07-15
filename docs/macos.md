@@ -42,6 +42,12 @@ closest available primitive or dropped entirely — see comments at the top of
 - rofi, cliphist, pactl volume, dictate-daemon, xfreerdp/teams-tile scripts → Linux-specific tooling, not ported
 - Volume keys → unnecessary, macOS hardware media keys already work natively
 
+## System defaults
+
+`res/macos-defaults.sh` — Dock auto-hide (no delay, fast animation) so
+AeroSpace can tile into the space the Dock would otherwise reserve. Run it
+after a fresh install / macOS reset.
+
 ## Known gotcha: focus vs. visibility
 
 `move-node-to-workspace` (and other window commands) act on whichever window
