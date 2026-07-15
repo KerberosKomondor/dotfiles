@@ -80,6 +80,14 @@ run = ['move-node-to-workspace 4']
 if.app-id = 'com.apple.MobileSMS'
 run = ['move-node-to-workspace 10']
 
+[[on-window-detected]]
+if.app-id = 'com.fidelity.activetrader'
+run = ['move-node-to-workspace 9']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = ['move-node-to-workspace 8']
+
 [mode.main.binding]
 
     # Terminal (kitty, same as Hyprland's $term)
