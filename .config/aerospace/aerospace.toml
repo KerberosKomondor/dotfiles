@@ -18,7 +18,9 @@
 #   - dwindle "preselect" direction (mod+backslash/minus) -> join-with
 #   - dwindle resize by x/y pixels -> resize smart +/-50
 #   - togglesplit -> layout tiles horizontal/vertical toggle
-#   - rofi launcher (mod+D) -> Raycast
+#   - rofi launcher (mod+D) -> native Spotlight (Cmd+Space), no AeroSpace
+#     bind needed. Tried Raycast first; removed it (see git history) in
+#     favor of Spotlight, which covers the same need with zero setup.
 #   - lock (was double-bound to ctrl+L in the original Hyprland config,
 #     conflicting with resize) -> moved to alt-ctrl-shift-l here
 
@@ -63,12 +65,20 @@ if.app-id = 'com.brave.Browser'
 run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
+if.app-id = 'net.kovidgoyal.kitty'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
 if.app-id = 'com.microsoft.teams2'
 run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.rdc.macos'
 run = ['move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = ['move-node-to-workspace 10']
 
 [mode.main.binding]
 
@@ -78,11 +88,8 @@ run = ['move-node-to-workspace 4']
     # Kill focused window
     alt-shift-q = 'close'
 
-    # App launcher: rofi -> Raycast
-    alt-d = 'exec-and-forget open -a Raycast'
-
-    # Emoji picker, via Raycast's built-in Search Emoji & Symbols command
-    alt-space = 'exec-and-forget open "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"'
+    # App launcher (rofi) and emoji picker: no bind needed, both handled
+    # natively — Cmd+Space (Spotlight), Ctrl+Cmd+Space (Character Viewer)
 
     # Focus movement (arrows + hjkl, same as Hyprland)
     alt-left  = 'focus left'

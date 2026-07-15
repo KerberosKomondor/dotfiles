@@ -13,21 +13,21 @@ compositor, so it needs Accessibility permission but no SIP changes.
 ## Install
 
 ```zsh
-brew install --cask nikitabobko/tap/aerospace raycast
+brew install --cask nikitabobko/tap/aerospace
 brew install FelixKratz/formulae/borders
 ```
 
-Both AeroSpace and Raycast need Accessibility permission (System Settings →
-Privacy & Security → Accessibility). The prompt/list entry can end up hidden
-behind other windows — check there before assuming it didn't appear.
+AeroSpace needs Accessibility permission (System Settings → Privacy &
+Security → Accessibility). The prompt/list entry can end up hidden behind
+other windows — check there before assuming it didn't appear.
 
 ## Window Manager Setup
 
 - Mod key: **Alt** (not Cmd/Super — Cmd collides with macOS system shortcuts like Cmd+Q/Cmd+W)
 - Layout: `tiles` (BSP), matching Hyprland's dwindle
 - Theme: Dracula (border active = `#8be9fd`, inactive = `#44475a`), drawn by JankyBorders since AeroSpace has no decoration of its own
-- Workspaces: 1=browser (Brave), 3=teams, 4=Remote Desktop — assigned via `on-window-detected` rules, mirroring the hyprland.lua `window_rule` workspace assignments
-- Launcher: Raycast bound to `alt-d` (rofi equivalent)
+- Workspaces: 1=browser (Brave), 2=kitty, 3=Teams, 4=Remote Desktop, 10=Messages — assigned via `on-window-detected` rules, mirroring the hyprland.lua `window_rule` workspace assignments
+- Launcher / emoji picker: no bind, handled natively — Spotlight (`Cmd+Space`) and Character Viewer (`Ctrl+Cmd+Space`). Raycast was tried first (see git history) but removed in favor of these built-ins.
 
 ## Approximated / Dropped from the Hyprland config
 
