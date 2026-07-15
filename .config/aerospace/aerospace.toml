@@ -42,6 +42,9 @@ default-root-container-orientation = 'auto'
 
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
+# Native macOS banner notification showing the workspace you just switched to
+exec-on-workspace-change = ['/bin/bash', '-c', 'osascript -e "display notification \"Workspace $AEROSPACE_FOCUSED_WORKSPACE\" with title \"AeroSpace\""']
+
 key-mapping.preset = 'qwerty'
 
 # Matches hyprland general { gaps_in = 4, gaps_out = 8 }
