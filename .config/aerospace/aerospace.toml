@@ -81,6 +81,9 @@ run = ['move-node-to-workspace 4']
     # App launcher: rofi -> Raycast
     alt-d = 'exec-and-forget open -a Raycast'
 
+    # Emoji picker, via Raycast's built-in Search Emoji & Symbols command
+    alt-space = 'exec-and-forget open "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"'
+
     # Focus movement (arrows + hjkl, same as Hyprland)
     alt-left  = 'focus left'
     alt-h     = 'focus left'
@@ -117,9 +120,8 @@ run = ['move-node-to-workspace 4']
     # Layout toggle (approximates dwindle togglesplit)
     alt-s = 'layout tiles horizontal vertical'
 
-    # Toggle floating
-    alt-space       = 'layout floating tiling'
-    alt-shift-space = 'layout floating tiling'
+    # Toggle floating (was mod+space in Hyprland, moved to mod+t)
+    alt-t = 'layout floating tiling'
 
     # Workspaces 1-10 (0 = workspace 10, matching Hyprland)
     alt-1 = 'workspace 1'
@@ -163,7 +165,9 @@ run = ['move-node-to-workspace 4']
     alt-b       = 'exec-and-forget open -a "Brave Browser"'
     alt-shift-e = 'exec-and-forget open -a Finder'
     alt-w       = 'exec-and-forget open -a "Microsoft Remote Desktop"'
-    alt-t       = 'exec-and-forget open -a "Microsoft Teams"'
+    # Teams launch dropped — use Raycast (alt-d) instead. Workspace 3
+    # auto-assignment rule for Teams above still applies regardless of
+    # how it's launched.
 
     # Screenshot (region), same idea as hyprshot --mode region
     alt-x = 'exec-and-forget screencapture -i ~/Desktop/screenshot-$(date +%Y%m%d-%H%M%S).png'
